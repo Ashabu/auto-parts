@@ -1,14 +1,14 @@
-import React from 'react'
-import {Text, View } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
 
-const CheckoutScreen = () => {
+const SignUpScreen = () => {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>
-                Checkout Screen
+                Sign Up
             </Text>
         </View>
     );
 };
 
-export default CheckoutScreen  ;
+export default SignUpScreen;
