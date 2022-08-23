@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, } from 'react-native';
 import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
+import { storeData } from '../services/StorageService';
 
 
 
@@ -16,6 +17,7 @@ const LandingScreen = () => {
 
     const handleButtonPress = (lang: string) => {
         handleSetLang(lang);
+        storeData("appLang", lang)
         navigate('onboarding');
     };
     

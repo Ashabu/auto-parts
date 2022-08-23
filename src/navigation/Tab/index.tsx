@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProductsScreen from '../../screens/ProductsScreen';
 import ProfileScreen from '../../screens/ProfileScreen';
@@ -7,16 +7,31 @@ import HomeStack from '../StackScreens/HomeStack';
 import CheckoutStack from '../StackScreens/CheckoutStack';
 import { useOnboarding } from '../../Context/Context';
 import LandingStack from '../StackScreens/LandingStack';
+import { getData } from '../../services/StorageService';
 
 
 const Tab = createBottomTabNavigator();
 
 
 const Tabs = () => {
-  const { isOnboard } = useOnboarding();
+  const [isOnboarding, setIsOnboarding] = useState<boolean>(false);
+  const [initialized, setIsInitialized] = useState<boolean>(false);
+
+  const onAppInitialize = () => {
+    getData('onboarding').then(response => {
+      if (response) {
+        setIsOnboarding(true);
+      }
+    }).finally(() => {
+      setIsInitialized(true);
+    });
+  };
+  useEffect(() => {
+    onAppInitialize();
+  }, [])
 
   return (
-    !isOnboard ?
+    initialized && !isOnboarding ?
       <LandingStack />
       :
       <Tab.Navigator>

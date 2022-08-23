@@ -1,11 +1,12 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { getData } from "../services/StorageService";
 import { Lang, Onboarding } from './types';
 
 const LangContext = createContext<Lang>({ lang: '', handleSetLang: () => { } });
 const OnboardingContext = createContext<Onboarding>({ isOnboard: false, handleOnBoarding: () => { } })
 export const useLang = () => {
     return useContext(LangContext);
-};export const useOnboarding = () => {
+}; export const useOnboarding = () => {
     return useContext(OnboardingContext);
 };
 
@@ -20,6 +21,11 @@ export const ContextProvider = ({ children }: any) => {
     const handleOnBoarding = (val: boolean) => {
         setIsOnboard(val);
     };
+
+    useEffect(() => {
+       
+    }, []);
+
 
     const LangCtx = {
         lang,

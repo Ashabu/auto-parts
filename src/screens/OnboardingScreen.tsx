@@ -1,7 +1,8 @@
-import React, { createRef, useEffect, useState } from 'react'
+import React, { createRef, useEffect, useState } from 'react';
 import { Dimensions, Image, NativeScrollEvent, Platform, ScrollView, StyleSheet, Text, View, } from 'react-native';
 import PaginationDots from '../components/PaginationDots';
 import { useOnboarding } from '../Context/Context';
+import { storeData } from '../services/StorageService';
 
 
 const ONBOARDING_DATA = [
@@ -20,7 +21,7 @@ const ONBOARDING_DATA = [
     {
 
     }
-]
+];
 
 const OnboardingScreen = () => {
     const [onboardingStep, setOnboardingStep] = useState<number>(0);
@@ -36,34 +37,18 @@ const OnboardingScreen = () => {
             const slide = Math.ceil(
                 nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
             );
-            console.log('slide ==>', onboardingStep)
             if (slide != onboardingStep) {
-                //if(slide === 3) return;
                 setOnboardingStep(slide);
-              }
+            };
         };
     };
 
-    const moveNext = (index: number) => {
-        carouselRef.current?.scrollTo({
-            x: index * Dimensions.get('screen').width,
-            animated: true,
-        });
-    };
-
-    const nextStep = () => {
-        setOnboardingStep(s => {
-            if (s >= 3) {
-                return s;
-            }
-            moveNext(s + 1);
-            return s + 1;
-        });
-    };
+    
 
     useEffect(() => {
         if (onboardingStep > ONBOARDING_DATA.length - 2) {
             handleOnBoarding(true);
+            storeData('onboarding', '1')
         };
     }, [onboardingStep])
 
@@ -72,9 +57,7 @@ const OnboardingScreen = () => {
     return (
         <View style={styles.screenContainer}>
             <View style={styles.carouselContainer}>
-                <View style={styles.headerContainer}>
-
-                </View>
+                
                 <ScrollView
                     ref={carouselRef}
                     onScroll={({ nativeEvent }) => onChange(nativeEvent)}
@@ -95,7 +78,7 @@ const OnboardingScreen = () => {
                     ))}
                 </ScrollView>
                 <View style={styles.dotsContainer}>
-                    <PaginationDots dotNumber={ONBOARDING_DATA.length-1} step={onboardingStep} />
+                    <PaginationDots dotNumber={ONBOARDING_DATA.length - 1} step={onboardingStep} />
                 </View>
             </View>
         </View>
@@ -124,7 +107,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30
     },
     image: {
-        width: 230,
+        width: 320,
         //height: 200
     },
     imageContainer: {
