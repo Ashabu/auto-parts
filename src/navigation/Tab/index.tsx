@@ -8,6 +8,8 @@ import CheckoutStack from '../StackScreens/CheckoutStack';
 import { useOnboarding } from '../../Context/Context';
 import LandingStack from '../StackScreens/LandingStack';
 import { getData } from '../../services/StorageService';
+import { Image } from 'react-native';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -31,15 +33,39 @@ const Tabs = () => {
   }, [])
 
   return (
-    initialized && !isOnboarding ?
+    !initialized && !isOnboarding ?
       <LandingStack />
       :
       <Tab.Navigator>
-        <Tab.Screen name='Home' component={HomeStack} />
-        <Tab.Screen name='Products' component={ProductsScreen} />
-        <Tab.Screen name='Search' component={SearchScreen} />
-        <Tab.Screen name='Checkout' component={CheckoutStack} />
-        <Tab.Screen name='Profile' component={ProfileScreen} />
+        <Tab.Screen
+          name='Home'
+          component={HomeStack}
+        />
+        <Tab.Screen
+          name='Products'
+          component={ProductsScreen}
+        />
+        <Tab.Screen
+          name='Search'
+          component={SearchScreen}
+          // options={{
+          //   tabBarIcon: ({ focused, color, size }) => {
+          //     return (
+          //       <Image/>
+          //     )
+          //   },
+          //   tabBarActiveTintColor: 'tomato',
+          //   tabBarInactiveTintColor: 'gray',
+          // }}
+        />
+        <Tab.Screen
+          name='Checkout'
+          component={CheckoutStack}
+        />
+        <Tab.Screen
+          name='Profile'
+          component={ProfileScreen}
+        />
       </Tab.Navigator>
   );
 };
