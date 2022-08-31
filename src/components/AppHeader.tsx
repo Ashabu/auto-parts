@@ -1,22 +1,25 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { navigate } from '../navigation/Navigation';
+import { goBack, navigate } from '../navigation/Navigation';
 import { Images } from '../utils/Images';
 
+interface IHeaderProps {
+    hasBack?: boolean
+}
 
-const AppHeader = () => {
+const AppHeader:React.FC<IHeaderProps> = ({hasBack}) => {
     return (
         <View style={styles.headerContainer}>
-            <View style={styles.headerLeft}>
-
-            </View>
+            <TouchableOpacity style={styles.headerLeft} onPress={()=> goBack()}>
+                {hasBack && <Text>Back</Text>}
+            </TouchableOpacity>
             <TouchableOpacity style={styles.headerMid} onPress={()=> navigate('Home', {screen: 'HomeS'})}>
                <Image source={Images.APP_LOGO} resizeMode = 'contain' style={{height: 40}}/>
             </TouchableOpacity>
 
-            <View style={styles.headerRight}>
+            <TouchableOpacity style={styles.headerRight} onPress={()=> navigate('Checkout', {screen: 'WishList'})}>
                 <Image source={Images.FAVORITES_ICON} style={{width: 20, height: 18}}/>
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }

@@ -1,5 +1,6 @@
 export const Images = {
     APP_LOGO: require('./../../assets/images/app-logo.png'),
+    ARROW_LEFT: require('./../../assets/images/arrow-right.png'),
     CART_BLACK: require('./../../assets/images/cart-icon-black.png'),
     CART_GREY: require('./../../assets/images/cart-icon-grey.png'),
     FAVORITES_ICON: require('./../../assets/images/favorites-icon.png'),

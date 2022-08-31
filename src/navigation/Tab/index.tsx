@@ -10,6 +10,7 @@ import LandingStack from '../StackScreens/LandingStack';
 import { getData } from '../../services/StorageService';
 import { Image } from 'react-native';
 import { Images } from '../../utils/Images';
+import ProfileStack from '../StackScreens/ProfileStack';
 
 
 
@@ -78,6 +79,7 @@ const Tabs = () => {
           name='Checkout'
           component={CheckoutStack}
           options={{
+            headerShown: false,
             tabBarIcon: ({ focused, color, size }) => {
               return (
                 <Image source={focused ? Images.CART_BLACK : Images.CART_GREY} style={{ width: 23, height: 23 }} />
@@ -90,7 +92,7 @@ const Tabs = () => {
         />
         <Tab.Screen
           name='Profile'
-          component={ProfileScreen}
+          component={ProfileStack}
           options={{
             tabBarIcon: ({ focused, color, size }) => {
               return (
