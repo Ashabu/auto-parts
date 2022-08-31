@@ -66,7 +66,7 @@ const SignInScreen = () => {
                 <TouchableOpacity style={styles.smsAuthBtn}>
                     <Text style={{...styles.singInTitle, color: '#FFFFFF'}}>SMS LOGIN</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: 15}}>
+                <TouchableOpacity style={{marginTop: 15}} onPress={()=> navigate('Sign Up')}>
                     <Text style={styles.signUpTitle}>REGISTER</Text>
                 </TouchableOpacity>
             </View>
