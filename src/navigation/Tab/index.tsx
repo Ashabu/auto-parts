@@ -9,6 +9,7 @@ import { useOnboarding } from '../../Context/Context';
 import LandingStack from '../StackScreens/LandingStack';
 import { getData } from '../../services/StorageService';
 import { Image } from 'react-native';
+import { Images } from '../../utils/Images';
 
 
 
@@ -36,7 +37,13 @@ const Tabs = () => {
     !initialized && !isOnboarding ?
       <LandingStack />
       :
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: 'yellow',
+          }
+        }}>
         <Tab.Screen
           name='Home'
           component={HomeStack}
@@ -44,27 +51,55 @@ const Tabs = () => {
         <Tab.Screen
           name='Products'
           component={ProductsScreen}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => {
+              return (
+                <Image source={focused ? Images.PRODUCT_BLACK : Images.PRODUCT_GREY} style={{ width: 23, height: 23 }} />
+              );
+            },
+            tabBarActiveTintColor: '#000',
+            tabBarInactiveTintColor: '#B7C4CB'
+          }}
         />
         <Tab.Screen
           name='Search'
           component={SearchScreen}
-          // options={{
-          //   tabBarIcon: ({ focused, color, size }) => {
-          //     return (
-          //       <Image/>
-          //     )
-          //   },
-          //   tabBarActiveTintColor: 'tomato',
-          //   tabBarInactiveTintColor: 'gray',
-          // }}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => {
+              return (
+                <Image source={focused ? Images.SEARCH_BLACK : Images.SEARCH_GREY} style={{ width: 23, height: 23 }} />
+              );
+            },
+            tabBarActiveTintColor: '#000',
+            tabBarInactiveTintColor: '#B7C4CB'
+          }}
         />
         <Tab.Screen
           name='Checkout'
           component={CheckoutStack}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => {
+              return (
+                <Image source={focused ? Images.CART_BLACK : Images.CART_GREY} style={{ width: 23, height: 23 }} />
+              );
+            },
+            tabBarActiveTintColor: '#000',
+            tabBarInactiveTintColor: '#B7C4CB'
+          }}
+
         />
         <Tab.Screen
           name='Profile'
           component={ProfileScreen}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => {
+              return (
+                <Image source={focused ? Images.PROFILE_BLACK : Images.PROFILE_GREY} style={{ width: 23, height: 23 }} />
+              );
+            },
+            tabBarActiveTintColor: '#000',
+            tabBarInactiveTintColor: '#B7C4CB'
+          }}
         />
       </Tab.Navigator>
   );

@@ -3,12 +3,11 @@ import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, } from 'react-
 import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
 import { storeData } from '../services/StorageService';
+import { Images } from '../utils/Images';
 
 
 
-const FLAG_US = require('./../../assets/images/flag-us.png');
-const FLAG_GEO = require('./../../assets/images/flag-geo.png');
-const FLAG_RU = require('./../../assets/images/flag-ru.png');
+
 
 
 const LandingScreen = () => {
@@ -24,15 +23,15 @@ const LandingScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.langButton} onPress={() => handleButtonPress('en')}>
-                <Image source={FLAG_US} style={styles.flag} />
+                <Image source={Images.FLAG_US} style={styles.flag} />
                 <Text style={styles.title}>English</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.langButton} onPress={() => handleButtonPress('ka')}>
-                <Image source={FLAG_GEO} style={styles.flag} />
+                <Image source={Images.FLAG_GEO} style={styles.flag} />
                 <Text style={styles.title}>ქართული</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.langButton} onPress={() => handleButtonPress('ru')}>
-                <Image source={FLAG_RU} style={styles.flag} />
+                <Image source={Images.FLAG_RU} style={styles.flag} />
                 <Text style={styles.title}>Русский</Text>
             </TouchableOpacity>
         </SafeAreaView>
