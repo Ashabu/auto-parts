@@ -20,7 +20,7 @@ const UnauthorizedProfile = () => {
       </View>
       <View style={{ backgroundColor: '#000', paddingHorizontal: 20 }}>
         <Text style={styles.title}>You Are Not Authorized </Text>
-        <TouchableOpacity style={styles.signInBtn}>
+        <TouchableOpacity style={styles.signInBtn} onPress={()=> navigate('Sign In')}>
           <Text style={styles.btnTitle}>Sign In</Text>
         </TouchableOpacity>
       </View>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   signInBtn: {
-    backgroundColor: 'yellow',
+    backgroundColor: '#ffdd00',
     marginVertical: 30,
     padding: 20,
   },

@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     showNowBtn: {
-        backgroundColor: 'yellow',
+        backgroundColor: '#ffdd00',
         padding: 15,
         borderRadius: 10,
         width: 150

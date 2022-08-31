@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         height: 19
     },
     addCarButton: {
-        backgroundColor: 'yellow',
+        backgroundColor: '#ffdd00',
         height: 60,
         justifyContent: 'center',
         alignItems: 'center'
