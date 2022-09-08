@@ -1,16 +1,44 @@
-import React, { useState } from 'react';
-import { Text, Keyboard, View, Image, TextInput, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, Keyboard, View, Image, TextInput, SafeAreaView, StyleSheet, TouchableOpacity,  FlatList, ActivityIndicator } from 'react-native';
 import { navigate } from '../navigation/Navigation';
-const SEARCH_ICON = require('./../../assets/images/search-icon-black.png');
-const FILTER_ICON = require('./../../assets/images/filter-icon.png')
+import { searchItems } from '../Api';
+import ProductList from '../components/ProductList';
+import { Images } from '../utils/Images';
+
 
 const SearchScreen = () => {
     const [searchValue, setSearchValue] = useState<string>('');
+    const [curPage, setCurPage] = useState<number>(1);
+    const [products, setProducts] = useState<any[]>([]);
+    const [fetchingData, setFetchingData] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        handleSearchProducts();
+    }, [curPage]);
+
+    const handleSearchProducts = () => {
+        if (!searchValue) return;
+        setFetchingData(true)
+        searchItems(searchValue, curPage).then(response => {
+            setFetchingData(false);
+            if (curPage == 1) {
+                setProducts(response.data)
+            } else {
+                setProducts(prev => {
+                    return [...prev, ...response.data]
+                });
+            };
+        }).catch((error: any) => {
+            setFetchingData(false)
+            console.log(JSON.parse(JSON.stringify(error.response.data.message)));
+        });
+    };
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
             <View style={styles.searchView}>
-                <Image source={SEARCH_ICON} style={styles.searchIcon} />
+                <Image source={Images.SEARCH_BLACK} style={styles.searchIcon} />
                 <TextInput
                     style={styles.searchInput}
                     selectionColor='#000'
@@ -18,14 +46,37 @@ const SearchScreen = () => {
                     placeholderTextColor='#000'
                     value={searchValue}
                     onChangeText={(text: string) => setSearchValue(text)}
-                    onBlur={() => console.log('onblur')}
+                    onBlur={handleSearchProducts}
                     autoCapitalize="none"
                     autoFocus={true}
                 />
-                <TouchableOpacity style={styles.filterIconButton}>
-                    <Image source={FILTER_ICON} style={styles.filterIcon} />
+                <TouchableOpacity style={styles.filterIconButton} onPress={() => setCurPage(prev => prev + 1)}>
+                    <Image source={Images.FILTER_ICON} style={styles.filterIcon} />
                 </TouchableOpacity>
             </View>
+            {
+                products.length === 0 && !fetchingData ?
+                    <Text>No Products To Show</Text>
+                    :
+                    products.length !== 0 ?
+                        <FlatList
+                            data={products}
+                            renderItem={({ item }) => <ProductList product={item} />}
+                            keyExtractor={(item) => item.id}
+                            ListFooterComponent={() =>
+                                <TouchableOpacity style={styles.loadMoreBtn} onPress={() => setCurPage(prev => prev + 1)}>
+                                    {
+                                        fetchingData ?
+                                            <ActivityIndicator size={'small'} color='#FFFFFF' />
+                                            :
+                                            <Text style={styles.loadMoreBtnTitle}>More</Text>
+                                    }
+                                </TouchableOpacity>
+                            } 
+                            />
+                        :
+                        <ActivityIndicator size={'large'} color='#ffdd00' />
+            }
         </SafeAreaView>
     );
 };
@@ -57,6 +108,17 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
         borderLeftColor: '#CFCFCF',
         padding: 5
-
+    },
+    loadMoreBtn: {
+        width: 200,
+        padding: 15,
+        borderRadius: 5,
+        backgroundColor: '#ffdd00',
+        marginVertical: 10,
+        alignSelf: 'center'
+    },
+    loadMoreBtnTitle: {
+        fontSize: 14,
+        textAlign: 'center'
     }
 })
