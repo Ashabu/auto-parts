@@ -35,6 +35,11 @@ const SearchScreen = () => {
         });
     };
 
+    const handleOnBlur = () => {
+        Keyboard.dismiss();
+        setCurPage(prev => prev + 1)
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
             <View style={styles.searchView}>
@@ -50,7 +55,7 @@ const SearchScreen = () => {
                     autoCapitalize="none"
                     autoFocus={true}
                 />
-                <TouchableOpacity style={styles.filterIconButton} onPress={() => setCurPage(prev => prev + 1)}>
+                <TouchableOpacity style={styles.filterIconButton} onPress={handleOnBlur}>
                     <Image source={Images.FILTER_ICON} style={styles.filterIcon} />
                 </TouchableOpacity>
             </View>

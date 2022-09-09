@@ -4,6 +4,7 @@ import UpdateOrderScreen from '../../screens/UpdateOrderScreen';
 import CheckoutScreen from '../../screens/CheckoutScreen';
 import AppHeader from '../../components/AppHeader';
 import WishListScreen from '../../screens/WishListScreen';
+import ProductDetailScreen from '../../screens/ProductDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,13 @@ const CheckoutStack = () => {
             <Stack.Screen
                 name="WishList"
                 component={WishListScreen}
+                options={{
+                    header: () => <AppHeader hasBack />
+                }} />
+
+            <Stack.Screen
+                name="ProductDetailScreen"
+                component={ProductDetailScreen}
                 options={{
                     header: () => <AppHeader hasBack />
                 }} />
