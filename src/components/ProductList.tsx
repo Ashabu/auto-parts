@@ -7,11 +7,8 @@ const ProductList = ({ product }: any) => {
     const { name, price } = product;
 
     const handleProductPress = () => {
-        navigate("Checkout", {
-            screen: "ProductDetailScreen",
-            params: {
-                item: product
-            }
+        navigate("ProductDetails", {
+            item: product
         });
     };
 

@@ -1,12 +1,12 @@
 import React from 'react'
-import Tabs from './navigation/Tab';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from './navigation/Navigation';
+import AppNavigation from './navigation';
 
 const AppIndex = () => {
     return (
         <NavigationContainer ref={navigationRef}>
-        <Tabs />
+        <AppNavigation />
         </NavigationContainer>
     );
 };

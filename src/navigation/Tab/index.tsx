@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProductsScreen from '../../screens/ProductsScreen';
-import ProfileScreen from '../../screens/ProfileScreen';
 import SearchScreen from '../../screens/SearchScreen';
 import HomeStack from '../StackScreens/HomeStack';
 import CheckoutStack from '../StackScreens/CheckoutStack';
-import { useOnboarding } from '../../Context/Context';
-import LandingStack from '../StackScreens/LandingStack';
-import { getData } from '../../services/StorageService';
 import { Image } from 'react-native';
 import { Images } from '../../utils/Images';
 import ProfileStack from '../StackScreens/ProfileStack';
@@ -18,26 +14,9 @@ const Tab = createBottomTabNavigator();
 
 
 const Tabs = () => {
-  const [isOnboarding, setIsOnboarding] = useState<boolean>(false);
-  const [initialized, setIsInitialized] = useState<boolean>(false);
-
-  const onAppInitialize = () => {
-    getData('onboarding').then(response => {
-      if (response) {
-        setIsOnboarding(true);
-      }
-    }).finally(() => {
-      setIsInitialized(true);
-    });
-  };
-  useEffect(() => {
-    onAppInitialize();
-  }, [])
-
+ 
   return (
-    !initialized && !isOnboarding ?
-      <LandingStack />
-      :
+   
       <Tab.Navigator
         screenOptions={{
           headerShown: false,

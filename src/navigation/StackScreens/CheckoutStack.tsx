@@ -22,14 +22,6 @@ const CheckoutStack = () => {
                 options={{
                     header: () => <AppHeader hasBack />
                 }} />
-
-            <Stack.Screen
-                name="ProductDetailScreen"
-                component={ProductDetailScreen}
-                options={{
-                    header: () => <AppHeader hasBack />
-                }} />
-
         </Stack.Navigator>
     );
 };
