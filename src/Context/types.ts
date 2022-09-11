@@ -7,3 +7,8 @@ export type Onboarding = {
     isOnboard: boolean,
     handleOnBoarding: (val: boolean) => void
 }
+
+export type CartItems = {
+    cartItems: any[],
+    handleAddItem: (val: any) => void
+}

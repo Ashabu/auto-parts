@@ -1,9 +1,12 @@
-import React, { createRef, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, NativeScrollEvent, Dimensions } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, NativeScrollEvent, Dimensions, Image } from 'react-native';
+import { navigate } from '../navigation/Navigation';
+import { storeData } from '../services/StorageService';
+import { Images } from '../utils/Images';
 
 const ProductDetailScreen = ({ route }: any) => {
     const { stock_quantity, name, price } = route.params.item;
-    const carouselRef = createRef<ScrollView>();
+    const carouselRef = useRef<ScrollView>(null);
     const slideStyle = {
         width: Dimensions.get('screen').width,
     };
@@ -34,13 +37,31 @@ const ProductDetailScreen = ({ route }: any) => {
 
     const handleMoveTab = (index: number) => {
         setActiveTab(index);
-        console.log(index * Dimensions.get('screen').width)
+        console.log( carouselRef.current)
+
+
         carouselRef.current?.scrollTo({
-          x: index * Dimensions.get('screen').width,
-          
-          animated: true,
+            x: index * Dimensions.get('screen').width,
+            animated: true,
         });
-      };
+    };
+
+    const handleAddItemToCheckout = () => {
+        route.params.item.item_count ++;
+    }
+
+    const handleGoToCheckout = () => {
+        if (stock_quantity > 0) {
+            let checkoutItems = [];
+            checkoutItems.push(route.params.item)
+            storeData('checkout_items', checkoutItems).finally(() => {
+                navigate('Checkout', {
+                    screen: 'CheckoutS',
+                });
+            })
+        };
+        return;
+    }
 
 
     return (
@@ -86,7 +107,7 @@ const ProductDetailScreen = ({ route }: any) => {
                         scrollEnabled>
                         {
                             data.map((item: any, index: number) => (
-                                <View key={index} style={[slideStyle, { backgroundColor: index == 0 ? 'blue' : index == 1 ? 'yellow' : 'green' }]}>
+                                <View key={index} style={slideStyle}>
                                     <Text>{item.title}</Text>
                                 </View>
                             ))
@@ -94,12 +115,20 @@ const ProductDetailScreen = ({ route }: any) => {
                     </ScrollView>
                 </View>
             </View>
-            <View style={{ flex: 1, backgroundColor: 'red', flexDirection: 'row' }}>
-                <View style={{ backgroundColor: '#CFCFCF', flex: 1 }}>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+                    <TouchableOpacity>
+                        <Image source={Images.FAVORITES_ICON} style={{ width: 30, height: 30 }} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleAddItemToCheckout}>
+                        <Image source={Images.CART_GREY} style={{ width: 30, height: 30 }} />
+                    </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                     style={[styles.actionBtn, { backgroundColor: stock_quantity > 0 ? '#ffdd00' : 'red' }]}
-                    activeOpacity={1}>
+                    activeOpacity={1}
+                    onPress={handleGoToCheckout}
+                >
                     {
                         stock_quantity > 0 ?
                             <Text style={styles.actionBtnTitle}>BUY NOW</Text>

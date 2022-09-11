@@ -3,6 +3,8 @@ export const Images = {
     ARROW_LEFT: require('./../../assets/images/arrow-right.png'),
     CART_BLACK: require('./../../assets/images/cart-icon-black.png'),
     CART_GREY: require('./../../assets/images/cart-icon-grey.png'),
+    COUNT_ARROW_DOWN: require('./../../assets/images/count-arrow-down.png'),
+    COUNT_ARROW_UP: require('./../../assets/images/count-arrow-up.png'),
     FAVORITES_ICON: require('./../../assets/images/favorites-icon.png'),
     FILTER_ICON: require('./../../assets/images/filter-icon.png'),
     FLAG_US: require('./../../assets/images/flag-us.png'),
@@ -14,6 +16,6 @@ export const Images = {
     PROFILE_BLACK: require('./../../assets/images/profile-icon-black.png'),
     PROFILE_GREY: require('./../../assets/images/profile-icon-grey.png'),
     SEARCH_BLACK: require('./../../assets/images/search-icon-black.png'),
-    SEARCH_GREY:  require('./../../assets/images/search-icon-gray.png')
-    
+    SEARCH_GREY: require('./../../assets/images/search-icon-gray.png')
+
 }

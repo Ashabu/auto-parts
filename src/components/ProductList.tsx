@@ -16,7 +16,7 @@ const ProductList = ({ product }: any) => {
         <TouchableOpacity style={styles.productWrap} onPress={handleProductPress}>
             <Image source={Images.NO_IMAGE} style={{ width: 100, height: 100, resizeMode: 'cover' }} />
             <View style={styles.productRight}>
-                <Text style={styles.title} numberOfLines={4} ellipsizeMode="tail">
+                <Text style={styles.title} >
                     {name}
                 </Text>
                 <Text style={styles.price}>
@@ -31,15 +31,16 @@ export default ProductList;
 
 const styles = StyleSheet.create({
     productWrap: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         padding: 20,
         borderBottomWidth: 1,
-        borderBottomColor: '#CFCFCF'
+        borderBottomColor: '#CFCFCF',
     },
     productRight: {
+        flex: 1,
         marginLeft: 10,
-        flexShrink: 1
     },
     title: {
         fontSize: 16,

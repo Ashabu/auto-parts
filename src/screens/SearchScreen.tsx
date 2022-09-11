@@ -22,11 +22,15 @@ const SearchScreen = () => {
         setFetchingData(true)
         searchItems(searchValue, curPage).then(response => {
             setFetchingData(false);
+            let response_data = response.data.map((el: any) => {
+                el.item_count = 0;
+                return el
+            });
             if (curPage == 1) {
-                setProducts(response.data)
+                setProducts(response_data)
             } else {
                 setProducts(prev => {
-                    return [...prev, ...response.data]
+                    return [...prev, ...response_data]
                 });
             };
         }).catch((error: any) => {
@@ -41,7 +45,7 @@ const SearchScreen = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
+        <SafeAreaView style={{ flex: 1}}>
             <View style={styles.searchView}>
                 <Image source={Images.SEARCH_BLACK} style={styles.searchIcon} />
                 <TextInput
@@ -61,7 +65,7 @@ const SearchScreen = () => {
             </View>
             {
                 products.length === 0 && !fetchingData ?
-                    <Text>No Products To Show</Text>
+                    <Text style={{textAlign: 'center'}}>No Products To Show</Text>
                     :
                     products.length !== 0 ?
                         <FlatList
@@ -80,7 +84,7 @@ const SearchScreen = () => {
                             } 
                             />
                         :
-                        <ActivityIndicator size={'large'} color='#ffdd00' />
+                        <ActivityIndicator size={'large'} color='#ffdd00' style={{alignSelf: 'center'}}/>
             }
         </SafeAreaView>
     );
