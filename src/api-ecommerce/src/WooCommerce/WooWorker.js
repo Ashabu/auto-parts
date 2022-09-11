@@ -34,7 +34,6 @@ export default class WooWorker {
     }
   };
   static getCategories = async () => {
-    console.log('aqane')
     try {
       const response = await this._api.get("products/categories", {
         hide_empty: true,
@@ -112,7 +111,7 @@ export default class WooWorker {
         orderby: "date",
         order: "desc",
       };
-      console.log('*****',this._api)
+      //console.log('*****',this._api)
       // https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-products
       if (stock_status && stock_status !== "") {
         params = { ...params, stock_status };

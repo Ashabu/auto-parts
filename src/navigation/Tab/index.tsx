@@ -18,31 +18,41 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
   const [cartItemCount, setCartItemCount] = useState<number>(0);
   const {cartItems} = useCart();
-  let result = 0;
+  console.log(cartItems)
+  
 
   const handleCartItemCount = () => {
-    getData('checkout_items').then(data => {
-      if (data) {
-        let parsedData = JSON.parse(data);
-        result = parsedData.reduce((count: number, item: any) => {
-          return count + item.item_count;
-        }, 0)
-        for (let i = 0; i < data.length; i++) {
-          result += parsedData[i].item_count
-        };
-      };
-    }).catch((e: any) => {
-      console.log(JSON.stringify(JSON.parse(e.response.data.message)));
-    }).finally(() => {
-      setCartItemCount(result);
-    });
+    let result = 0;
+    if(cartItems.length) {
+      result = cartItems.reduce((count: number, item: any) => {
+        return  count + item.item_count
+      }, 0)
+    }
+    setCartItemCount(result);
+
+  //   getData('checkout_items').then(data => {
+  //     if (data) {
+  //       let parsedData = JSON.parse(data);
+  //       result = parsedData.reduce((count: number, item: any) => {
+  //         return count + item.item_count;
+  //       }, 0)
+  //       for (let i = 0; i < data.length; i++) {
+  //         result += parsedData?.[i]?.item_count
+  //       };
+  //     };
+  //   }).catch((e: any) => {
+  //     console.log(e);
+  //   }).finally(() => {
+      
+  //   });
   };
 
 
 
   useEffect(() => {
+    console.log('count increased')
     handleCartItemCount();
-  }, [])
+  }, [cartItems.length])
 
   return (
 

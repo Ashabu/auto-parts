@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getData } from "../services/StorageService";
+import { getData, storeData } from "../services/StorageService";
 import { Lang, Onboarding, CartItems } from './types';
 
 const LangContext = createContext<Lang>({
@@ -41,12 +41,16 @@ export const ContextProvider = ({ children }: any) => {
         setIsOnboard(val);
     };
 
-    const handleAddItem = () => {
-        setCartItems([])
-    }
+    const handleAddItem = (data: any) => {
+        setCartItems(data);
+        storeData('checkout_items', data);
+    };
 
     useEffect(() => {
-
+        getData('checkout_items').then(data => {
+            let parsedData = JSON.parse(data!) || []
+            setCartItems(parsedData)
+        });
     }, []);
 
 
