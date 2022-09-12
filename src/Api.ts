@@ -64,7 +64,7 @@ export async function GetProductList() {
         method: 'get',
         url: 'http://185.139.57.86:8083/api/operation/getProducts',
         headers: { 
-          'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NjI5MTgwOTQsImV4cCI6MTY2MzA0NzY5NCwiaWF0IjoxNjYyOTE4MDk0LCJpc3MiOiJGSU5BIEwudC5kIiwiYXVkIjoi4YOo4YOe4YOhIFBSRU1JWCAuIn0.NTetIg8qSTPFTXXAxJ0La-6GpOn3bEWtozGx_pAG2Xw05mgaNP6EQ_EHLOXmT0C568NwdiGGcxRtLuW1dWO1BQ'
+          'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NjI5NjczNDcsImV4cCI6MTY2MzA5Njk0NywiaWF0IjoxNjYyOTY3MzQ3LCJpc3MiOiJGSU5BIEwudC5kIiwiYXVkIjoi4YOo4YOe4YOhIFBSRU1JWCAuIn0.VNw7qiOxeAR1u-AgPSNTgCsdIznLt39g2uum_QoUm1N8XTtv9RHkRh6DUTquCimpZm8ZBNV1Z0wWcKxgYgtVuQ'
         }
       };
       

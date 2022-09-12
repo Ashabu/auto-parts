@@ -16,6 +16,7 @@ const CheckoutScreen = ({ route }: any) => {
     const [step, setStep] = useState<number>(0);
     const [showMap, setShowMap] = useState<boolean>(false);
     const { cartItems } = useCart();
+    const [address, setAddress] = useState<string>('')
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -26,10 +27,15 @@ const CheckoutScreen = ({ route }: any) => {
 
         }
     });
+
+    const handleSetAddress = (val: string) => {
+        setAddress(val)
+        setShowMap(false);
+    }
     const onSubmit = (data: any) => console.log(data);
 
     const getMapData =(data: any) => {
-        console.log(data);
+        setAddress(data)
         setShowMap(false);
     } 
 
@@ -54,9 +60,8 @@ const CheckoutScreen = ({ route }: any) => {
     };
 
     useEffect(() => {
+        if (step > 2) return;
         handleOrderStep();
-        if (step == 2) {
-        }
     }, [step])
 
 
@@ -96,7 +101,7 @@ const CheckoutScreen = ({ route }: any) => {
                                 style={styles.inputStyle}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
-                                value={value}
+                                value={address}
                             />
                         )}
                         name="deliveryAddress"

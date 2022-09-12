@@ -7,6 +7,7 @@ import Tabs from './Tab';
 import AppHeader from '../components/AppHeader';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import AddCarScreen from '../screens/AddCarScreen';
+import { useOnboarding } from '../Context/Context';
 
 
 const Stack = createNativeStackNavigator();
@@ -14,6 +15,7 @@ const Stack = createNativeStackNavigator();
 const AppNavigation = () => {
     const [isOnboarding, setIsOnboarding] = useState<boolean>(false);
     const [initialized, setIsInitialized] = useState<boolean>(false);
+    const {isOnboard} = useOnboarding();
 
     const onAppInitialize = () => {
         getData('onboarding').then(response => {
@@ -28,8 +30,11 @@ const AppNavigation = () => {
         onAppInitialize();
     }, [])
 
+    useEffect(() => {
+        setIsOnboarding(isOnboard)
+    }, [isOnboard])
     return (
-        !initialized && !isOnboarding ?
+        initialized && !isOnboarding ?
             <LandingStack />
             :
             <Stack.Navigator>

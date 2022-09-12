@@ -66,17 +66,13 @@ const ProductDetailScreen = ({ route }: any) => {
 
     const handleGoToCheckout = () => {
         if (stock_quantity > 0) {
-            let checkoutItems = [];
-            checkoutItems.push(route.params.item)
-            storeData('checkout_items', checkoutItems).finally(() => {
+            handleAddItemToCheckout()
                 navigate('Checkout', {
                     screen: 'CheckoutS',
                 });
-            })
         };
         return;
-    }
-
+    };
 
     return (
         <SafeAreaView style={styles.container}>
