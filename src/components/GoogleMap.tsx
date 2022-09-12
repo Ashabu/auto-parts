@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, PermissionsAndroid, Button, Text } from 'react-native';
+import { StyleSheet, PermissionsAndroid, Button, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import axios from 'axios';
 
 const GoogleMap = ({ sendData }: any) => {
 
@@ -11,12 +12,20 @@ const GoogleMap = ({ sendData }: any) => {
         latitudeDelta: 0.001,
         longitudeDelta: 0.001,
     });
+    const [address, setAddress] = useState<string>('')
 
     useEffect(() => {
         try {
             Geolocation.getCurrentPosition((pos) => {
                 const crd = pos.coords;
                 console.log(pos)
+                axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${crd.latitude},${crd.longitude}&key=AIzaSyAEcJIqCTZ_7yfBQZl0I6EzffHx8qzTyL0`).then(res => {
+                    console.log('google maps cord response', res.data.results[0].formatted_address);
+                    setAddress( res.data.results[0].formatted_address);
+                }).catch((error: any) => {
+                    console.log(error)
+                });
+
                 setPosition({
                     latitude: crd.latitude,
                     longitude: crd.longitude,
@@ -30,7 +39,7 @@ const GoogleMap = ({ sendData }: any) => {
         };
     }, []);
     const getCurLocation = () => {
-        sendData(position)
+        sendData(address)
     }
     return (
         <>
@@ -61,7 +70,10 @@ const GoogleMap = ({ sendData }: any) => {
         language: 'en',
       }}
     /> */}
-            <Button title='Get Location' onPress={getCurLocation}></Button>
+            <View style={{width: 200, alignSelf: 'center'}}>
+                <Button title='Send Location' onPress={getCurLocation}></Button>
+            </View>
+
         </>
     );
 };

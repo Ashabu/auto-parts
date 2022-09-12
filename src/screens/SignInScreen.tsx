@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { navigate } from '../navigation/Navigation';
 import { Images } from '../utils/Images';
 import { useForm, Controller } from "react-hook-form";
@@ -15,61 +15,64 @@ const SignInScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{
-                flex: 1, justifyContent: 'center', alignItems: 'center', borderWidth: 1,
-                borderBottomColor: '#FFFFFF'
-            }}>
-                <Image source={Images.APP_LOGO} style={styles.appLogo} />
-            </View>
-            <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-                <Controller
-                    control={control}
-                    rules={{
-                        required: true,
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            style={styles.input}
-                            placeholder='Username'
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                    name="username"
-                />
-                {errors.username && <Text>This is required.</Text>}
+            <ScrollView contentContainerStyle={{flexGrow: 1}}>
 
-                <Controller
-                    control={control}
-                    rules={{
-                        maxLength: 100,
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            style={styles.input}
-                            placeholder='Password'
-                            secureTextEntry={true}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                    name="password"
-                />
-                {errors.password && <Text>This is required.</Text>}
-                <TouchableOpacity style={styles.signInBtn}>
-                    <Text style={styles.singInTitle}>LOGIN</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <TouchableOpacity style={styles.smsAuthBtn}>
-                    <Text style={{...styles.singInTitle, color: '#FFFFFF'}}>SMS LOGIN</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: 15}} onPress={()=> navigate('Sign Up')}>
-                    <Text style={styles.signUpTitle}>REGISTER</Text>
-                </TouchableOpacity>
-            </View>
+
+                <View style={{
+                    flex: 1, justifyContent: 'center', alignItems: 'center', 
+                }}>
+                    <Image source={Images.APP_LOGO} style={styles.appLogo} />
+                </View>
+                <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: true,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={styles.input}
+                                placeholder='Username'
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                        name="username"
+                    />
+                    {errors.username && <Text>This is required.</Text>}
+
+                    <Controller
+                        control={control}
+                        rules={{
+                            maxLength: 100,
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={styles.input}
+                                placeholder='Password'
+                                secureTextEntry={true}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                        name="password"
+                    />
+                    {errors.password && <Text>This is required.</Text>}
+                    <TouchableOpacity style={styles.signInBtn}>
+                        <Text style={styles.singInTitle}>LOGIN</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity style={styles.smsAuthBtn}>
+                        <Text style={{ ...styles.singInTitle, color: '#FFFFFF' }}>SMS LOGIN</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ marginTop: 15 }} onPress={() => navigate('Sign Up')}>
+                        <Text style={styles.signUpTitle}>REGISTER</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };

@@ -6,6 +6,7 @@ import LandingStack from './StackScreens/LandingStack';
 import Tabs from './Tab';
 import AppHeader from '../components/AppHeader';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
+import AddCarScreen from '../screens/AddCarScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -32,12 +33,18 @@ const AppNavigation = () => {
             <LandingStack />
             :
             <Stack.Navigator>
-                <Stack.Screen name="Root" component={Tabs} options={{headerShown: false}}/>
+                <Stack.Screen name="Root" component={Tabs} options={{ headerShown: false }} />
                 <Stack.Screen
                     name="ProductDetails"
                     component={ProductDetailScreen}
                     options={{
                         header: () => <AppHeader hasBack />
+                    }} />
+                <Stack.Screen
+                    name="AddCar"
+                    component={AddCarScreen}
+                    options={{
+                        headerTitle: 'Add Car'
                     }} />
             </Stack.Navigator>
     );

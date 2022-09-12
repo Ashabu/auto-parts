@@ -42,12 +42,11 @@ const HomeScreen = () => {
                         />
                     </View>
                 </View>
-                <TouchableOpacity style={styles.addCarButton}>
+                <TouchableOpacity style={styles.addCarButton} onPress={()=> navigate('AddCar')}>
                     <Text style={styles.addCarTitle}>Add Car</Text>
+                    <Text style={styles.addCarTitle}>+</Text>
                 </TouchableOpacity>
-                <Text>
-                    Home Screen
-                </Text>
+                
             </ScrollView>
 
         </SafeAreaView>
@@ -76,10 +75,11 @@ const styles = StyleSheet.create({
         height: 19
     },
     addCarButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         backgroundColor: '#ffdd00',
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center'
+        padding: 20,
+        
     },
     addCarTitle: {
         fontSize: 20
