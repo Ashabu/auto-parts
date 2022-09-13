@@ -1,13 +1,28 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useForm, Controller  } from 'react-hook-form';
+import { useForm, Controller, useController, Control, FieldValues } from 'react-hook-form';
 import { Button, Dimensions, Image, Modal, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import CheckoutList from '../components/CheckoutList';
 import GoogleMap from '../components/GoogleMap';
-import { useCart } from '../Context/Context';
+import { useCartItems } from '../Context/useProducts';
+
 import { getData } from '../services/StorageService';
 import { Images } from '../utils/Images';
 
 const { width } = Dimensions.get('screen');
+
+const Input: React.FC<{ name: string, control: Control<FieldValues, any> }> = ({ name, control }) => {
+    const { field } = useController({
+        control,
+        defaultValue: '',
+        name
+    })
+    return (
+        <TextInput
+            value={field.value}
+            onChangeText = {field.onChange}
+        />
+    );
+};
 
 const CheckoutScreen = ({ route }: any) => {
     const [checkoutItems, setCheckoutItems] = useState<any[]>([]);
@@ -15,36 +30,19 @@ const CheckoutScreen = ({ route }: any) => {
     const [price, setPrice] = useState<number>(0);
     const [step, setStep] = useState<number>(0);
     const [showMap, setShowMap] = useState<boolean>(false);
-    const { cartItems } = useCart();
+    const { cartItems, totalCost } = useCartItems();
 
-    const { control, handleSubmit, formState: { errors } } = useForm({
-        defaultValues: {
-            deliveryAddress: '',
-            phoneNumber: '',
-            name: '',
-            postalCode: '',
+    const { control, handleSubmit,  setValue} = useForm();
 
-        }
-    });
     const onSubmit = (data: any) => console.log(data);
 
-    const getMapData =(data: any) => {
+    const getMapData = (data: any) => {
         console.log(data);
         setShowMap(false);
-    } 
+    }
 
-    let Price = () => {
-        let totalPrice = 0;
-        for (let i = 0; i < cartItems.length; i++) {
-            totalPrice += (Number(cartItems[i].price) * Number(cartItems[i].item_count))
-        }
-        setPrice(totalPrice)
 
-    };
 
-    useEffect(() => {
-        Price();
-    }, [cartItems]);
 
     const handleOrderStep = () => {
         carouselRef.current?.scrollTo({
@@ -56,6 +54,7 @@ const CheckoutScreen = ({ route }: any) => {
     useEffect(() => {
         handleOrderStep();
         if (step == 2) {
+            
         }
     }, [step])
 
@@ -78,7 +77,7 @@ const CheckoutScreen = ({ route }: any) => {
                     }
                     <View style={{ borderTopWidth: 1, borderTopColor: '#CFCFCF' }}>
                         <Text style={styles.totalPriceText}>
-                            Total Price $ {price}
+                            Total Price $ {totalCost}
                         </Text>
                     </View>
                 </View>
@@ -86,80 +85,27 @@ const CheckoutScreen = ({ route }: any) => {
                     <Text style={styles.inputLabelText}>
                         Delivery Address
                     </Text>
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: true,
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={styles.inputStyle}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="deliveryAddress"
-                    />
+                    <Input name="deliveryAddress" control={control} />
+
+
                     <Text style={styles.inputLabelText}>
                         Contact Phone
                     </Text>
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: true,
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={styles.inputStyle}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="phoneNumber"
-                    />
+                    <Input name="phoneNumber" control={control} />
                     <Text style={styles.inputLabelText}>
                         Receiver Name
                     </Text>
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: true,
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={styles.inputStyle}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="name"
-                    />
+                    <Input name="name" control={control} />
                     <Text style={styles.inputLabelText}>
                         Postal Code
                     </Text>
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: true,
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={styles.inputStyle}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="postalCode"
-                    />
-                    <TouchableOpacity onPress={() => setShowMap(true)} style={{padding: 10, backgroundColor: 'blue', marginTop: 15, borderRadius: 10}}>
-                          <Text style={{color: '#fff', alignSelf: 'center'}}>
+                    <Input name="postalCode" control={control} />
+
+                    <TouchableOpacity onPress={() => setShowMap(true)} style={{ padding: 10, backgroundColor: 'blue', marginTop: 15, borderRadius: 10 }}>
+                        <Text style={{ color: '#fff', alignSelf: 'center' }}>
                             Use Google Map
-                          </Text>
-                        </TouchableOpacity>
+                        </Text>
+                    </TouchableOpacity>
                     <Modal visible={showMap}>
                         <GoogleMap sendData={getMapData} />
                     </Modal>
@@ -192,12 +138,12 @@ const CheckoutScreen = ({ route }: any) => {
                 </View>
             </ScrollView>
             <View style={styles.footerContainer}>
-                <TouchableOpacity style={[styles.button, styles.buttonBack]} onPress={() => setStep(prev => prev - 1)}>
+                <TouchableOpacity style={[styles.button, styles.buttonBack]} onPress={() => handleSubmit(onSubmit)}>
                     <Text style={styles.btnText}>
                         Back
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={() => setStep(prev => prev + 1)}>
+                <TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={() => setStep(prev => prev - 1)}>
                     <Text style={styles.btnText}>
                         Next
                     </Text>

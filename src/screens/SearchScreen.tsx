@@ -45,6 +45,7 @@ const SearchScreen = () => {
     }
 
     return (
+        
         <SafeAreaView style={{ flex: 1}}>
             <View style={styles.searchView}>
                 <Image source={Images.SEARCH_BLACK} style={styles.searchIcon} />

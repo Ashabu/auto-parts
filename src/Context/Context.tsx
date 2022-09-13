@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { getData, storeData } from "../services/StorageService";
-import { Lang, Onboarding, CartItems } from './types';
+import React, { createContext, useContext, useState } from "react";
+import { Lang, Onboarding } from './types';
 
 const LangContext = createContext<Lang>({
     lang: '',
@@ -9,10 +8,6 @@ const LangContext = createContext<Lang>({
 const OnboardingContext = createContext<Onboarding>({
     isOnboard: false,
     handleOnBoarding: () => { }
-});
-const CartItemsContext = createContext<CartItems>({
-    cartItems: [],
-    handleAddItem: () => { }
 });
 
 
@@ -24,14 +19,11 @@ export const useOnboarding = () => {
     return useContext(OnboardingContext);
 };
 
-export const useCart = () => {
-    return useContext(CartItemsContext);
-};
+
 
 export const ContextProvider = ({ children }: any) => {
     const [lang, setLang] = useState('');
     const [isOnboard, setIsOnboard] = useState<boolean>(false);
-    const [cartItems, setCartItems] = useState<any[]>([]);
 
     const handleSetLang = (lang: string) => {
         setLang(lang);
@@ -41,39 +33,21 @@ export const ContextProvider = ({ children }: any) => {
         setIsOnboard(val);
     };
 
-    const handleAddItem = (data: any) => {
-        setCartItems(data);
-        storeData('checkout_items', data);
-    };
-
-    useEffect(() => {
-        getData('checkout_items').then(data => {
-            let parsedData = JSON.parse(data!) || []
-            setCartItems(parsedData)
-        });
-    }, []);
-
-
     const LangCtx = {
         lang,
         handleSetLang
     };
+
     const OnboardingCtx = {
         isOnboard,
         handleOnBoarding
     };
 
-    const CartItemCtx = {
-        cartItems,
-        handleAddItem
-    }
-
+ 
     return (
         <LangContext.Provider value={LangCtx}>
             <OnboardingContext.Provider value={OnboardingCtx}>
-                <CartItemsContext.Provider value={CartItemCtx}>
                     {children}
-                </CartItemsContext.Provider>
             </OnboardingContext.Provider>
         </LangContext.Provider>
     )

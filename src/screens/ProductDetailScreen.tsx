@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, NativeScrollEvent, Dimensions, Image } from 'react-native';
-import { useCart } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
 import { storeData } from '../services/StorageService';
 import { Images } from '../utils/Images';
+import {useCartItems} from '../Context/useProducts';
 
 const ProductDetailScreen = ({ route }: any) => {
     const { stock_quantity, name, price } = route.params.item;
-    const { cartItems, handleAddItem } = useCart()
+    // const { cartItems, handleAddItem } = useCart()
+    const {cartItems, handleAddItem} = useCartItems();
     const carouselRef = useRef<ScrollView>(null);
     const slideStyle = {
         width: Dimensions.get('screen').width,
@@ -50,18 +51,7 @@ const ProductDetailScreen = ({ route }: any) => {
 
     const handleAddItemToCheckout = () => {
         route.params.item.item_count++;
-        let tempCartItems = cartItems;
-        let index = tempCartItems.findIndex(el => el.id === route.params.item.id);
-        console.log('index', index,  ' route.params.item',  route.params.item.item_count)
-        if (index !== -1) {
-            console.log('here')
-            tempCartItems[index].item_count +=1
-        } else {
-            console.log('there')
-            tempCartItems = [...cartItems, route.params.item]
-        }
-        // console.log('new item ==========',  route.params.item)
-        handleAddItem(tempCartItems)
+        handleAddItem( route.params.item)
     }
 
     const handleGoToCheckout = () => {
