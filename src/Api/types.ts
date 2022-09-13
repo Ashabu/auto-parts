@@ -102,3 +102,35 @@ export interface ISignUpResponse {
     cookie: string,
     user_id: number
 }
+
+export interface ISignInRequest {
+    username: string,
+    password: string,
+
+}
+
+export interface ISignInResponse {
+    cookie: string,
+    cookie_name: string,
+    user: {
+        id: 17,
+        username: string,
+        nicename: string,
+        email: string,
+        url?: string,
+        registered: string,
+        displayname:string,
+        firstname:string,
+        lastname:string,
+        nickname:string,
+        description: string ,
+        capabilities: {
+            subscriber: boolean
+        },
+        role: string[],
+        shipping: string| null,
+        billing: string | null,
+        avatar: string
+        dokan_enable_selling: string
+    }
+}

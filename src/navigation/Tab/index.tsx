@@ -29,7 +29,7 @@ const Tabs = () => {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: '#ffdd00',
-        }
+        },
       }}>
       <Tab.Screen
         name='Home'

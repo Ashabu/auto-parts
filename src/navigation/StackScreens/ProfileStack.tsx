@@ -22,19 +22,7 @@ const ProfileStack = () => {
                     header: () => <AppHeader />
                 }} />
 
-            <Stack.Screen
-                name='Sign In'
-                component={SignInScreen}
-                options={{
-                   
-                }} />
-                <Stack.Screen
-                name='Sign Up'
-                component={SignUpScreen}
-                options={{
-                   
-                }} />
-
+           
         </Stack.Navigator>
     );
 }

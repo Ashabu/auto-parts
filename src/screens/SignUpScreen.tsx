@@ -10,7 +10,7 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 
 
 const SignUpScreen = () => {
-    const [loading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             firstName: '',
@@ -22,6 +22,7 @@ const SignUpScreen = () => {
         }
     });
     const onSubmit = (data: any) => {
+        if(Object.keys(errors).length > 0) return;
         Keyboard.dismiss();
         setIsLoading(true);
         const signUpData: ISignUpRequest = {
@@ -192,9 +193,12 @@ const SignUpScreen = () => {
                 }
                 <View>
                 </View>
-                <TouchableOpacity style={styles.singUpBtn} onPress={handleSubmit(onSubmit)}>
+                <TouchableOpacity 
+                style={styles.singUpBtn} 
+                onPress={handleSubmit(onSubmit)}
+                disabled={isLoading}>
                     {
-                        loading ?
+                        isLoading ?
                             <ActivityIndicator size='small' color='#FFFFFF' />
                             :
                             <Text style={styles.singUpBtnTitle}>Sign Up</Text>
