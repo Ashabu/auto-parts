@@ -18,10 +18,6 @@ const Tabs = () => {
  
   const {totalItems} = useCartItems();
 
-
-
- 
-
   return (
 
     <Tab.Navigator

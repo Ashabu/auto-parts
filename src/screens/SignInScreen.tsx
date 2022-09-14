@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, Alert } from 'react-native';
+import { Button, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard, Alert, ActivityIndicator } from 'react-native';
 import { navigate } from '../navigation/Navigation';
 import { Images } from '../utils/Images';
 import { useForm, Controller } from "react-hook-form";
 import { SignIn } from '../Api/authService';
+import { useAuth } from '../Context/Context';
+import { storeData } from '../services/StorageService';
 
-const SignInScreen = ({route}: any) => {
+const SignInScreen = ({ route }: any) => {
+    const { handleSetUser, handleSignIn } = useAuth()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -23,8 +26,16 @@ const SignInScreen = ({route}: any) => {
         };
         SignIn(signInData).then(res => {
             setIsLoading(false);
-            console.log(res.data);
-            navigate('HomeScreen')
+            storeData('access_token', res.data.cookie).then(() => {
+                handleSetUser(res.data.user);
+                handleSignIn(true);
+                navigate('Home', {
+                    screen: 'HomeS'
+                })
+            }).catch((err: any) => {
+                setIsLoading(false);
+                Alert.alert(JSON.parse(JSON.stringify(err.response.data.message)));
+            });
         }).catch((e: any) => {
             setIsLoading(false);
             Alert.alert(JSON.parse(JSON.stringify(e.response.data.message)));
@@ -32,7 +43,7 @@ const SignInScreen = ({route}: any) => {
     }
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <Image source={Images.APP_LOGO} style={styles.appLogo} />
                 </View>
@@ -93,9 +104,14 @@ const SignInScreen = ({route}: any) => {
                         style={[styles.authButton, styles.authBtnBg]}
                         onPress={handleSubmit(onSubmit)}
                         disabled={isLoading}>
-                        <Text style={[styles.btnTitle, { color: '#000' }]}>
-                            LOGIN
-                        </Text>
+                        {
+                            isLoading ?
+                            <ActivityIndicator size='small' color='#000'/>
+                            :
+                                <Text style={[styles.btnTitle, { color: '#000' }]}>
+                                    LOGIN
+                                </Text>
+                            }
                     </TouchableOpacity>
                 </View>
                 <View>

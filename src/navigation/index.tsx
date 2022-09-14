@@ -9,6 +9,7 @@ import ProductDetailScreen from '../screens/ProductDetailScreen';
 import AddCarScreen from '../screens/AddCarScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import { useAuth } from '../Context/Context';
 
 
 const Stack = createNativeStackNavigator();

@@ -1,3 +1,4 @@
+import {ISignInResponse} from '../Api/types';
 export type Lang = {
     lang: string,
     handleSetLang: (val: string) => void
@@ -20,4 +21,13 @@ export type Products = {
     handleDecrement: (data: any) => void,
     totalCost: number | string,
     totalItems: number
+}
+
+export type Auth = {
+    user: ISignInResponse["user"] | undefined
+    handleSetUser: (data: any) => void,
+    isAuthorized: boolean,
+    handleSignIn: (val: boolean) => void,
+    handleSignOut: () => void,
+    
 }
