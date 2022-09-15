@@ -1,3 +1,16 @@
+export interface IWPressError {
+    response: {
+        code: string,
+        message: string,
+        data: {
+            status: number,
+            json_error_code?: number,
+            json_error_message?: string
+        }
+
+    }
+}
+
 export interface IFinaAuthResponse {
     ex: null | any,
     token: string
@@ -71,4 +84,53 @@ export interface IGetProductsResponse {
             }
         ]
     }[]
+}
+
+export interface ISignUpRequest {
+    username: string,
+    user_login: string,
+    user_email: string,
+    email: string,
+    display_name: string,
+    first_name: string,
+    last_name: string,
+    password: string,
+    user_pass: string
+}
+
+export interface ISignUpResponse {
+    cookie: string,
+    user_id: number
+}
+
+export interface ISignInRequest {
+    username: string,
+    password: string,
+
+}
+
+export interface ISignInResponse {
+    cookie: string,
+    cookie_name: string,
+    user: {
+        id: 17,
+        username: string,
+        nicename: string,
+        email: string,
+        url?: string,
+        registered: string,
+        displayname:string,
+        firstname:string,
+        lastname:string,
+        nickname:string,
+        description: string ,
+        capabilities: {
+            subscriber: boolean
+        },
+        role: string[],
+        shipping: string| null,
+        billing: string | null,
+        avatar: string
+        dokan_enable_selling: string
+    }
 }

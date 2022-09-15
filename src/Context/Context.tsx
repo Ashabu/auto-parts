@@ -1,19 +1,24 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { getData, storeData } from "../services/StorageService";
-import { Lang, Onboarding, CartItems } from './types';
+import React, { createContext, useContext, useState } from "react";
+import { storeData, removeData } from '../services/StorageService';
+import { Auth, Lang, Onboarding } from './types';
 
 const LangContext = createContext<Lang>({
     lang: '',
     handleSetLang: () => { }
 });
+
 const OnboardingContext = createContext<Onboarding>({
     isOnboard: false,
     handleOnBoarding: () => { }
 });
-const CartItemsContext = createContext<CartItems>({
-    cartItems: [],
-    handleAddItem: () => { }
-});
+
+const AuthContext = createContext<Auth>({
+    isAuthorized: false,
+    handleSignIn: () => { },
+    handleSignOut: () => { },
+    user: undefined,
+    handleSetUser: () => { }
+})
 
 
 export const useLang = () => {
@@ -24,14 +29,17 @@ export const useOnboarding = () => {
     return useContext(OnboardingContext);
 };
 
-export const useCart = () => {
-    return useContext(CartItemsContext);
-};
+export const useAuth = () => {
+    return useContext(AuthContext)
+}
+
+
 
 export const ContextProvider = ({ children }: any) => {
     const [lang, setLang] = useState('');
     const [isOnboard, setIsOnboard] = useState<boolean>(false);
-    const [cartItems, setCartItems] = useState<any[]>([]);
+    const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+    const [user, setUser] = useState(undefined)
 
     const handleSetLang = (lang: string) => {
         setLang(lang);
@@ -41,39 +49,46 @@ export const ContextProvider = ({ children }: any) => {
         setIsOnboard(val);
     };
 
-    const handleAddItem = (data: any) => {
-        setCartItems(data);
-        storeData('checkout_items', data);
+    const handleSignIn = (value: boolean) => {
+        setIsAuthorized(value);
     };
 
-    useEffect(() => {
-        getData('checkout_items').then(data => {
-            let parsedData = JSON.parse(data!) || []
-            setCartItems(parsedData)
-        });
-    }, []);
+    const handleSetUser = ( data: any) => {
+        console.log('handleSetUser =>',data)
+        setUser(data);
+    };
 
+    const handleSignOut = () => {
+        removeData('access_token').then(res => {
+            setIsAuthorized(false);
+        });
+    };
 
     const LangCtx = {
         lang,
         handleSetLang
     };
+
     const OnboardingCtx = {
         isOnboard,
         handleOnBoarding
     };
 
-    const CartItemCtx = {
-        cartItems,
-        handleAddItem
+    const AuthCtx = {
+        user,
+        isAuthorized,
+        handleSignIn,
+        handleSignOut,
+        handleSetUser
     }
+
 
     return (
         <LangContext.Provider value={LangCtx}>
             <OnboardingContext.Provider value={OnboardingCtx}>
-                <CartItemsContext.Provider value={CartItemCtx}>
+                <AuthContext.Provider value={AuthCtx}>
                     {children}
-                </CartItemsContext.Provider>
+                </AuthContext.Provider>
             </OnboardingContext.Provider>
         </LangContext.Provider>
     )

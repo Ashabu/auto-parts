@@ -8,6 +8,9 @@ import AppHeader from '../components/AppHeader';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import AddCarScreen from '../screens/AddCarScreen';
 import { useOnboarding } from '../Context/Context';
+import SignInScreen from '../screens/SignInScreen';
+import SignUpScreen from '../screens/SignUpScreen';
+import { useAuth } from '../Context/Context';
 
 
 const Stack = createNativeStackNavigator();
@@ -37,7 +40,13 @@ const AppNavigation = () => {
         initialized && !isOnboarding ?
             <LandingStack />
             :
-            <Stack.Navigator>
+            <Stack.Navigator
+                screenOptions={{
+                    headerTintColor: '#FFFFFF',
+                    headerStyle: {
+                        backgroundColor: '#000'
+                    }
+                }} >
                 <Stack.Screen name="Root" component={Tabs} options={{ headerShown: false }} />
                 <Stack.Screen
                     name="ProductDetails"
@@ -51,6 +60,17 @@ const AppNavigation = () => {
                     options={{
                         headerTitle: 'Add Car'
                     }} />
+                <Stack.Screen
+                    name='Sign In'
+                    component={SignInScreen}
+                     />
+                <Stack.Screen
+                    name='Sign Up'
+                    component={SignUpScreen}
+                    options={{
+
+                    }} />
+
             </Stack.Navigator>
     );
 };

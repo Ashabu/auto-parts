@@ -7,8 +7,7 @@ import CheckoutStack from '../StackScreens/CheckoutStack';
 import { Image } from 'react-native';
 import { Images } from '../../utils/Images';
 import ProfileStack from '../StackScreens/ProfileStack';
-import { getData } from '../../services/StorageService';
-import { useCart } from '../../Context/Context';
+import {useCartItems} from '../../Context/useProducts';
 
 
 
@@ -16,43 +15,8 @@ const Tab = createBottomTabNavigator();
 
 
 const Tabs = () => {
-  const [cartItemCount, setCartItemCount] = useState<number>(0);
-  const {cartItems} = useCart();
-  console.log(cartItems)
-  
-
-  const handleCartItemCount = () => {
-    let result = 0;
-    if(cartItems.length) {
-      result = cartItems.reduce((count: number, item: any) => {
-        return  count + item.item_count
-      }, 0)
-    }
-    setCartItemCount(result);
-
-  //   getData('checkout_items').then(data => {
-  //     if (data) {
-  //       let parsedData = JSON.parse(data);
-  //       result = parsedData.reduce((count: number, item: any) => {
-  //         return count + item.item_count;
-  //       }, 0)
-  //       for (let i = 0; i < data.length; i++) {
-  //         result += parsedData?.[i]?.item_count
-  //       };
-  //     };
-  //   }).catch((e: any) => {
-  //     console.log(e);
-  //   }).finally(() => {
-      
-  //   });
-  };
-
-
-
-  useEffect(() => {
-    console.log('count increased')
-    handleCartItemCount();
-  }, [cartItems.length])
+ 
+  const {totalItems} = useCartItems();
 
   return (
 
@@ -61,7 +25,7 @@ const Tabs = () => {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: '#ffdd00',
-        }
+        },
       }}>
       <Tab.Screen
         name='Home'
@@ -105,7 +69,7 @@ const Tabs = () => {
           },
           tabBarActiveTintColor: '#000',
           tabBarInactiveTintColor: '#B7C4CB',
-          tabBarBadge: cartItemCount > 0 ? cartItemCount : undefined
+          tabBarBadge: totalItems > 0 ? totalItems : undefined
         }}
 
       />

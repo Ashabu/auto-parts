@@ -1,9 +1,12 @@
 import React from 'react'
 import { Button, SafeAreaView, Text, View, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { useAuth } from '../../Context/Context';
 import { navigate } from '../../navigation/Navigation';
 import { Images } from '../../utils/Images';
 
 const UnauthorizedProfile = () => {
+  const { isAuthorized, user, handleSignOut } = useAuth();
+  console.log('user', user)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ backgroundColor: '#000', padding: 20 }}>
@@ -19,25 +22,52 @@ const UnauthorizedProfile = () => {
         </View>
       </View>
       <View style={{ backgroundColor: '#000', paddingHorizontal: 20 }}>
-        <Text style={styles.title}>You Are Not Authorized </Text>
-        <TouchableOpacity style={styles.signInBtn} onPress={()=> navigate('Sign In')}>
-          <Text style={styles.btnTitle}>Sign In</Text>
-        </TouchableOpacity>
+        {isAuthorized ?
+          <Text style={styles.title}>Your ID: {user?.id}</Text>
+          :
+          <>
+            <Text style={styles.title}>You Are Not Authorized </Text>
+            <TouchableOpacity style={styles.signInBtn} onPress={() => navigate('Sign In')}>
+              <Text style={styles.btnTitle}>Sign In</Text>
+            </TouchableOpacity>
+          </>
+        }
       </View>
+      {
+        isAuthorized &&
+        <TouchableOpacity style={styles.navBtn}>
+          <Text style={styles.navBtnTitle}>Order History</Text>
+          <Image source={Images.ARROW_LEFT} style={styles.arrowIcon} />
+        </TouchableOpacity>
+      }
+      {/*unauthorized*/}
       <TouchableOpacity style={styles.navBtn}>
         <Text style={styles.navBtnTitle}>Favorites (0)</Text>
         <Image source={Images.ARROW_LEFT} style={styles.arrowIcon} />
       </TouchableOpacity>
+      {
+        isAuthorized &&
+        <TouchableOpacity style={styles.navBtn}>
+          <Text style={styles.navBtnTitle}>Delivery Address</Text>
+          <Image source={Images.ARROW_LEFT} style={styles.arrowIcon} />
+        </TouchableOpacity>
+      }
       <TouchableOpacity style={styles.navBtn}>
         <Text style={styles.navBtnTitle}>Choose Language</Text>
         <Image source={Images.ARROW_LEFT} style={styles.arrowIcon} />
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.navBtn}>
         <Text style={styles.navBtnTitle}>Support</Text>
         <Image source={Images.ARROW_LEFT} style={styles.arrowIcon} />
       </TouchableOpacity>
-
-
+      {
+        isAuthorized &&
+        <TouchableOpacity style={styles.navBtn} onPress={handleSignOut}>
+          <Text style={styles.navBtnTitle}>Log Out</Text>
+          <Image source={Images.ARROW_LEFT} style={styles.arrowIcon} />
+        </TouchableOpacity>
+      }
     </SafeAreaView>
   );
 };

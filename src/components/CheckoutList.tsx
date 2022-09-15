@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useCart } from '../Context/Context';
+import { useCartItems } from '../Context/useProducts';
 import { Images } from '../utils/Images';
 import ProductList from './ProductList';
 
 const CheckoutList = ({ item }: any) => {
-    const { cartItems, handleAddItem } = useCart()
+    const { cartItems, handleAddItem } = useCartItems()
     const [itemCount, setItemCount] = useState<number>(item.item_count);
 
   
