@@ -1,20 +1,23 @@
 import React from 'react'
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Images } from '../utils/Images';
+import {navigate} from '../navigation/Navigation';
 
 const WishListScreen = () => {
     return (
-        <SafeAreaView style={{ flex: 1}}>
-            <View style={{flex: 8, alignItems: 'center', justifyContent: 'center' }}>
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.container}>
+                <Image source ={Images.FAVORITES_ICON} style={{ width: 82, height: 74 , alignSelf: 'center' }} />
                 <Text style={styles.title}>
-                    Wishlist is empty
+                    Wishlist Is Empty
                 </Text>
-                <Text style={styles.subTitle}>
+                <Text style={styles.subtitle}>
                     There is no item in wishlist
                 </Text>
             </View>
-            <View style={{flex: 2, alignItems: 'center'}}>
-                <TouchableOpacity style={styles.showNowBtn}>
-                    <Text style={styles.subTitle}>Shop Now</Text>
+            <View style={styles.footer}>
+                <TouchableOpacity style={styles.button} onPress={()=> navigate('Search')}>
+                    <Text style={styles.buttonTitle}>Shop Now</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -24,20 +27,32 @@ const WishListScreen = () => {
 export default WishListScreen;
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 9,
+        justifyContent: 'center'
+    },
+    footer: {
+        flex: 1,
+    },
     title: {
         fontSize: 20,
         fontWeight: '700',
         textAlign: 'center',
-        marginBottom: 15
+        marginVertical: 10
     },
-    subTitle: {
-        fontSize: 14,
+    subtitle: {
         textAlign: 'center'
     },
-    showNowBtn: {
-        backgroundColor: '#ffdd00',
-        padding: 15,
+    button: {
+        paddingVertical: 15,
         borderRadius: 10,
-        width: 150
+        backgroundColor: '#ffdd00',
+        width: 180,
+        alignSelf: 'center'
+    },
+    buttonTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        textAlign: 'center'
     }
 })

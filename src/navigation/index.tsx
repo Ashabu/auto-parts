@@ -80,7 +80,7 @@ const AppNavigation = () => {
                         header: () => <AppHeader hasBack />
                     }} />
                 <Stack.Screen
-                    name='ChoseLanguage'
+                    name='ChooseLanguage'
                     component={ChoseLanguageScreen}
                     options={{
                         headerTitle: 'Settings'

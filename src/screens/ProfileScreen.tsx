@@ -47,17 +47,17 @@ const ProfileScreen = () => {
         </TouchableOpacity>
         {
           isAuthorized &&
-          <TouchableOpacity style={styles.navBtn}>
+          <TouchableOpacity style={styles.navBtn} onPress={()=>navigate('Address')}>
             <Text style={styles.navBtnTitle}>Delivery Address</Text>
             <Image source={Images.ARROW_LEFT} style={styles.arrowIcon} />
           </TouchableOpacity>
         }
-        <TouchableOpacity style={styles.navBtn}>
+        <TouchableOpacity style={styles.navBtn} onPress={()=> navigate('ChooseLanguage')}>
           <Text style={styles.navBtnTitle}>Choose Language</Text>
           <Image source={Images.ARROW_LEFT} style={styles.arrowIcon} />
         </TouchableOpacity>
   
-        <TouchableOpacity style={styles.navBtn} onPress={() => navigate('Profile', {screen:"Support"})}>
+        <TouchableOpacity style={styles.navBtn} onPress={() => navigate('Support')}>
           <Text style={styles.navBtnTitle}>Support</Text>
           <Image source={Images.ARROW_LEFT} style={styles.arrowIcon} />
         </TouchableOpacity>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
     navBtnTitle: {
       color: '#FFFFFF',
-      fontSize: 18,
+      fontSize: 16,
     },
     arrowIcon: {
       width: 14,

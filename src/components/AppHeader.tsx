@@ -11,7 +11,7 @@ const AppHeader:React.FC<IHeaderProps> = ({hasBack}) => {
     return (
         <View style={styles.headerContainer}>
             <TouchableOpacity style={styles.headerLeft} onPress={()=> goBack()}>
-                {hasBack && <Text>Back</Text>}
+                {hasBack && <Text style={{color: '#FFFFFF'}}>Back</Text>}
             </TouchableOpacity>
             <TouchableOpacity style={styles.headerMid} onPress={()=> navigate('Home', {screen: 'HomeS'})}>
                <Image source={Images.APP_LOGO} resizeMode = 'contain' style={{height: 40}}/>
@@ -32,10 +32,11 @@ const styles = StyleSheet.create({
         height: 60,
         flexDirection: 'row',
         backgroundColor: '#000',
+        paddingHorizontal: 15
     },
     headerRight: {
         width: '10%',
-        alignItems: 'center',
+        alignSelf: 'center',
         justifyContent: 'center'
     },
     headerMid: {
@@ -46,6 +47,6 @@ const styles = StyleSheet.create({
     },
     headerLeft: {
         width: '10%',
-       
+        justifyContent: 'center'
     }
 })
