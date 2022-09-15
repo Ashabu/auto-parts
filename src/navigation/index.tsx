@@ -9,7 +9,9 @@ import ProductDetailScreen from '../screens/ProductDetailScreen';
 import AddCarScreen from '../screens/AddCarScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
-import { useAuth } from '../Context/Context';
+import SupportScreen from '../screens/SupportScreen';
+import DeliveryAddressScreen from '../screens/DeliveryAddressScreen';
+import ChoseLanguageScreen from '../screens/ChoseLanguageScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -58,12 +60,30 @@ const AppNavigation = () => {
                 <Stack.Screen
                     name='Sign In'
                     component={SignInScreen}
-                     />
+                />
                 <Stack.Screen
                     name='Sign Up'
                     component={SignUpScreen}
                     options={{
 
+                    }} />
+                <Stack.Screen
+                    name='Support'
+                    component={SupportScreen}
+                    options={{
+                        header: () => <AppHeader hasBack />
+                    }} />
+                <Stack.Screen
+                    name='Address'
+                    component={DeliveryAddressScreen}
+                    options={{
+                        header: () => <AppHeader hasBack />
+                    }} />
+                <Stack.Screen
+                    name='ChoseLanguage'
+                    component={ChoseLanguageScreen}
+                    options={{
+                        headerTitle: 'Settings'
                     }} />
 
             </Stack.Navigator>
