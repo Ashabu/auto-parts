@@ -8,6 +8,8 @@ import { useAuth } from '../Context/Context';
 import { storeData } from '../services/StorageService';
 
 const SignInScreen = ({ route }: any) => {
+    const routeObj = route.params;
+    console.log('routeObj', routeObj)
     const { handleSetUser, handleSignIn } = useAuth()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { control, handleSubmit, formState: { errors } } = useForm({
@@ -29,9 +31,19 @@ const SignInScreen = ({ route }: any) => {
             storeData('access_token', res.data.cookie).then(() => {
                 handleSetUser(res.data.user);
                 handleSignIn(true);
-                navigate('Home', {
-                    screen: 'HomeS'
-                })
+                if (Object.keys(routeObj).length > 0) {
+                    navigate(routeObj.redirectRoute, {
+                        screen: routeObj.redirectScreen,
+                        params: {
+                            step: 1
+                        }
+                    })
+                } else {
+                    navigate('Home', {
+                        screen: 'HomeS'
+                    })
+
+                }
             }).catch((err: any) => {
                 setIsLoading(false);
                 Alert.alert(JSON.parse(JSON.stringify(err.response.data.message)));
@@ -106,12 +118,12 @@ const SignInScreen = ({ route }: any) => {
                         disabled={isLoading}>
                         {
                             isLoading ?
-                            <ActivityIndicator size='small' color='#000'/>
-                            :
+                                <ActivityIndicator size='small' color='#000' />
+                                :
                                 <Text style={[styles.btnTitle, { color: '#000' }]}>
                                     LOGIN
                                 </Text>
-                            }
+                        }
                     </TouchableOpacity>
                 </View>
                 <View>

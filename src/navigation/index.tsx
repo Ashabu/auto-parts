@@ -63,15 +63,19 @@ const AppNavigation = () => {
                         headerTitle: 'Add Car'
                     }} />
                 <Stack.Screen
-                    name='Sign In'
+                    name='SignIn'
                     component={SignInScreen}
+                    options={{
+                        title: 'Sign In'
+                    }}
                 />
                 <Stack.Screen
-                    name='Sign Up'
+                    name='SignUp'
                     component={SignUpScreen}
                     options={{
-
-                    }} />
+                        title: 'Sign Up'
+                    }}
+                    />
                 <Stack.Screen
                     name='Support'
                     component={SupportScreen}
