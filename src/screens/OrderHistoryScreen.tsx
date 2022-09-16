@@ -1,19 +1,15 @@
-import React from 'react'
+import React from 'react';
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { navigate } from '../navigation/Navigation';
 import { Images } from '../utils/Images';
-import {navigate} from '../navigation/Navigation';
 
-const WishListScreen = () => {
+const OrderHistoryScreen = () => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
-                <Image source ={Images.FAVORITES_ICON} style={{ width: 82, height: 74 , alignSelf: 'center' }} />
-                <Text style={styles.title}>
-                    Wishlist Is Empty
-                </Text>
-                <Text style={styles.subtitle}>
-                    There is no item in wishlist
-                </Text>
+                <Image source={Images.BASKET_BLACK} style={{ width: 72, height: 72, alignSelf: 'center' }} />
+                <Text style={styles.title}>Order History</Text>
+                <Text style={styles.subtitle}>You don't have any orders</Text>
             </View>
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.button} onPress={()=> navigate('Search')}>
@@ -24,7 +20,7 @@ const WishListScreen = () => {
     );
 };
 
-export default WishListScreen;
+export default OrderHistoryScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -34,7 +30,7 @@ const styles = StyleSheet.create({
     footer: {
         flex: 1,
     },
-    title: {
+    title:{
         fontSize: 20,
         fontWeight: '700',
         textAlign: 'center',

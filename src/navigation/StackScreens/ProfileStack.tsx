@@ -1,28 +1,19 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { navigationRef } from '../Navigation';
-
 import AppHeader from '../../components/AppHeader';
-import Profile from '../../screens/Profile/Profile';
-import SignInScreen from '../../screens/SignInScreen';
-import SignUpScreen from '../../screens/SignUpScreen';
-
+import ProfileScreen from './../../screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
-
 
 const ProfileStack = () => {
     return (
         <Stack.Navigator >
             <Stack.Screen
                 name='ProfileS'
-                component={Profile}
+                component={ProfileScreen}
                 options={{
                     header: () => <AppHeader />
                 }} />
-
-           
         </Stack.Navigator>
     );
 }

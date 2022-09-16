@@ -6,8 +6,11 @@ import HomeStack from '../StackScreens/HomeStack';
 import CheckoutStack from '../StackScreens/CheckoutStack';
 import { Image } from 'react-native';
 import { Images } from '../../utils/Images';
+import { useCartItems } from '../../Context/useProducts';
 import ProfileStack from '../StackScreens/ProfileStack';
-import {useCartItems} from '../../Context/useProducts';
+import { useAuth } from '../../Context/Context';
+import OrderHistoryScreen from '../../screens/OrderHistoryScreen';
+import AppHeader from '../../components/AppHeader';
 
 
 
@@ -15,8 +18,9 @@ const Tab = createBottomTabNavigator();
 
 
 const Tabs = () => {
- 
-  const {totalItems} = useCartItems();
+  const { isAuthorized } = useAuth()
+
+  const { totalItems } = useCartItems();
 
   return (
 
@@ -86,6 +90,26 @@ const Tabs = () => {
           tabBarInactiveTintColor: '#B7C4CB'
         }}
       />
+      {
+        isAuthorized &&
+        <Tab.Screen
+          name='OrderHistory'
+          component={OrderHistoryScreen}
+          options={{
+            headerShown: true,
+            header: () => <AppHeader/>,  
+            title: 'Orders',
+            tabBarIcon: ({ focused, color, size }) => {
+              return (
+                <Image source={focused ? Images.BASKET_BLACK : Images.BASKET_BLACK} style={{ width: 23, height: 23 }} />
+              );
+            },
+            tabBarActiveTintColor: '#000',
+            tabBarInactiveTintColor: '#B7C4CB'
+          }}
+        />
+
+      }
     </Tab.Navigator>
   );
 };
