@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm, Controller, useController, Control, FieldValues } from 'react-hook-form';
 import { Button, Dimensions, Image, Modal, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import AddressForm from '../components/AddressForm';
 import CheckoutList from '../components/CheckoutList';
 import GoogleMap from '../components/GoogleMap';
 import { useAuth } from '../Context/Context';
@@ -19,35 +20,25 @@ const CheckoutScreen = ({ route }: any) => {
     const carouselRef = useRef<ScrollView>(null);
     const [price, setPrice] = useState<number>(0);
     const [step, setStep] = useState<number>(0);
-    const [showMap, setShowMap] = useState<boolean>(false);
+    
     const { cartItems, totalCost } = useCartItems();
     const { isAuthorized } = useAuth();
-    const [deliveryAddress, setDeliveryAddress] = useState<string>('')
 
-    const { control, handleSubmit, formState: { errors } } = useForm({
-        defaultValues: {
-            deliveryAddress: '',
-            phoneNumber: '',
-            receiverName: '',
-            postalCode: ''
-        }
-    });
 
-    const onSubmit = (data: any) => console.log(data);
 
-    const getMapData = (data: any) => {
-        setDeliveryAddress(data)
-        console.log(data);
-        setShowMap(false);
-    }
 
     console.log(routeObj)
 
-    useEffect(() => {
-        if(routeObj.step) {
-            setStep(routeObj.step)
-        }
-    }, [routeObj.step])
+
+
+
+    console.log(routeObj)
+
+    // useEffect(() => {
+    //     if(routeObj.step) {
+    //         setStep(routeObj.step)
+    //     }
+    // }, [routeObj])
 
     // () => handleSubmit(onSubmit)
 
@@ -65,9 +56,9 @@ const CheckoutScreen = ({ route }: any) => {
                 redirectScreen: 'CheckoutS'
             });
         };
-        if(step == 1 && (Object.keys(errors).length > 0 || !deliveryAddress)) {
-            return;
-        };
+        // if(step == 1 && (Object.keys(errors).length > 0 || !deliveryAddress)) {
+        //     return;
+        // };
         setStep(prev => prev + 1);
     }
 
@@ -104,142 +95,7 @@ const CheckoutScreen = ({ route }: any) => {
                         </Text>
                     </View>
                 </View>
-                <ScrollView contentContainerStyle={styles.deliveryAddressView}>
-
-                    {/* sdsdsd */}
-                    <TextInput
-                                style={[styles.input, errors.deliveryAddress && styles.borderRed]}
-                                placeholder='Delivery Address'
-                                onChangeText={(text)=> setDeliveryAddress(text)}
-                                value={deliveryAddress}
-                            />
-                    {/* <Controller
-                        control={control}
-                        rules={{
-                            required: {
-                                value: true,
-                                message: 'Please Fill In The Field'
-                            },
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={[styles.input, errors.deliveryAddress && styles.borderRed]}
-                                placeholder='Delivery Address'
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="deliveryAddress"
-                    />
-                    {
-                        errors.deliveryAddress &&
-                        <Text style={styles.errorMessage}>
-                            {errors.deliveryAddress.message}
-                        </Text>
-                    } */}
-
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: {
-                                value: true,
-                                message: 'Please Fill In The Field'
-                            },
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={[styles.input, errors.phoneNumber && styles.borderRed]}
-                                placeholder='Phone Number'
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="phoneNumber"
-                    />
-                    {
-                        errors.phoneNumber &&
-                        <Text style={styles.errorMessage}>
-                            {errors.phoneNumber.message}
-                        </Text>
-                    }
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: {
-                                value: true,
-                                message: 'Please Fill In The Field'
-                            },
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={[styles.input, errors.receiverName && styles.borderRed]}
-                                placeholder='Receiver Name'
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="receiverName"
-                    />
-                    {
-                        errors.receiverName &&
-                        <Text style={styles.errorMessage}>
-                            {errors.receiverName.message}
-                        </Text>
-                    }
-
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: {
-                                value: true,
-                                message: 'Please Fill In The Field'
-                            },
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={[styles.input, errors.postalCode && styles.borderRed]}
-                                placeholder='Postal Code'
-                                secureTextEntry={true}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="postalCode"
-                    />
-                    {
-                        errors.postalCode &&
-                        <Text style={styles.errorMessage}>
-                            {errors.postalCode.message}
-                        </Text>
-                    }
-
-
-
-                    {/* sdsdsds */}
-
-
-{/* 
-                    <Text style={styles.inputLabelText}>
-                        Delivery Address
-                    </Text>
-                    <Input name="deliveryAddress" control={control} /> */}
-
-
-
-               
-                    <TouchableOpacity onPress={() => setShowMap(true)} style={{ padding: 10, backgroundColor: 'blue', marginTop: 15, borderRadius: 10 }}>
-                        <Text style={{ color: '#fff', alignSelf: 'center' }}>
-                            Use Google Map
-                        </Text>
-                    </TouchableOpacity>
-                    <Modal visible={showMap}>
-                        <GoogleMap sendData={getMapData} />
-                    </Modal>
-                </ScrollView>
+               <AddressForm/>   
                 <View style={styles.deliveryAddressView}>
                     <Text style={styles.deliveryTextStyle}>
                         Select Payment Method

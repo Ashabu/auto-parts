@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Colors } from '../utils/AppColors';
 
 interface INotificationProps {
   notification?: string | undefined | null,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     marginVertical: 10,
     fontSize: 16,
-    color: '#FFFFFF'
+    color: Colors.WHITE
     
   }
 })

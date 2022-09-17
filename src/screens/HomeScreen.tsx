@@ -3,6 +3,7 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touchable
 import { WooWorker } from '../api-ecommerce';
 import NotificationBox from '../components/NotificationBox';
 import { navigate } from '../navigation/Navigation';
+import { Colors } from '../utils/AppColors';
 const SEARCH_ICON = require('./../../assets/images/search-icon-black.png');
 
 const HomeScreen = () => {
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     searchView: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF',
+        backgroundColor:Colors.WHITE,
         borderRadius: 5,
         paddingHorizontal: 10,
     },
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
     addCarButton: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: '#ffdd00',
+        backgroundColor: Colors.YELLOW,
         padding: 20,
 
     },

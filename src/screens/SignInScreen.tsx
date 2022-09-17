@@ -6,6 +6,7 @@ import { useForm, Controller } from "react-hook-form";
 import { SignIn } from '../Api/authService';
 import { useAuth } from '../Context/Context';
 import { storeData } from '../services/StorageService';
+import { Colors } from '../utils/AppColors';
 
 const SignInScreen = ({ route }: any) => {
     const routeObj = route.params;
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
     },
 
     authBtnBg: {
-        backgroundColor: '#ffdd00',
+        backgroundColor: Colors.YELLOW,
     },
     singInTitle: {
         color: '#000',
@@ -197,11 +198,11 @@ const styles = StyleSheet.create({
     },
     errorMessage: {
         fontSize: 14,
-        color: '#e11818',
+        color: Colors.RED,
         marginVertical: 5
     },
     borderRed: {
-        borderColor: '#e11818'
+        borderColor: Colors.RED
     }
 
 })

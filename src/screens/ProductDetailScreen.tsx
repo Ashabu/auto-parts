@@ -4,6 +4,7 @@ import { navigate } from '../navigation/Navigation';
 import { storeData } from '../services/StorageService';
 import { Images } from '../utils/Images';
 import {useCartItems} from '../Context/useProducts';
+import { Colors } from '../utils/AppColors';
 
 const ProductDetailScreen = ({ route }: any) => {
     const { stock_quantity, name, price } = route.params.item;
@@ -125,7 +126,7 @@ const ProductDetailScreen = ({ route }: any) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
-                    style={[styles.actionBtn, { backgroundColor: stock_quantity > 0 ? '#ffdd00' : 'red' }]}
+                    style={[styles.actionBtn, { backgroundColor: stock_quantity > 0 ? Colors.YELLOW : Colors.RED }]}
                     activeOpacity={1}
                     onPress={handleGoToCheckout}
                 >
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     },
     btnActive: {
         borderBottomWidth: 2,
-        borderBottomColor: '#ffdd00'
+        borderBottomColor: Colors.YELLOW
     },
     actionBtn: {
         flex: 1,
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     actionBtnTitle: {
-        color: '#FFFFFF',
+        color: Colors.WHITE,
         fontSize: 18,
         fontWeight: '700',
         textAlign: 'center'
