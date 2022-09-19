@@ -5,7 +5,7 @@ import { Images } from '../utils/Images';
 import ProductList from './ProductList';
 
 const CheckoutList = ({ item }: any) => {
-    const { cartItems, handleAddItem } = useCartItems()
+    const { cartItems, handleAddItem } = useCartItems();
     const [itemCount, setItemCount] = useState<number>(item.item_count);
 
   
