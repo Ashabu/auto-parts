@@ -1,0 +1,11 @@
+{
+    "translation": {
+        "addCar": "Add Car",
+        "homeTab": "Home",
+        "productsTab": "Products",
+        "search": "Search",
+        "checkoutTab": "Checkout",
+        "profileTab": "Profile",
+        "ordersTab": "Orders"
+    }
+}

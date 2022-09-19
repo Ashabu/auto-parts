@@ -1,14 +1,22 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { WooWorker } from '../api-ecommerce';
 import NotificationBox from '../components/NotificationBox';
+import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 const SEARCH_ICON = require('./../../assets/images/search-icon-black.png');
 
 const HomeScreen = () => {
+    const {t, i18n} = useTranslation();
+    const {lang} = useLang();
 
+    useEffect(() => {
+        i18n.changeLanguage(lang)
+    }, [lang])
 
+   
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} />
@@ -26,7 +34,7 @@ const HomeScreen = () => {
                     </View>
                 </View>
                 <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
-                    <Text style={styles.addCarTitle}>Add Car</Text>
+                    <Text style={styles.addCarTitle}>{t("addCar")}</Text>
                     <Text style={styles.addCarTitle}>+</Text>
                 </TouchableOpacity>
 

@@ -13,6 +13,7 @@ interface ISelectLanguageProps {
 
 const SelectLanguage: React.FC<ISelectLanguageProps> = ({ route }) => {
     const { handleSetLang, lang } = useLang();
+    console.log('ISelectLanguageProps', lang)
 
     const Langs = [
         {
@@ -37,7 +38,6 @@ const SelectLanguage: React.FC<ISelectLanguageProps> = ({ route }) => {
 
     const handleButtonPress = (lang: string) => {
         handleSetLang(lang);
-        storeData("appLang", lang)
         if (route) {
             navigate(route);
         }

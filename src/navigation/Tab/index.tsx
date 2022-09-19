@@ -11,6 +11,7 @@ import ProfileStack from '../StackScreens/ProfileStack';
 import { useAuth } from '../../Context/Context';
 import OrderHistoryScreen from '../../screens/OrderHistoryScreen';
 import AppHeader from '../../components/AppHeader';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -18,7 +19,8 @@ const Tab = createBottomTabNavigator();
 
 
 const Tabs = () => {
-  const { isAuthorized } = useAuth()
+  const { isAuthorized } = useAuth();
+  const {t} = useTranslation()
 
   const { totalItems } = useCartItems();
 
@@ -34,11 +36,15 @@ const Tabs = () => {
       <Tab.Screen
         name='Home'
         component={HomeStack}
+        options={{
+          title: t("homeTab"),
+        }}
       />
       <Tab.Screen
         name='Products'
         component={ProductsScreen}
         options={{
+          title: t("productsTab"),
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Image source={focused ? Images.PRODUCT_BLACK : Images.PRODUCT_GREY} style={{ width: 23, height: 23 }} />
@@ -52,6 +58,7 @@ const Tabs = () => {
         name='Search'
         component={SearchScreen}
         options={{
+          title: t("search"),
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Image source={focused ? Images.SEARCH_BLACK : Images.SEARCH_GREY} style={{ width: 23, height: 23 }} />
@@ -66,6 +73,7 @@ const Tabs = () => {
         component={CheckoutStack}
         options={{
           headerShown: false,
+          title: t("checkoutTab"),
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Image source={focused ? Images.CART_BLACK : Images.CART_GREY} style={{ width: 23, height: 23 }} />
@@ -81,6 +89,7 @@ const Tabs = () => {
         name='Profile'
         component={ProfileStack}
         options={{
+          title: t("profileTab"),
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Image source={focused ? Images.PROFILE_BLACK : Images.PROFILE_GREY} style={{ width: 23, height: 23 }} />
@@ -98,7 +107,7 @@ const Tabs = () => {
           options={{
             headerShown: true,
             header: () => <AppHeader/>,  
-            title: 'Orders',
+            title: t("ordersTab"),
             tabBarIcon: ({ focused, color, size }) => {
               return (
                 <Image source={focused ? Images.BASKET_BLACK : Images.BASKET_BLACK} style={{ width: 23, height: 23 }} />

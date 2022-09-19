@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View, Modal, ScrollView, TextInput, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View, Modal, ScrollView, TextInput, TouchableOpacity, Dimensions, Button } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import GoogleMap from './GoogleMap';
 import { useState } from 'react';
@@ -8,7 +8,7 @@ import { Colors } from '../utils/AppColors';
 const { width } = Dimensions.get('screen');
 
 
-const AddressForm = () => {
+const AddressForm = ({ submitAddressData, checkoutStep }: any) => {
     const [showMap, setShowMap] = useState<boolean>(false);
 
     const { control, handleSubmit, formState: { errors }, register, setValue } = useForm({
@@ -20,118 +20,136 @@ const AddressForm = () => {
         }
     });
 
+    useEffect(() => {
+        if (checkoutStep > 1) {
+            console.log('step 1')
+            handleSubmit(onSubmit);
+        }
+
+
+    }, [checkoutStep]);
+    console.log(errors)
+
+
     const getMapData = (data: any) => {
         setValue("deliveryAddress", data)
         setShowMap(false);
     }
 
-    const onSubmit = (data: any) => console.log(data);
+    const onSubmit = (data: any) => {
+        // if (Object.keys(errors).length > 0) {
+        //     return;
+        // };
+        submitAddressData(data)
+    };
+
 
 
     return (
         <ScrollView contentContainerStyle={styles.deliveryAddressView}>
-            <Controller
-                control={control}
-                rules={{
-                    required: {
-                        value: true,
-                        message: 'Please Fill In The Field'
-                    },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                        style={[styles.input, errors.deliveryAddress && styles.borderRed]}
-                        placeholder='Delivery Address'
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                    />
-                )}
-                name="deliveryAddress"
-            />
-            {
-                errors.deliveryAddress &&
-                <Text style={styles.errorMessage}>
-                    {errors.deliveryAddress.message}
-                </Text>
-            }
-            <Controller
-                control={control}
-                rules={{
-                    required: {
-                        value: true,
-                        message: 'Please Fill In The Field'
-                    },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                        style={[styles.input, errors.phoneNumber && styles.borderRed]}
-                        placeholder='Phone Number'
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                    />
-                )}
-                name="phoneNumber"
-            />
-            {
-                errors.phoneNumber &&
-                <Text style={styles.errorMessage}>
-                    {errors.phoneNumber.message}
-                </Text>
-            }
-            <Controller
-                control={control}
-                rules={{
-                    required: {
-                        value: true,
-                        message: 'Please Fill In The Field'
-                    },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                        style={[styles.input, errors.receiverName && styles.borderRed]}
-                        placeholder='Receiver Name'
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                    />
-                )}
-                name="receiverName"
-            />
-            {
-                errors.receiverName &&
-                <Text style={styles.errorMessage}>
-                    {errors.receiverName.message}
-                </Text>
-            }
-            <Controller
-                control={control}
-                rules={{
-                    required: {
-                        value: true,
-                        message: 'Please Fill In The Field'
-                    },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                        style={[styles.input, errors.postalCode && styles.borderRed]}
-                        placeholder='Postal Code'
-                        secureTextEntry={true}
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                    />
-                )}
-                name="postalCode"
-            />
-            {
-                errors.postalCode &&
-                <Text style={styles.errorMessage}>
-                    {errors.postalCode.message}
-                </Text>
-            }
-
+            <View style={{flex: 1}}>
+                <Controller
+                    control={control}
+                    rules={{
+                        required: {
+                            value: true,
+                            message: 'Please Fill In The Field'
+                        },
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            style={[styles.input, errors.deliveryAddress && styles.borderRed]}
+                            placeholder='Delivery Address'
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                        />
+                    )}
+                    name="deliveryAddress"
+                />
+                {
+                    errors.deliveryAddress &&
+                    <Text style={styles.errorMessage}>
+                        {errors.deliveryAddress.message}
+                    </Text>
+                }
+                <Controller
+                    control={control}
+                    rules={{
+                        required: {
+                            value: true,
+                            message: 'Please Fill In The Field'
+                        },
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            style={[styles.input, errors.phoneNumber && styles.borderRed]}
+                            placeholder='Phone Number'
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                        />
+                    )}
+                    name="phoneNumber"
+                />
+                {
+                    errors.phoneNumber &&
+                    <Text style={styles.errorMessage}>
+                        {errors.phoneNumber.message}
+                    </Text>
+                }
+                <Controller
+                    control={control}
+                    rules={{
+                        required: {
+                            value: true,
+                            message: 'Please Fill In The Field'
+                        },
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            style={[styles.input, errors.receiverName && styles.borderRed]}
+                            placeholder='Receiver Name'
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                        />
+                    )}
+                    name="receiverName"
+                />
+                {
+                    errors.receiverName &&
+                    <Text style={styles.errorMessage}>
+                        {errors.receiverName.message}
+                    </Text>
+                }
+                <Controller
+                    control={control}
+                    rules={{
+                        required: {
+                            value: true,
+                            message: 'Please Fill In The Field'
+                        },
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            style={[styles.input, errors.postalCode && styles.borderRed]}
+                            placeholder='Postal Code'
+                            secureTextEntry={true}
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                        />
+                    )}
+                    name="postalCode"
+                />
+                {
+                    errors.postalCode &&
+                    <Text style={styles.errorMessage}>
+                        {errors.postalCode.message}
+                    </Text>
+                }
+            </View>
             <TouchableOpacity onPress={() => setShowMap(true)} style={styles.showMapButton}>
                 <Text style={{ color: Colors.WHITE, alignSelf: 'center' }}>
                     Use Google Map
@@ -140,6 +158,7 @@ const AddressForm = () => {
             <Modal visible={showMap}>
                 <GoogleMap getAddress={getMapData} />
             </Modal>
+            <Button onPress={()=>{}} title="test"/>
         </ScrollView>
     );
 };
@@ -169,18 +188,18 @@ const styles = StyleSheet.create({
     },
     errorMessage: {
         fontSize: 14,
-        color:  Colors.RED,
+        color: Colors.RED,
         marginVertical: 5
     },
     borderRed: {
         borderColor: Colors.RED
     },
-    showMapButton : {
+    showMapButton: {
         backgroundColor: Colors.YELLOW,
-        padding: 10, 
-        marginTop: 15, 
+        padding: 10,
+        marginTop: 15,
         borderRadius: 10,
-        minHeight: 44 
+        minHeight: 44
     }
 });
 

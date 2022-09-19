@@ -19,13 +19,18 @@ const CheckoutScreen = ({ route }: any) => {
     const [checkoutItems, setCheckoutItems] = useState<any[]>([]);
     const carouselRef = useRef<ScrollView>(null);
     const [price, setPrice] = useState<number>(0);
+    const [address, setAddress] = useState<any>()
+
     const [step, setStep] = useState<number>(0);
-    
+
     const { cartItems, totalCost } = useCartItems();
     const { isAuthorized } = useAuth();
 
 
+    const handleAddressData = (data: any) => {
 
+        console.log("data",data)
+    }
 
     console.log(routeObj)
 
@@ -56,14 +61,15 @@ const CheckoutScreen = ({ route }: any) => {
                 redirectScreen: 'CheckoutS'
             });
         };
-        // if(step == 1 && (Object.keys(errors).length > 0 || !deliveryAddress)) {
-        //     return;
-        // };
+        if (step > 1) {
+            if(!address)
+            return;
+        };
         setStep(prev => prev + 1);
     }
 
     useEffect(() => {
-        if(step < 0) {
+        if (step < 0) {
             goBack();
         }
         if (step > 2) {
@@ -95,7 +101,7 @@ const CheckoutScreen = ({ route }: any) => {
                         </Text>
                     </View>
                 </View>
-               <AddressForm/>   
+                <AddressForm submitAddressData={handleAddressData} checkoutStep ={step}/>
                 <View style={styles.deliveryAddressView}>
                     <Text style={styles.deliveryTextStyle}>
                         Select Payment Method

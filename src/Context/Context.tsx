@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { storeData, removeData } from '../services/StorageService';
 import { Auth, Lang, Onboarding } from './types';
 
@@ -36,12 +37,14 @@ export const useAuth = () => {
 
 
 export const ContextProvider = ({ children }: any) => {
+    const {i18n} = useTranslation()
     const [lang, setLang] = useState('');
     const [isOnboard, setIsOnboard] = useState<boolean>(false);
     const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
     const [user, setUser] = useState(undefined)
 
     const handleSetLang = (lang: string) => {
+        storeData("lang", lang)
         setLang(lang);
     };
 
@@ -54,7 +57,6 @@ export const ContextProvider = ({ children }: any) => {
     };
 
     const handleSetUser = ( data: any) => {
-        console.log('handleSetUser =>',data)
         setUser(data);
     };
 
@@ -82,6 +84,9 @@ export const ContextProvider = ({ children }: any) => {
         handleSetUser
     }
 
+    useEffect(() => {
+        i18n.changeLanguage(lang)
+    }, [lang])
 
     return (
         <LangContext.Provider value={LangCtx}>

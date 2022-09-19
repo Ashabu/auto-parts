@@ -1,0 +1,12 @@
+{
+    "translation": {
+        "welcomeText": "dabro pazhalovat",
+        "addCar": "Добавить Автомобиль",
+        "homeTab": "Главная",
+        "productsTab": "Продукты",
+        "search": "Поиск",
+        "checkoutTab": "Купить",
+        "profileTab": "Профиль",
+        "ordersTab": "Заказы"
+    }
+}
