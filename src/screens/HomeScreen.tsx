@@ -27,7 +27,7 @@ const HomeScreen = () => {
                         <TextInput
                             style={styles.searchInput}
                             selectionColor='#000'
-                            placeholder='Search...'
+                            placeholder= {`${t('search')}...`}
                             placeholderTextColor='#000'
                             onFocus={() => navigate('Search')}
                         />

@@ -7,10 +7,11 @@ import { SignIn } from '../Api/authService';
 import { useAuth } from '../Context/Context';
 import { storeData } from '../services/StorageService';
 import { Colors } from '../utils/AppColors';
+import { useTranslation } from 'react-i18next';
 
 const SignInScreen = ({ route }: any) => {
     const routeObj = route.params;
-    console.log('routeObj', routeObj)
+    const {t} = useTranslation()
     const { handleSetUser, handleSignIn } = useAuth()
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { control, handleSubmit, formState: { errors } } = useForm({
@@ -32,19 +33,11 @@ const SignInScreen = ({ route }: any) => {
             storeData('access_token', res.data.cookie).then(() => {
                 handleSetUser(res.data.user);
                 handleSignIn(true);
-                if (Object.keys(routeObj).length > 0) {
-                    navigate(routeObj.redirectRoute, {
-                        screen: routeObj.redirectScreen,
-                        params: {
-                            step: 1
-                        }
-                    })
-                } else {
+                
                     navigate('Home', {
                         screen: 'HomeS'
                     })
 
-                }
             }).catch((err: any) => {
                 setIsLoading(false);
                 Alert.alert(JSON.parse(JSON.stringify(err.response.data.message)));
@@ -72,7 +65,7 @@ const SignInScreen = ({ route }: any) => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 style={[styles.input, errors.password && styles.borderRed]}
-                                placeholder='Username'
+                                placeholder={t('username')}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
@@ -98,7 +91,7 @@ const SignInScreen = ({ route }: any) => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 style={[styles.input, errors.password && styles.borderRed]}
-                                placeholder='Password'
+                                placeholder={t('password')}
                                 secureTextEntry={true}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
@@ -122,7 +115,7 @@ const SignInScreen = ({ route }: any) => {
                                 <ActivityIndicator size='small' color='#000' />
                                 :
                                 <Text style={[styles.btnTitle, { color: '#000' }]}>
-                                    LOGIN
+                                    {t('signIn')}
                                 </Text>
                         }
                     </TouchableOpacity>
@@ -140,7 +133,7 @@ const SignInScreen = ({ route }: any) => {
                         onPress={() => navigate('Sign Up')}
                         disabled={isLoading}>
                         <Text style={[styles.btnTitle, { color: '#ffdd00' }]}>
-                            REGISTER
+                        {t('signUp')}
                         </Text>
                     </TouchableOpacity>
                 </View>

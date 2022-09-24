@@ -4,6 +4,7 @@ import { navigate } from '../navigation/Navigation';
 import { searchItems } from '../Api';
 import ProductList from '../components/ProductList';
 import { Images } from '../utils/Images';
+import { useTranslation } from 'react-i18next';
 
 
 const SearchScreen = () => {
@@ -11,6 +12,7 @@ const SearchScreen = () => {
     const [curPage, setCurPage] = useState<number>(1);
     const [products, setProducts] = useState<any[]>([]);
     const [fetchingData, setFetchingData] = useState<boolean>(false);
+    const {t} = useTranslation();
 
 
     useEffect(() => {
@@ -52,7 +54,7 @@ const SearchScreen = () => {
                 <TextInput
                     style={styles.searchInput}
                     selectionColor='#000'
-                    placeholder='Search Product By Name'
+                    placeholder={`${t('searchProducts')}`}
                     placeholderTextColor='#000'
                     value={searchValue}
                     onChangeText={(text: string) => setSearchValue(text)}
@@ -66,7 +68,7 @@ const SearchScreen = () => {
             </View>
             {
                 products.length === 0 && !fetchingData ?
-                    <Text style={{textAlign: 'center'}}>No Products To Show</Text>
+                    <Text style={{textAlign: 'center'}}>{t('noProducts')}</Text>
                     :
                     products.length !== 0 ?
                         <FlatList

@@ -13,6 +13,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import SupportScreen from '../screens/SupportScreen';
 import DeliveryAddressScreen from '../screens/DeliveryAddressScreen';
 import ChoseLanguageScreen from '../screens/ChoseLanguageScreen';
+import { useTranslation } from 'react-i18next';
 
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ const AppNavigation = () => {
     const [isOnboarding, setIsOnboarding] = useState<boolean>(false);
     const [initialized, setIsInitialized] = useState<boolean>(false);
     const {isOnboard} = useOnboarding();
+    const {t} = useTranslation();
 
     const onAppInitialize = () => {
         getData('onboarding').then(response => {
@@ -66,14 +68,14 @@ const AppNavigation = () => {
                     name='SignIn'
                     component={SignInScreen}
                     options={{
-                        title: 'Sign In'
+                        title: t('signIn')
                     }}
                 />
                 <Stack.Screen
                     name='SignUp'
                     component={SignUpScreen}
                     options={{
-                        title: 'Sign Up'
+                        title: t('signUp')
                     }}
                     />
                 <Stack.Screen
@@ -92,7 +94,7 @@ const AppNavigation = () => {
                     name='ChooseLanguage'
                     component={ChoseLanguageScreen}
                     options={{
-                        headerTitle: 'Settings'
+                        headerTitle: t('settings')
                     }} />
 
             </Stack.Navigator>

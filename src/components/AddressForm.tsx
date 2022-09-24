@@ -4,12 +4,14 @@ import { Controller, useForm } from 'react-hook-form';
 import GoogleMap from './GoogleMap';
 import { useState } from 'react';
 import { Colors } from '../utils/AppColors';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('screen');
 
 
 const AddressForm = ({ submitAddressData, stepBack }: any) => {
     const [showMap, setShowMap] = useState<boolean>(false);
+    const {t} = useTranslation();
 
     const { control, handleSubmit, formState: { errors }, register, setValue } = useForm({
         defaultValues: {
@@ -48,7 +50,7 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 style={[styles.input, errors.deliveryAddress && styles.borderRed]}
-                                placeholder='Delivery Address'
+                                placeholder={t('deliveryAddress')}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
@@ -73,7 +75,7 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 style={[styles.input, errors.phoneNumber && styles.borderRed]}
-                                placeholder='Phone Number'
+                                placeholder={t('phoneNumber')}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
@@ -98,7 +100,7 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 style={[styles.input, errors.receiverName && styles.borderRed]}
-                                placeholder='Receiver Name'
+                                placeholder={t('receiverName')}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
@@ -123,7 +125,7 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 style={[styles.input, errors.postalCode && styles.borderRed]}
-                                placeholder='Postal Code'
+                                placeholder={t('postalCode')}
                                 secureTextEntry={true}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
@@ -141,7 +143,7 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
                 </View>
                 <TouchableOpacity onPress={() => setShowMap(true)} style={styles.showMapButton}>
                     <Text style={{ color: Colors.WHITE, alignSelf: 'center' }}>
-                        Use Google Map
+                        {t('useGoogleMaps')}
                     </Text>
                 </TouchableOpacity>
                 <Modal visible={showMap}>
@@ -151,12 +153,12 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
             <View style={styles.footerContainer}>
                 <TouchableOpacity style={[styles.button, styles.buttonBack]} onPress={stepBack}>
                     <Text style={styles.btnText}>
-                        Back
+                        {t('back')}
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={handleSubmit(onSubmit)}>
                     <Text style={styles.btnText}>
-                        Next
+                        {t('next')}
                     </Text>
                 </TouchableOpacity>
             </View>

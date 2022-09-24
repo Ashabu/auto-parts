@@ -4,8 +4,32 @@
         "homeTab": "Home",
         "productsTab": "Products",
         "search": "Search",
+        "searchProducts": "Search Products",
         "checkoutTab": "Checkout",
         "profileTab": "Profile",
-        "ordersTab": "Orders"
+        "ordersTab": "Orders",
+        "orderHistory": "Order History",
+        "settings": "Settings",
+        "deliveryAddress": "Delivery Address",
+        "favorites": "Favorites",
+        "support": "Tech Support",
+        "chooseLanguage": "Choose Language",
+        "notAuthorized": "You are not notAuthorized",
+        "yourID": "Your ID",
+        "signUp": "Sign Up",
+        "signIn": "Sign In",
+        "signOut": "Sign Out",
+        "noProducts": "No products to show",
+        "next": "Next",
+        "back": "Back",
+        "buy": "Shop Now",
+        "username": "Username",
+        "password": "Password",
+        "phoneNumber": "Phone Number",
+        "receiverName": "Receiver Name",
+        "postalCode": "Postal Code",
+        "useGoogleMaps": "Use Google Maps"
+
+        
     }
 }

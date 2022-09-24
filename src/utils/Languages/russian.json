@@ -1,12 +1,34 @@
 {
     "translation": {
-        "welcomeText": "dabro pazhalovat",
         "addCar": "Добавить Автомобиль",
         "homeTab": "Главная",
         "productsTab": "Продукты",
         "search": "Поиск",
+        "searchProducts": "Поиск продуктов",
         "checkoutTab": "Купить",
         "profileTab": "Профиль",
-        "ordersTab": "Заказы"
+        "ordersTab": "Заказы",
+        "orderHistory": "История заказов",
+        "settings": "Настройки",
+        "deliveryAddress": "Адресс доставки",
+        "favorites": "Избранное",
+        "support": "Техподдержка",
+        "chooseLanguage": "Выбрать язык",
+        "notAuthorized": "Вы не авторизованы",
+        "yourID": "Ваш ID",
+        "signUp": "Регистрация",
+        "signIn": "Авторизация",
+        "signOut": "Выход",
+        "npProducts": "Нет продуктов для отображения",
+        "next": "Далее",
+        "back": "Назад",
+        "buy": "Купить",
+        "username": "Имя пользователя",
+        "password": "Пароль",
+        "phoneNumber": "Номер телефона",
+        "receiverName": "Имя получателя",
+        "postalCode": "Почтовый Код",
+        "useGoogleMaps": "Используйте карты Google"
+
     }
 }
