@@ -6,7 +6,7 @@ import NotificationBox from '../components/NotificationBox';
 import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
-const SEARCH_ICON = require('./../../assets/images/search-icon-black.png');
+
 
 const HomeScreen = () => {
     const {t, i18n} = useTranslation();
@@ -21,18 +21,7 @@ const HomeScreen = () => {
         <SafeAreaView style={{ flex: 1 }}>
             <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <View style={{ backgroundColor: '#000', padding: 20 }}>
-                    <View style={styles.searchView}>
-                        <Image source={SEARCH_ICON} style={styles.searchIcon} />
-                        <TextInput
-                            style={styles.searchInput}
-                            selectionColor='#000'
-                            placeholder= {`${t('search')}...`}
-                            placeholderTextColor='#000'
-                            onFocus={() => navigate('Search')}
-                        />
-                    </View>
-                </View>
+               
                 <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
                     <Text style={styles.addCarTitle}>{t("addCar")}</Text>
                     <Text style={styles.addCarTitle}>+</Text>
