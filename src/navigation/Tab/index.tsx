@@ -12,6 +12,8 @@ import { useAuth } from '../../Context/Context';
 import OrderHistoryScreen from '../../screens/OrderHistoryScreen';
 import AppHeader from '../../components/AppHeader';
 import { useTranslation } from 'react-i18next';
+import { Colors } from '../../utils/AppColors';
+import { useSafeArea, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
@@ -20,17 +22,22 @@ const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   const { isAuthorized } = useAuth();
-  const {t} = useTranslation()
+  const {t} = useTranslation();
+  const TabIconSize = 25;
 
   const { totalItems } = useCartItems();
+  const {bottom} = useSafeAreaInsets()
 
   return (
 
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          backgroundColor: '#ffdd00',
+          backgroundColor: Colors.YELLOW,
+          paddingBottom: 5,
+          paddingTop: 5
         },
       }}>
       <Tab.Screen
@@ -38,6 +45,13 @@ const Tabs = () => {
         component={HomeStack}
         options={{
           title: t("homeTab"),
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Image source={focused ? Images.HOME_TAB_BLACK : Images.HOME_TAB_GREY}   style={{ width: 25, height: 25 }} />
+            );
+          },
+          tabBarActiveTintColor: Colors.BLACK,
+          tabBarInactiveTintColor: Colors.DARK_GREY,
         }}
       />
       <Tab.Screen
@@ -45,13 +59,13 @@ const Tabs = () => {
         component={ProductsScreen}
         options={{
           title: t("productsTab"),
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ focused }) => {
             return (
-              <Image source={focused ? Images.PRODUCT_BLACK : Images.PRODUCT_GREY} style={{ width: 23, height: 23 }} />
+              <Image source={focused ? Images.PRODUCT_BLACK : Images.PRODUCT_GREY}  style={{ width: 25, height: 25 }} />
             );
           },
-          tabBarActiveTintColor: '#000',
-          tabBarInactiveTintColor: '#B7C4CB'
+          tabBarActiveTintColor: Colors.BLACK,
+          tabBarInactiveTintColor: Colors.DARK_GREY
         }}
       />
       <Tab.Screen
@@ -59,13 +73,13 @@ const Tabs = () => {
         component={SearchScreen}
         options={{
           title: t("search"),
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ focused }) => {
             return (
-              <Image source={focused ? Images.SEARCH_BLACK : Images.SEARCH_GREY} style={{ width: 23, height: 23 }} />
+              <Image source={focused ? Images.SEARCH_BLACK : Images.SEARCH_GREY}  style={{ width: 25, height: 25 }} />
             );
           },
-          tabBarActiveTintColor: '#000',
-          tabBarInactiveTintColor: '#B7C4CB'
+          tabBarActiveTintColor: Colors.BLACK,
+          tabBarInactiveTintColor: Colors.DARK_GREY
         }}
       />
       <Tab.Screen
@@ -74,13 +88,13 @@ const Tabs = () => {
         options={{
           headerShown: false,
           title: t("checkoutTab"),
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ focused }) => {
             return (
-              <Image source={focused ? Images.CART_BLACK : Images.CART_GREY} style={{ width: 23, height: 23 }} />
+              <Image source={focused ? Images.CART_BLACK : Images.CART_GREY}  style={{ width: 25, height: 25 }} />
             );
           },
-          tabBarActiveTintColor: '#000',
-          tabBarInactiveTintColor: '#B7C4CB',
+          tabBarActiveTintColor: Colors.BLACK,
+          tabBarInactiveTintColor: Colors.DARK_GREY,
           tabBarBadge: totalItems > 0 ? totalItems : undefined
         }}
 
@@ -90,13 +104,13 @@ const Tabs = () => {
         component={ProfileStack}
         options={{
           title: t("profileTab"),
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ focused}) => {
             return (
-              <Image source={focused ? Images.PROFILE_BLACK : Images.PROFILE_GREY} style={{ width: 23, height: 23 }} />
+              <Image source={focused ? Images.PROFILE_BLACK : Images.PROFILE_GREY}  style={{ width: 25, height: 25 }} />
             );
           },
-          tabBarActiveTintColor: '#000',
-          tabBarInactiveTintColor: '#B7C4CB'
+          tabBarActiveTintColor: Colors.BLACK,
+          tabBarInactiveTintColor: Colors.DARK_GREY
         }}
       />
       {
@@ -108,13 +122,13 @@ const Tabs = () => {
             headerShown: true,
             header: () => <AppHeader/>,  
             title: t("ordersTab"),
-            tabBarIcon: ({ focused, color, size }) => {
+            tabBarIcon: ({ focused}) => {
               return (
-                <Image source={focused ? Images.BASKET_BLACK : Images.BASKET_BLACK} style={{ width: 23, height: 23 }} />
+                <Image source={focused ? Images.BASKET_BLACK : Images.BASKET_BLACK}  style={{ width: 25, height: 25 }} />
               );
             },
-            tabBarActiveTintColor: '#000',
-            tabBarInactiveTintColor: '#B7C4CB'
+            tabBarActiveTintColor: Colors.BLACK,
+            tabBarInactiveTintColor: Colors.DARK_GREY
           }}
         />
 

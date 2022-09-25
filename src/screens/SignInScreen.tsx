@@ -50,7 +50,7 @@ const SignInScreen = ({ route }: any) => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
-                <View style={{ flex: 1, justifyContent: 'center' }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Image source={Images.APP_LOGO} style={styles.appLogo} />
                 </View>
                 <View style={{ flex: 2, justifyContent: 'center' }}>
@@ -130,7 +130,7 @@ const SignInScreen = ({ route }: any) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{ marginTop: 15 }}
-                        onPress={() => navigate('Sign Up')}
+                        onPress={() => navigate('SignUp')}
                         disabled={isLoading}>
                         <Text style={[styles.btnTitle, { color: '#ffdd00' }]}>
                         {t('signUp')}
@@ -152,8 +152,8 @@ const styles = StyleSheet.create({
     },
 
     appLogo: {
-        width: 300,
-        height: 66
+        width: 264,
+        height: 58
     },
 
     input: {

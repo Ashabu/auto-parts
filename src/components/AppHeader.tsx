@@ -14,14 +14,14 @@ const AppHeader: React.FC<IHeaderProps> = ({ hasBack }) => {
     return (
         <View style={styles.headerWrap}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => goBack()} disabled={hasBack == false }>
-                    <Image source={Images.BACK_ARROW_WHITE} style={{ width: 15, height: 15 }} />
+                <TouchableOpacity onPress={() => goBack()} disabled={hasBack == false } style={{minWidth: 30}}>
+                   {hasBack &&  <Image source={Images.BACK_ARROW_WHITE} style={{ width: 15, height: 15 }} />}
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigate('Home', { screen: 'HomeS' })}>
                     <Image source={Images.APP_LOGO} resizeMode='contain' style={{ width: 132, height: 29 }} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigate('Home', { screen: 'HomeS' })}>
-                    <Image source={Images.ADD_CAR} />
+                <TouchableOpacity onPress={() => navigate('AddCar')}>
+                    <Image source={Images.ADD_CAR} style={{width: 46, height: 40}} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigate('Checkout', { screen: 'WishList' })}>
                     <Image source={Images.CART_GREY} style={{ width: 30, height: 30 }} />

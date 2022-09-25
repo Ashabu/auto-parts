@@ -78,14 +78,15 @@ const styles = StyleSheet.create({
   signInBtn: {
     backgroundColor: Colors.YELLOW,
     marginVertical: 30,
-    padding: 20,
+    padding: 15,
+    borderRadius: 10
   },
   btnTitle: {
     fontSize: 18,
-    color: '#000',
+    color: Colors.BLACK,
     textAlign: 'center',
     fontFamily: 'OpenSans-Regular',
-    fontWeight: '400',
+    fontWeight: '700',
   },
   navBtn: {
     flexDirection: 'row',

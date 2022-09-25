@@ -12,7 +12,7 @@ const ProfileStack = () => {
                 name='ProfileS'
                 component={ProfileScreen}
                 options={{
-                    header: () => <AppHeader />
+                    header: () => <AppHeader hasBack/>
                 }} />
         </Stack.Navigator>
     );

@@ -16,6 +16,8 @@ export const Images = {
     FLAG_GEO: require('./../../assets/images/flag-geo.png'),
     FLAG_RU: require('./../../assets/images/flag-ru.png'),
     HEART_YELLOW: require('./../../assets/images/favorites-yellow.png'),
+    HOME_TAB_BLACK: require('./../../assets/images/hometab-icon-black.png'),
+    HOME_TAB_GREY:  require('./../../assets/images/hometab-icon-grey.png'),
     LANGUAGE_ICON: require('./../../assets/images/chose-language.png'),
     LOGOUT_ICON: require('./../../assets/images/logout-icon.png'),
     LOCATION_ICON: require('./../../assets/images/location-icon.png'),
