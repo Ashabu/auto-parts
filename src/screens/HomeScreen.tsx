@@ -1,34 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { WooWorker } from '../api-ecommerce';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import NotificationBox from '../components/NotificationBox';
 import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 
 
-const HomeScreen = () => {
-    const {t, i18n} = useTranslation();
-    const {lang} = useLang();
+const HomeScreen =  () => {
+    const { t, i18n } = useTranslation();
+    const { lang } = useLang();
 
     useEffect(() => {
         i18n.changeLanguage(lang)
     }, [lang])
 
-   
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-               
                 <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
                     <Text style={styles.addCarTitle}>{t("addCar")}</Text>
                     <Text style={styles.addCarTitle}>+</Text>
                 </TouchableOpacity>
 
             </ScrollView>
-
         </SafeAreaView>
     );
 };
@@ -42,7 +38,7 @@ const styles = StyleSheet.create({
     searchView: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor:Colors.WHITE,
+        backgroundColor: Colors.WHITE,
         borderRadius: 5,
         paddingHorizontal: 10,
     },

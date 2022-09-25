@@ -62,7 +62,7 @@ const AppNavigation = () => {
                     name="AddCar"
                     component={AddCarScreen}
                     options={{
-                        headerTitle: 'Add Car'
+                        header: () => <AppHeader hasBack />
                     }} />
                 <Stack.Screen
                     name='SignIn'
