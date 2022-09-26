@@ -1,66 +1,63 @@
 import React, { useState } from 'react';
-import {Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, PermissionsAndroid} from 'react-native';
-import {launchCamera} from 'react-native-image-picker';
+import { Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, PermissionsAndroid, Alert } from 'react-native';
+import { launchCamera } from 'react-native-image-picker';
 import callGoogleVisionAsync from '../Api/googleVisionService';
-import {VIMLIST} from '../utils/VimList';
+import { VIMLIST } from '../utils/VimList';
 
 const AddCarScreen = () => {
     const [vin, setVin] = useState<any>('')
 
     const onPress = () => {
-            
-        PermissionsAndroid.request(
-         PermissionsAndroid.PERMISSIONS.CAMERA,
-         {
-           title: 'cameraPermission',
-           message: 'needAccesToCamera',
-           buttonNegative: 'cancel',
-           buttonPositive: 'ok',
-         },
-       ).then( granted => {
-         if(granted === PermissionsAndroid.RESULTS.GRANTED) {
-            launchCamera({mediaType: 'photo', includeBase64: true, quality: 0.5}, async(media:any) => {
-               if (!!media && media.assets) {
-                   const googleText = await callGoogleVisionAsync(media.assets[0].base64);
-                   console.log('googleText', googleText);
-                   return
-                   const matches = googleText?.text;
-                   console.log(googleText)
-                   if (matches) {
-                     try {
-                       const vmies = matches.match(/[A-HJ-NPR-Z0-9]{17}/);
-                       console.log('>>>>>>>>>>>>', vmies);
-                       for (let i = 0; i < VIMLIST.length; i++) {
-                         const index = vmies.findIndex((m: any) => m.startsWith(VIMLIST[i]));
-             
-                         if (index >= 0) {
-                           console.log(vmies[index]);
-                          
-                           const value = {
-                             vin: vmies[index]
-                           }
-                           setVin(value), () => {
 
-                           }
-                           return;
-                           //return matches[index];
-                         }
-                       }
-             
-                    //    if( vmies?.length) {
-                    //        const value = {
-                    //          vin: vmies[0]
-                    //        }
-                    //        this.setState({value, isLoading: false})
-                    //    }
-                     } catch (err) { console.log(err)}
-                   }
-                 }
-            })
-         }
-       })
-     
-     }
+        PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            {
+                title: 'cameraPermission',
+                message: 'needAccesToCamera',
+                buttonNegative: 'cancel',
+                buttonPositive: 'ok',
+            },
+        ).then(granted => {
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                launchCamera({ mediaType: 'photo', includeBase64: true, quality: 0.5 }, async (media: any) => {
+                    if (!!media && media.assets) {
+                        const googleText = await callGoogleVisionAsync(media.assets[0].base64);
+                        if (googleText.code == 403) {
+                            Alert.alert(JSON.stringify(googleText.code), googleText.message);
+                            return;
+                        }
+                        const matches = googleText?.text;
+                        console.log('googleText ==>', googleText)
+                        if (matches) {
+                            try {
+                                const vmies = matches.match(/[A-HJ-NPR-Z0-9]{17}/);
+                                console.log('>>>>>>>>>>>>', vmies);
+                                for (let i = 0; i < VIMLIST.length; i++) {
+                                    const index = vmies.findIndex((m: any) => m.startsWith(VIMLIST[i]));
+
+                                    if (index >= 0) {
+                                        console.log(vmies[index]);
+                                        setVin(vmies[index]), () => {
+                                        }
+                                        return;
+                                        //return matches[index];
+                                    }
+                                }
+
+                                //    if( vmies?.length) {
+                                //        const value = {
+                                //          vin: vmies[0]
+                                //        }
+                                //        this.setState({value, isLoading: false})
+                                //    }
+                            } catch (err) { console.log(err) }
+                        }
+                    }
+                })
+            }
+        })
+
+    }
 
 
 
@@ -90,15 +87,15 @@ const AddCarScreen = () => {
                         <View style={styles.paginationBox}>
                             <Text>1</Text>
                         </View>
-                        <Text style={{color: 'black'}}>Car Maker</Text>
+                        <Text style={{ color: 'black' }}>Car Maker</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addCarManuallyButton, {opacity: 0.3}]} disabled>
+                    <TouchableOpacity style={[styles.addCarManuallyButton, { opacity: 0.3 }]} disabled>
                         <View style={styles.paginationBox}>
                             <Text>2</Text>
                         </View>
                         <Text>Model</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addCarManuallyButton, {opacity: 0.3}]} disabled>
+                    <TouchableOpacity style={[styles.addCarManuallyButton, { opacity: 0.3 }]} disabled>
                         <View style={styles.paginationBox}>
                             <Text>3</Text>
                         </View>

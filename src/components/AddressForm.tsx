@@ -1,19 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View, Modal, ScrollView, TextInput, TouchableOpacity, Dimensions} from 'react-native';
+import { StyleSheet, Text, View, Modal, ScrollView, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import GoogleMap from './GoogleMap';
 import { useState } from 'react';
 import { Colors } from '../utils/AppColors';
 import { useTranslation } from 'react-i18next';
+import { IAddress } from './SavedAddress';
+import { storeData } from '../services/StorageService';
 
 const { width } = Dimensions.get('screen');
 
+interface IAddressFormProps {
+    submitAddressData?: (data: any) => void;
+    stepBack?: () => void;
+    onPageMove?: (value: number, width: number) => void;
+    address?: IAddress;
+    isForEdit?: boolean
+}
 
-const AddressForm = ({ submitAddressData, stepBack }: any) => {
+const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack, address, onPageMove, isForEdit = false }) => {
     const [showMap, setShowMap] = useState<boolean>(false);
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
-    const { control, handleSubmit, formState: { errors }, register, setValue } = useForm({
+    const { control, handleSubmit, formState: { errors }, setValue } = useForm({
         defaultValues: {
             deliveryAddress: '',
             phoneNumber: '',
@@ -22,9 +31,18 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
         }
     });
 
+    const handleSaveAddress = (data: IAddress) => {
+        let userAddress = JSON.stringify(data);
+        storeData('address', userAddress).then(() => {
+            onPageMove!(0, width);
+        }).catch(e => {
+            Alert.alert('Error', JSON.parse(JSON.stringify(e.response.data.message)));
+        });
+    };
+
 
     const getMapData = (data: any) => {
-        setValue("deliveryAddress", data)
+        setValue("deliveryAddress", data);
         setShowMap(false);
     }
 
@@ -32,7 +50,11 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
         if (Object.keys(errors).length > 0) {
             return;
         };
-        submitAddressData(data)
+        if (isForEdit) {
+            handleSaveAddress(data);
+        } else {
+            submitAddressData!(data);
+        };
     };
 
     return (
@@ -126,8 +148,7 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
                             <TextInput
                                 style={[styles.input, errors.postalCode && styles.borderRed]}
                                 placeholder={t('postalCode')}
-                                secureTextEntry={true}
-                                onBlur={onBlur}
+                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
                             />
@@ -150,18 +171,29 @@ const AddressForm = ({ submitAddressData, stepBack }: any) => {
                     <GoogleMap getAddress={getMapData} />
                 </Modal>
             </ScrollView>
-            <View style={styles.footerContainer}>
-                <TouchableOpacity style={[styles.button, styles.buttonBack]} onPress={stepBack}>
-                    <Text style={styles.btnText}>
-                        {t('back')}
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={handleSubmit(onSubmit)}>
-                    <Text style={styles.btnText}>
-                        {t('next')}
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            {
+                isForEdit ?
+                    <View style={{ padding: 20 }}>
+                        <TouchableOpacity style={styles.editButton} onPress={handleSubmit(onSubmit)}>
+                            <Text style={styles.buttonTitle}>
+                                Сохранить адрес
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <View style={styles.footerContainer}>
+                        <TouchableOpacity style={[styles.button, styles.buttonBack]} onPress={stepBack}>
+                            <Text style={styles.btnText}>
+                                {t('back')}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.button, styles.buttonNext]} onPress={handleSubmit(onSubmit)}>
+                            <Text style={styles.btnText}>
+                                {t('next')}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+            }
         </View>
     );
 };
@@ -220,6 +252,18 @@ const styles = StyleSheet.create({
     },
     buttonNext: {
         backgroundColor: '#ffdd00'
+    },
+    editButton: {
+        backgroundColor: Colors.YELLOW,
+        borderRadius: 10,
+        paddingVertical: 15
+    },
+    buttonTitle: {
+        fontSize: 17,
+        lineHeight: 23,
+        color: Colors.BLACK,
+        textAlign: 'center',
+        fontFamily: 'OpenSans-Regular',
     },
 });
 
