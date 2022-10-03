@@ -1,5 +1,6 @@
 {
     "translation": {
+        "or": "Или",
         "addCar": "Добавить Автомобиль",
         "homeTab": "Главная",
         "productsTab": "Продукты",
@@ -29,7 +30,15 @@
         "phoneNumber": "Номер телефона",
         "receiverName": "Имя получателя",
         "postalCode": "Почтовый Код",
-        "useGoogleMaps": "Используйте карты Google"
-
+        "useGoogleMaps": "Используйте карты Google",
+        "firstName": "Имя",
+        "lastName": "Фамилия",
+        "email": "Эл. почта",
+        "accountDetails": "Детали учетной записи",
+        "profileDetails": "Детали профиля",
+        "invalidEmail" : "Неверный адрес электронной почты",
+        "pleaseFillOut": "Пожалуйста, заполните поле",
+        "wishListEmpty": "Список желаемого пуст",
+        "noItems": "В списке желаний нет товара"
     }
 }

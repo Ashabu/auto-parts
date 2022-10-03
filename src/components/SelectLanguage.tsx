@@ -13,7 +13,6 @@ interface ISelectLanguageProps {
 
 const SelectLanguage: React.FC<ISelectLanguageProps> = ({ route }) => {
     const { handleSetLang, lang } = useLang();
-    console.log('ISelectLanguageProps', lang)
 
     const Langs = [
         {

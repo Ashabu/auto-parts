@@ -58,6 +58,8 @@ const Tabs = () => {
         name='Products'
         component={ProductsScreen}
         options={{
+          headerShown: true,
+          header: () => <AppHeader />,
           title: t("productsTab"),
           tabBarIcon: ({ focused }) => {
             return (
@@ -72,6 +74,8 @@ const Tabs = () => {
         name='Search'
         component={SearchScreen}
         options={{
+          headerShown: true,
+          header: () => <AppHeader hasSearch={false}/>,  
           title: t("search"),
           tabBarIcon: ({ focused }) => {
             return (

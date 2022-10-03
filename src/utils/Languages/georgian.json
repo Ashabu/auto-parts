@@ -1,5 +1,6 @@
 {
     "translation": {
+        "or": "ან",
         "addCar": "მანქანის დამატება",
         "homeTab": "მთავარი",
         "productsTab": "პროდუქტები",
@@ -29,6 +30,17 @@
         "phoneNumber": "ტელეფონის ნომერი",
         "receiverName": "მიმღების სახელი",
         "postalCode": "საფოსტო ინდექსი",
-        "useGoogleMaps": "Google Maps-ის გახსნა"
+        "useGoogleMaps": "Google Maps-ის გახსნა",
+        "firstName": "სახელი",
+        "lastName": "გვარი",
+        "email": "ელ. ფოსტა",
+        "accountDetails": "ანგარიშის მონაცემები",
+        "profileDetails": "მომხმარებლის მონაცემები",
+        "invalidEmail" : "არასწორი ელ. ფოსტის ფორმატი",
+        "pleaseFillOut": "გთხოვთ შეავსოთ ველი",
+        "wishListEmpty": "Список желаемого пуст",
+        "noItems": "В списке желаний нет товара"
+
+
     }
 }

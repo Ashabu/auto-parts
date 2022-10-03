@@ -5,7 +5,7 @@ import SelectLanguage from '../components/SelectLanguage';
 const ChoseLanguageScreen = () => {
     return (
         <SafeAreaView style={{flex: 1}}>
-            <SelectLanguage/>
+            <SelectLanguage route='Home'/>
         </SafeAreaView>
     );
 };

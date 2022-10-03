@@ -1,5 +1,6 @@
 {
     "translation": {
+        "or": "Or",
         "addCar": "Add Car",
         "homeTab": "Home",
         "productsTab": "Products",
@@ -29,7 +30,16 @@
         "phoneNumber": "Phone Number",
         "receiverName": "Receiver Name",
         "postalCode": "Postal Code",
-        "useGoogleMaps": "Use Google Maps"
+        "useGoogleMaps": "Use Google Maps",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "accountDetails": "Account Details",
+        "profileDetails": "Profile Details",
+        "invalidEmail" : "Incorrect Email Address",
+        "pleaseFillOut": "Please Fill In The Field",
+        "wishListEmpty": "Wishlist Is Empty",
+        "noItems": "There is no item in wishlist"
 
         
     }

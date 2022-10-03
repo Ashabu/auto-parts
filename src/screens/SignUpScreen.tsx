@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert, Keyboard, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SignUp } from '../Api/authService';
 import { ISignUpRequest, IWPressError } from '../Api/types';
@@ -11,6 +12,7 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 
 const SignUpScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const {t} = useTranslation();
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             firstName: '',
@@ -52,19 +54,19 @@ const SignUpScreen = () => {
         <SafeAreaView style={{ flex: 1, paddingHorizontal: 20 }} >
             <ScrollView keyboardShouldPersistTaps='handled'>
                 <Text style={styles.inputLabel}>
-                    Profile Details
+                    {t("profileDetails")}
                 </Text>
                 <Controller
                     control={control}
                     rules={{
                         required: {
                             value: true,
-                            message: 'Please Fill In The Field'
+                            message: t("pleaseFillOut")
                         }
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
-                            placeholder='First Name'
+                            placeholder= {t("firstName")}
                             style={[styles.input, errors.firstName ? styles.borderRed : null]}
                             onBlur={onBlur}
                             onChangeText={onChange}
@@ -86,12 +88,12 @@ const SignUpScreen = () => {
                     rules={{
                         required: {
                             value: true,
-                            message: 'Please Fill In The Field'
+                            message: t("pleaseFillOut")
                         },
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
-                            placeholder='Last Name'
+                            placeholder= {t("lastName")}
                             style={[styles.input, errors.lastName ? styles.borderRed : null]}
                             onBlur={onBlur}
                             onChangeText={onChange}
@@ -109,19 +111,19 @@ const SignUpScreen = () => {
                     </Text>
                 }
                 <Text style={[styles.inputLabel, { marginTop: 20 }]}>
-                    Account Details
+                {t("accountDetails")}
                 </Text>
                 <Controller
                     control={control}
                     rules={{
                         required: {
                             value: true,
-                            message: 'Please Fill In The Field'
+                            message: t("pleaseFillOut")
                         },
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
-                            placeholder='Username'
+                            placeholder= {t("username")}
                             style={[styles.input, errors.userName ? styles.borderRed : null]}
                             onBlur={onBlur}
                             onChangeText={onChange}
@@ -141,16 +143,16 @@ const SignUpScreen = () => {
                     rules={{
                         required: {
                             value: true,
-                            message: 'Please Fill In The Field'
+                            message: t("pleaseFillOut")
                         },
                         pattern: {
                             value: EMAIL_REGEX,
-                            message: 'Incorrect Email Address'
+                            message: t("invalidEmail")
                         }
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
-                            placeholder='E-mail'
+                            placeholder= {t("email")}
                             style={[styles.input, errors.email ? styles.borderRed : null]}
                             onBlur={onBlur}
                             onChangeText={onChange}
@@ -169,12 +171,12 @@ const SignUpScreen = () => {
                     rules={{
                         required: {
                             value: true,
-                            message: 'Please Fill In The Field'
+                            message: t("pleaseFillOut")
                         },
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
-                            placeholder='Password'
+                            placeholder= {t("password")}
                             secureTextEntry={true}
                             style={[styles.input, errors.password ? styles.borderRed : null]}
                             onBlur={onBlur}
@@ -201,7 +203,7 @@ const SignUpScreen = () => {
                         isLoading ?
                             <ActivityIndicator size='small' color='#FFFFFF' />
                             :
-                            <Text style={styles.singUpBtnTitle}>Sign Up</Text>
+                            <Text style={styles.singUpBtnTitle}> {t("signUp")}</Text>
                     }
                 </TouchableOpacity>
             </ScrollView>

@@ -1,23 +1,25 @@
 import React from 'react'
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Images } from '../utils/Images';
-import {navigate} from '../navigation/Navigation';
+import { navigate } from '../navigation/Navigation';
+import { useTranslation } from 'react-i18next';
 
 const WishListScreen = () => {
+    const { t } = useTranslation()
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
-                <Image source ={Images.FAVORITES_ICON} style={{ width: 82, height: 74 , alignSelf: 'center' }} />
+                <Image source={Images.FAVORITES_ICON} style={{ width: 82, height: 74, alignSelf: 'center' }} />
                 <Text style={styles.title}>
-                    Wishlist Is Empty
+                    {t('wishListEmpty')}
                 </Text>
                 <Text style={styles.subtitle}>
-                    There is no item in wishlist
+                    {t('wishListEmpty')}
                 </Text>
             </View>
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.button} onPress={()=> navigate('Search')}>
-                    <Text style={styles.buttonTitle}>Shop Now</Text>
+                <TouchableOpacity style={styles.button} onPress={() => navigate('Search')}>
+                    <Text style={styles.buttonTitle}>{t('buy')}</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

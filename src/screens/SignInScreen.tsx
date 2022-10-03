@@ -128,14 +128,14 @@ const SignInScreen = ({ route }: any) => {
                             SMS LOGIN
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ marginTop: 15 }}
                         onPress={() => navigate('SignUp')}
                         disabled={isLoading}>
                         <Text style={[styles.btnTitle, { color: '#ffdd00' }]}>
                         {t('signUp')}
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </ScrollView>
         </SafeAreaView>

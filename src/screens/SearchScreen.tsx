@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Text, Keyboard, View, Image, TextInput, SafeAreaView, StyleSheet, TouchableOpacity,  FlatList, ActivityIndicator } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Text, Keyboard, View, Image, TextInput, SafeAreaView, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { navigate } from '../navigation/Navigation';
 import { searchItems } from '../Api';
 import ProductList from '../components/ProductList';
 import { Images } from '../utils/Images';
 import { useTranslation } from 'react-i18next';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const SearchScreen = () => {
@@ -12,8 +13,21 @@ const SearchScreen = () => {
     const [curPage, setCurPage] = useState<number>(1);
     const [products, setProducts] = useState<any[]>([]);
     const [fetchingData, setFetchingData] = useState<boolean>(false);
-    const {t} = useTranslation();
+    const { t } = useTranslation();
+    const InputRef = useRef<TextInput>(null);
 
+    
+
+    // useFocusEffect(
+    //     useCallback(() => {
+           
+    //     }, [InputRef.current])
+    // );
+    // console.log('InputRef', InputRef.current?.clear)
+    useEffect(() => {
+        InputRef.current?.focus();
+        return () => InputRef.current?.clear();
+    }, [InputRef.current])
 
     useEffect(() => {
         handleSearchProducts();
@@ -47,11 +61,12 @@ const SearchScreen = () => {
     }
 
     return (
-        
-        <SafeAreaView style={{ flex: 1}}>
+
+        <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.searchView}>
                 <Image source={Images.SEARCH_BLACK} style={styles.searchIcon} />
                 <TextInput
+                    ref={InputRef}
                     style={styles.searchInput}
                     selectionColor='#000'
                     placeholder={`${t('searchProducts')}`}
@@ -60,7 +75,6 @@ const SearchScreen = () => {
                     onChangeText={(text: string) => setSearchValue(text)}
                     onBlur={handleSearchProducts}
                     autoCapitalize="none"
-                    autoFocus={true}
                 />
                 <TouchableOpacity style={styles.filterIconButton} onPress={handleOnBlur}>
                     <Image source={Images.FILTER_ICON} style={styles.filterIcon} />
@@ -68,7 +82,7 @@ const SearchScreen = () => {
             </View>
             {
                 products.length === 0 && !fetchingData ?
-                    <Text style={{textAlign: 'center'}}>{t('noProducts')}</Text>
+                    <Text style={{ textAlign: 'center' }}>{t('noProducts')}</Text>
                     :
                     products.length !== 0 ?
                         <FlatList
@@ -84,10 +98,10 @@ const SearchScreen = () => {
                                             <Text style={styles.loadMoreBtnTitle}>More</Text>
                                     }
                                 </TouchableOpacity>
-                            } 
-                            />
+                            }
+                        />
                         :
-                        <ActivityIndicator size={'large'} color='#ffdd00' style={{alignSelf: 'center'}}/>
+                        <ActivityIndicator size={'large'} color='#ffdd00' style={{ alignSelf: 'center' }} />
             }
         </SafeAreaView>
     );

@@ -22,9 +22,12 @@ const ProfileScreen = () => {
             <TouchableOpacity style={styles.signInBtn} onPress={() => navigate('SignIn')}>
               <Text style={styles.btnTitle}>{t('signIn')}</Text>
             </TouchableOpacity>
+            <Text style={[styles.title, {textAlign: 'center'}]}>{t('or')}</Text>
+            <TouchableOpacity style={styles.signInBtn} onPress={() => navigate('SignUp')}>
+              <Text style={styles.btnTitle}>{t('signUp')}</Text>
+            </TouchableOpacity>
           </View>
         }
-
         {
           isAuthorized &&
           <TouchableOpacity style={styles.navBtn} onPress={() => navigate('OrderHistory')}>
