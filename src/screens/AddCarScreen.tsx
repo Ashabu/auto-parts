@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, PermissionsAndroid, Alert } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, PermissionsAndroid, Alert, ActivityIndicator } from 'react-native';
 import { launchCamera } from 'react-native-image-picker';
 import { GetVehiclesByVin, GetVehiclesByCarMaker, GetVehiclesByCarModel } from '../Api';
 import callGoogleVisionAsync from '../Api/googleVisionService';
 import SelectElement from '../components/SelectElement/SelectElement';
 import { VIMLIST } from '../utils/VimList';
-import { IGetVehiclesByCarMakerResponse, IGetVehiclesByVinResponse } from '../Api/types';
+import { IGetVehiclesByCarMakerResponse, IGetVehiclesByVinResponse, IGetVehiclesByCarModelResponse } from '../Api/types';
 
 const AddCarScreen = () => {
     const [vin, setVin] = useState<string>('');
     //vehicles by vin
-    const [searchByVinLoader, setSearchByVinLoader] = useState<boolean>(true);
+    const [searchByVinLoader, setSearchByVinLoader] = useState<boolean>(false);
     const [vehiclesByVin, setVehiclesByVinData] = useState<IGetVehiclesByVinResponse["data"]["matchingVehicles"]["array"]>([]);
     const [showVehiclesByVin, setShowVehiclesByVin] = useState<boolean>(false);
+    const [selectedCarByVin, setSelectedCarByVin] = useState<{
+        manuId?: number,
+        modelId?: number,
+        carId?: number,
+        vehicleTypeDescription?: string,
+        carName?: string
+    }[]>([])
 
     //vehicles by Car Maker
-    const [searchByCarMakerLoader, setSearchCarMakerLoader] = useState<boolean>(true);
+    const [searchByCarMakerLoader, setSearchCarMakerLoader] = useState<boolean>(false);
     const [vehiclesByCarMaker, setVehiclesByCarMaker] = useState<IGetVehiclesByCarMakerResponse["data"]["array"]>([]);
     const [showVehiclesByCarMaker, setShowVehiclesByCarMaker] = useState<boolean>(false);
     const [selectedCarMaker, setSelectedCarMaker] = useState<{
@@ -26,14 +33,18 @@ const AddCarScreen = () => {
     }>({})
 
     //vehicles by Car Model
-    const [searchByCarModelLoader, setSearchCarModelLoader] = useState<boolean>(true);
-    const [vehiclesByCarModel, setVehiclesByCarModel] = useState<IGetVehiclesByVinResponse["data"]["matchingVehicles"]["array"]>([]);
+    const [searchByCarModelLoader, setSearchCarModelLoader] = useState<boolean>(false);
+    const [vehiclesByCarModel, setVehiclesByCarModel] = useState<IGetVehiclesByCarModelResponse["data"]["array"]>([]);
     const [showVehiclesByCarModel, setShowVehiclesByCarModel] = useState<boolean>(false);
+    const [selectedCarModel, setSelectedCarModel] = useState<{
+        favorFlag?: number,
+        modelId?: number,
+        modelname?: string
+    }>({});
 
-    //vehicles by Car Model
+
 
     const onPress = () => {
-
         PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.CAMERA,
             {
@@ -50,77 +61,73 @@ const AddCarScreen = () => {
                         if (googleText.code == 403) {
                             Alert.alert(JSON.stringify(googleText.code), googleText.message);
                             return;
-                        }
+                        };
                         const matches = googleText?.text;
-                        console.log('googleText ==>', googleText.text.trim())
+                        console.log('googleText ==>', googleText.text.trim());
                         if (matches) {
                             try {
-                                const vmies = matches.match(/[A-HJ-NPR-Z0-9]{15}/);
+                                const vmies = matches.match(/[A-HJ-NPR-Z0-9]{17}/);
                                 console.log('>>>>>>>>>>>>', vmies);
                                 for (let i = 0; i < VIMLIST.length; i++) {
                                     const index = vmies.findIndex((m: any) => m.startsWith(VIMLIST[i]));
-
                                     if (index >= 0) {
                                         console.log(vmies[index]);
                                         setVin(vmies[index]), () => {
                                         }
                                         return;
                                         //return matches[index];
-                                    }
-                                }
-
-                                //    if( vmies?.length) {
-                                //        const value = {
-                                //          vin: vmies[0]
-                                //        }
-                                //        this.setState({value, isLoading: false})
-                                //    }
+                                    };
+                                };
                             } catch (err) { console.log(err) }
-                        }
-                    }
-                })
-            }
-        })
-
+                        };
+                    };
+                });
+            };
+        });
     };
-
-    useEffect(() => {
-        if (selectedCarMaker.manuId !== undefined) {
-            handleGetVehiclesByCarModel();
-        }
-    }, [selectedCarMaker.manuId])
 
 
     const handleGetVehiclesByVin = () => {
+        setSearchByVinLoader(true);
         try {
             GetVehiclesByVin(vin).then(res => {
                 console.log(res.data.data)
                 setVehiclesByVinData(res.data.data.matchingVehicles?.array);
                 setShowVehiclesByVin(true);
+                setSearchByVinLoader(false);
             });
         } catch (err: any) {
+            setSearchByVinLoader(false);
             console.log(JSON.parse(JSON.stringify(err.response.data)))
         };
     };
 
     const handleGetVehiclesByCarMaker = () => {
+        setSearchCarMakerLoader(true);
         try {
             GetVehiclesByCarMaker().then(res => {
                 setVehiclesByCarMaker(res.data.data?.array);
                 setShowVehiclesByCarMaker(true);
+                setSearchCarMakerLoader(false);
+
             });
         } catch (err: any) {
+            setSearchCarMakerLoader(false);
             console.log(JSON.parse(JSON.stringify(err.response.data)))
         };
     };
 
     const handleGetVehiclesByCarModel = () => {
+        setSearchCarModelLoader(true);
         try {
             GetVehiclesByCarModel(selectedCarMaker.manuId!).then(res => {
+                console.log(res.data)
                 setVehiclesByCarModel(res.data.data?.array);
                 setShowVehiclesByCarModel(true);
+                setSearchCarModelLoader(false);
             });
         } catch (err: any) {
+            setSearchCarModelLoader(false);
             console.log(JSON.parse(JSON.stringify(err.response.data)))
         };
     };
@@ -133,7 +140,12 @@ const AddCarScreen = () => {
                 listData={vehiclesByVin}
                 showList={showVehiclesByVin}
                 displayName='carName'
-                callBack={({ val, data }) => setShowVehiclesByVin(val)} />
+                callBack={({ val, data }) => {
+                    setShowVehiclesByVin(val);
+                    setSelectedCarByVin(prev => {
+                        return [...prev, data]
+                    })
+                }} />
             <SelectElement
                 listData={vehiclesByCarMaker}
                 showList={showVehiclesByCarMaker}
@@ -145,10 +157,11 @@ const AddCarScreen = () => {
             <SelectElement
                 listData={vehiclesByCarModel}
                 showList={showVehiclesByCarModel}
-                displayName='manuName'
+                displayName='modelname'
                 callBack={({ val, data }) => {
                     console.log('val, data', data)
                     setShowVehiclesByCarModel(val);
+                    setSelectedCarModel(data);
                 }} />
 
             <View style={styles.topContainer}>
@@ -163,10 +176,23 @@ const AddCarScreen = () => {
                     onChangeText={(text: string) => setVin(text)} />
             </View>
             <TouchableOpacity style={styles.searchButton} onPress={handleGetVehiclesByVin}>
-                <Text style={styles.buttonTitle}>
-                    Search
-                </Text>
+                {
+                    searchByVinLoader ?
+                        <ActivityIndicator size='small' color='#000' />
+                        :
+                        <Text style={styles.buttonTitle}>
+                            Search
+                        </Text>
+                }
             </TouchableOpacity>
+            <View>
+                {selectedCarByVin?.map((el, index: number) => (
+                    <Text key={index} style={{fontSize: 20, paddingVertical: 5}}>
+                        {el.carName}
+                    </Text>
+                ))}
+                
+            </View>
             <View>
                 <Text style={styles.addCarManuallyTitle}>Or Add Car Manually</Text>
                 <View style={styles.bottomContainer}>
@@ -174,15 +200,33 @@ const AddCarScreen = () => {
                         <View style={styles.paginationBox}>
                             <Text>1</Text>
                         </View>
-                        <Text style={{ color: 'black' }}>Car Maker</Text>
+                        {
+                            searchByCarMakerLoader ?
+                                <ActivityIndicator size='small' color='#000' />
+                                :
+                                selectedCarMaker.manuName ?
+                                    <Text>{selectedCarMaker.manuName}</Text>
+                                    :
+                                    <Text style={{ color: 'black' }}>Car Maker</Text>
+                        }
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addCarManuallyButton, { opacity: vehiclesByCarMaker?.length > 0? 1:  0.3 }]} disabled = {vehiclesByCarMaker?.length > 0? false : true}>
+                    <TouchableOpacity
+                        style={[styles.addCarManuallyButton, { opacity: vehiclesByCarMaker!?.length > 0 ? 1 : 0.3 }]} disabled={vehiclesByCarMaker!?.length > 0 ? false : true}
+                        onPress={handleGetVehiclesByCarModel}>
                         <View style={styles.paginationBox}>
                             <Text>2</Text>
                         </View>
-                        <Text>Model</Text>
+                        {
+                            searchByCarModelLoader ?
+                                <ActivityIndicator size='small' color='#000' />
+                                :
+                                selectedCarModel.modelname ?
+                                    <Text>{selectedCarModel.modelname}</Text>
+                                    :
+                                    <Text>Model</Text>
+                        }
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addCarManuallyButton, { opacity: 0.3 }]} disabled>
+                    <TouchableOpacity style={[styles.addCarManuallyButton, { opacity: vehiclesByCarModel!?.length > 0 ? 1 : 0.3 }]} disabled={vehiclesByCarModel!?.length > 0 ? false : true}>
                         <View style={styles.paginationBox}>
                             <Text>3</Text>
                         </View>
@@ -253,4 +297,4 @@ const styles = StyleSheet.create({
         marginRight: 20
 
     }
-})
+});

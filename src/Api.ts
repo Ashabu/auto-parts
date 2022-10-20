@@ -99,9 +99,10 @@ export async function GetVehiclesByCarModel(manuId: number) {
     let requestData = {
         getModelSeries2: {
             country: 'RU',
-            lang: 'ru',
+            lang: 'en',
             provider: TEC_DOC_PROVIDER_ID,
-            manuId: manuId
+            manuId: manuId,
+            linkingTargetType: "b",
         }
     }
     return await TecDocInstance.post<IGetVehiclesByVinResponse>(TEC_DOC_BASEURL, requestData);

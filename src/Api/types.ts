@@ -173,12 +173,24 @@ export interface IGetVehiclesByVinResponse {
 
 export interface IGetVehiclesByCarMakerResponse {
     data: {
-       array?: {
-        favorFlag: number,
-        linkingTargetTypes: string,
-        manuId: number,
-        manuName: string
-       }[],
+        array?: {
+            favorFlag: number,
+            linkingTargetTypes: string,
+            manuId: number,
+            manuName: string
+        }[],
     },
     status: number
 }
+
+export interface IGetVehiclesByCarModelResponse {
+    data: {
+        array?: {
+        favorFlag: number, 
+        modelId: number, 
+        modelname: string 
+       }[],
+    },
+status: number
+}
+
