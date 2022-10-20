@@ -119,18 +119,66 @@ export interface ISignInResponse {
         email: string,
         url?: string,
         registered: string,
-        displayname:string,
-        firstname:string,
-        lastname:string,
-        nickname:string,
-        description: string ,
+        displayname: string,
+        firstname: string,
+        lastname: string,
+        nickname: string,
+        description: string,
         capabilities: {
             subscriber: boolean
         },
         role: string[],
-        shipping: string| null,
+        shipping: string | null,
         billing: string | null,
         avatar: string
         dokan_enable_selling: string
     }
+}
+
+export interface IGetVehiclesByVinRequest {
+
+}
+
+export interface IGetVehiclesByVinResponse {
+    data: {
+        matchingManufacturers?: {
+            manuId: number,
+            manuName: string
+        }[],
+        matchingModels?: {
+            array: {
+                manuId: number,
+                modelId: number,
+                modelName: string
+            }[]
+        },
+        matchingVehicles?: {
+            array: {
+                manuId: number,
+                modelId: number,
+                carId: number,
+                vehicleTypeDescription: string,
+                carName: string
+            }[]
+        },
+        matchingVehiclesCount?: number,
+        dataSource?: [
+            {
+                dataSourceKey: string
+            }
+        ]
+    },
+    status: number
+}
+
+export interface IGetVehiclesByCarMakerResponse {
+    data: {
+       array?: {
+        favorFlag: number,
+        linkingTargetTypes: string,
+        manuId: number,
+        manuName: string
+       }[],
+    },
+    status: number
 }

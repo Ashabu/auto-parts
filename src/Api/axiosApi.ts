@@ -6,6 +6,10 @@ const BASE_URL = 'https://shopapp.1-amedia.ru';
 const FINA_BASEURL = 'http://185.139.57.86:8083'
 const FINA_AUTH_KEY = 'premAPIx';
 const FINA_AUTH_PASSWORD = 'Pr3miXX@piPass';  
+export const TEC_DOC_BASEURL = 'http://webservice.tecalliance.services/pegasus-3-0/info/proxy/services/TecdocToCatDLB.jsonEndpoint';
+const TEC_DOC_API_KEY = '2BeBXg6GThDH8GRV3rZiYoYW4CZR5UWtYeJy7KyhX65iHNPjwads';
+export const TEC_DOC_PROVIDER_ID = 22890;
+
 
  const WpressInstance = axios.create({
     baseURL: BASE_URL,
@@ -53,5 +57,14 @@ export const FinaInstance = axios.create({
         'Authorization': getAccessToken() ? `Bearer ${getAccessToken()}` : '',
         "Content-Type": "application/json",
         accept: "application/json",
+    }
+});
+
+export const TecDocInstance = axios.create({
+    timeout: 10000,
+    headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "X-API-Key": TEC_DOC_API_KEY
     }
 });
