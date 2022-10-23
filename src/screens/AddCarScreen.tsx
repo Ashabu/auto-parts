@@ -115,13 +115,20 @@ const AddCarScreen = () => {
 
 
     const handleGetVehiclesByVin = () => {
+        if(!vin || vin == '') {
+            return
+        }
         setSearchByVinLoader(true);
         try {
             GetVehiclesByVin(vin).then(res => {
-                console.log(res.data.data)
+                
                 setVehiclesByVinData(res.data.data.matchingVehicles?.array);
                 setShowVehiclesByVin(true);
                 setSearchByVinLoader(false);
+                
+            }).catch(err => {
+                setSearchByVinLoader(false);
+                throw new Error(err)
             });
         } catch (err: any) {
             setSearchByVinLoader(false);
@@ -141,6 +148,7 @@ const AddCarScreen = () => {
                 setSearchCarMakerLoader(false);
 
             }).catch(err => {
+                setSearchCarMakerLoader(false);
                 throw new Error(err)
             });
         } catch (err: any) {
@@ -161,6 +169,7 @@ const AddCarScreen = () => {
                 setShowVehiclesByCarModel(true);
                 setSearchCarModelLoader(false)
             }).catch(err => {
+                setSearchCarModelLoader(false)
                 throw new Error(err)
             });
         } catch (err: any) {
@@ -232,7 +241,7 @@ const AddCarScreen = () => {
                     style={styles.vinInput}
                     value={vin}
                     onChangeText={(text: string) => setVin(text)}
-                    onBlur={() => Keyboard.dismiss()} />
+                    onBlur={() => {console.log('onBlur'); Keyboard.dismiss()}} />
             </View>
             <TouchableOpacity style={styles.searchButton} onPress={handleGetVehiclesByVin}>
                 {
@@ -334,12 +343,14 @@ const styles = StyleSheet.create({
     },
     scanButton: {
         width: 150,
+        minHeight: 52,
         backgroundColor: Colors.YELLOW,
         paddingVertical: 12,
         borderRadius: 10,
         alignItems: 'center'
     },
     searchButton: {
+        minHeight: 52,
         paddingVertical: 12,
         backgroundColor: Colors.YELLOW,
         borderRadius: 10,
