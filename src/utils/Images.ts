@@ -2,6 +2,7 @@ export const Images = {
     ADD_CAR: require('./../../assets/images/add-car-icon.png'),
     APP_LOGO: require('./../../assets/images/app-logo.png'),
     ARROW_LEFT: require('./../../assets/images/arrow-right.png'),
+    ARROW_RIGHT_BLACK: require('./../../assets/images/arrow-right-black.png'),
     BACK_ARROW_WHITE: require('./../../assets/images/back-arrow-white.png'),
     BACK_ARROW_BLACK: require('./../../assets/images/back-arrow-black.png'),
     BASKET_BLACK: require('./../../assets/images/basket-icon-black.png'),
