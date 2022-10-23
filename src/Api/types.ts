@@ -135,9 +135,7 @@ export interface ISignInResponse {
     }
 }
 
-export interface IGetVehiclesByVinRequest {
 
-}
 
 export interface IGetVehiclesByVinResponse {
     data: {
@@ -171,14 +169,89 @@ export interface IGetVehiclesByVinResponse {
     status: number
 }
 
-export interface IGetVehiclesByCarMakerResponse {
-    data: {
-       array?: {
-        favorFlag: number,
-        linkingTargetTypes: string,
-        manuId: number,
-        manuName: string
-       }[],
-    },
-    status: number
+export interface IgGtLinkageTargetsRequest {
+    getLinkageTargets: {
+        provider: number,
+        linkageTargetCountry: string,
+        lang: string,
+        linkageTargetType: string,
+        mfrIds?: number,
+        vehicleModelSeriesIds?: number,
+        perPage: number,
+        page: number,
+        includeVehicleModelSeriesFacets?: boolean,
+        includeMfrFacets?: boolean
+    }
 }
+
+export interface IgGtLinkageTargetsResponse {
+    total: number,
+    linkageTargets?: {
+        linkageTargetId: number,
+        linkageTargetType: string,
+        subLinkageTargetType: string,
+        description: number,
+        mfrId: number,
+        mfrName: string,
+        mfrShortName: string,
+        vehicleModelSeriesId: number,
+        vehicleModelSeriesName: string,
+        beginYearMonth: string,
+        endYearMonth: string,
+        rmiTypeId: number,
+        vehicleImages: [
+            {
+                imageURL50: string,
+                imageURL100: string,
+                imageURL200: string,
+                imageURL400: string,
+                imageURL800: string
+            }
+        ],
+        kbaNumbers: string[],
+        fuelMixtureFormationTypeKey: number,
+        fuelMixtureFormationType: string,
+        driveTypeKey: number,
+        driveType: string,
+        bodyStyleKey: number,
+        bodyStyle: string,
+        valves: number,
+        fuelTypeKey: number,
+        fuelType: string,
+        engineTypeKey: number,
+        engineType: string,
+        horsePowerFrom: number,
+        horsePowerTo: number,
+        kiloWattsFrom: number,
+        kiloWattsTo: number,
+        cylinders: number,
+        capacityCC: number,
+        capacityLiters: number,
+        engines:
+        {
+            id: number,
+            code: string
+        }[]
+        ,
+        vehiclesInOperation: any[]
+    }[] | any[],
+    mfrFacets?: {
+        total: number,
+        counts:
+        {
+            id: number,
+            name: string,
+            count: number
+        }[],
+    },
+    vehicleModelSeriesFacets?: {
+        total: number,
+        counts:
+        {
+            id: number,
+            name: string,
+            count: number
+        }[],
+    }
+    status: number
+};

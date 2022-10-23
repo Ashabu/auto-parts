@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, PermissionsAndroid, Alert } from 'react-native';
 import { launchCamera } from 'react-native-image-picker';
-import { GetVehiclesByVin, GetVehiclesByCarMaker, GetVehiclesByCarModel } from '../Api';
+import {GetVehiclesByVin,  GetLinkageTargets} from '../Api';
 import callGoogleVisionAsync from '../Api/googleVisionService';
 import SelectElement from '../components/SelectElement/SelectElement';
 import { VIMLIST } from '../utils/VimList';
-import { IGetVehiclesByCarMakerResponse, IGetVehiclesByVinResponse } from '../Api/types';
+import {, IGetVehiclesByVinResponse, IgGtLinkageTargetsResponse} from '../Api/types';
 
 const AddCarScreen = () => {
     const [vin, setVin] = useState<string>('');
@@ -16,13 +16,12 @@ const AddCarScreen = () => {
 
     //vehicles by Car Maker
     const [searchByCarMakerLoader, setSearchCarMakerLoader] = useState<boolean>(true);
-    const [vehiclesByCarMaker, setVehiclesByCarMaker] = useState<IGetVehiclesByCarMakerResponse["data"]["array"]>([]);
+    const [vehiclesByCarMaker, setVehiclesByCarMaker] = useState<IgGtLinkageTargetsResponse["mfrFacets"]["count"]>([]);
     const [showVehiclesByCarMaker, setShowVehiclesByCarMaker] = useState<boolean>(false);
     const [selectedCarMaker, setSelectedCarMaker] = useState<{
-        favorFlag?: number,
-        linkingTargetTypes?: string,
-        manuId?: number,
-        manuName?: string
+        id?: number,
+        name?: string,
+        count?: number
     }>({})
 
     //vehicles by Car Model
@@ -84,11 +83,7 @@ const AddCarScreen = () => {
 
     };
 
-    useEffect(() => {
-        if (selectedCarMaker.manuId !== undefined) {
-            handleGetVehiclesByCarModel();
-        }
-    }, [selectedCarMaker.manuId])
+
 
 
     const handleGetVehiclesByVin = () => {
@@ -104,9 +99,12 @@ const AddCarScreen = () => {
     };
 
     const handleGetVehiclesByCarMaker = () => {
+        let data = {
+            includeMfrFacets: true
+        }
         try {
-            GetVehiclesByCarMaker().then(res => {
-                setVehiclesByCarMaker(res.data.data?.array);
+            GetLinkageTargets(data).then(res => {
+                setVehiclesByCarMaker(res.data.mfrFacets?.counts);
                 setShowVehiclesByCarMaker(true);
             });
         } catch (err: any) {
@@ -115,9 +113,28 @@ const AddCarScreen = () => {
     };
 
     const handleGetVehiclesByCarModel = () => {
+        let data = {
+            includeVehicleModelSeriesFacets: true,
+            mfrIds: selectedCarMaker.id
+        }
         try {
-            GetVehiclesByCarModel(selectedCarMaker.manuId!).then(res => {
-                setVehiclesByCarModel(res.data.data?.array);
+            GetLinkageTargets(data).then(res => {
+                setVehiclesByCarModel(res.data.vehicleModelSeriesFacets?.counts);
+                setShowVehiclesByCarModel(true);
+            });
+        } catch (err: any) {
+            console.log(JSON.parse(JSON.stringify(err.response.data)))
+        };
+    };
+
+    const handleGetVehiclesByModelSeries = () => {
+        let data = {
+           
+            mfrIds: selectedCarMaker.id
+        }
+        try {
+            GetLinkageTargets(data).then(res => {
+                setVehiclesByCarModel(res.data.vehicleModelSeriesFacets?.counts);
                 setShowVehiclesByCarModel(true);
             });
         } catch (err: any) {
@@ -176,7 +193,7 @@ const AddCarScreen = () => {
                         </View>
                         <Text style={{ color: 'black' }}>Car Maker</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.addCarManuallyButton, { opacity: vehiclesByCarMaker?.length > 0? 1:  0.3 }]} disabled = {vehiclesByCarMaker?.length > 0? false : true}>
+                    <TouchableOpacity style={[styles.addCarManuallyButton, { opacity: vehiclesByCarMaker?.length > 0 ? 1 : 0.3 }]} disabled={vehiclesByCarMaker?.length > 0 ? false : true}>
                         <View style={styles.paginationBox}>
                             <Text>2</Text>
                         </View>
