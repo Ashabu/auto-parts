@@ -1,6 +1,6 @@
 import { TecDocInstance, TEC_DOC_BASEURL, TEC_DOC_PROVIDER_ID } from './Api/axiosApi';
 import axios from 'axios';
-import {IFinaAuthResponse, IGetProductsResponse, IGetVehiclesByVinResponse,  IgGtLinkageTargetsRequest, IgGtLinkageTargetsResponse} from './Api/types';
+import { IFinaAuthResponse, IGetProductsResponse, IGetVehiclesByVinResponse, IgGtLinkageTargetsRequest, IgGtLinkageTargetsResponse, IGetArticlesResponse, IGetArticlesData } from './Api/types';
 import { storeData, getData } from './services/StorageService';
 const CONSUMER_KEY = 'ck_c55e81512de294204794032506bbe1aa70e0518a';
 const CONSUMER_SECRET = 'cs_00ac3848fc8b9c0ea2b9b185f0b2d2802e6f368f';
@@ -17,7 +17,7 @@ export async function searchItems(searchValue: string, currentPage: number) {
 
 export const getAccessToken = () => {
     let token = '';
-    getData("fina_token").then(data => {
+    getData('fina_token').then(data => {
         token = data!;
     });
     return token
@@ -29,8 +29,8 @@ const finaInstance = axios.create({
     timeout: 25000,
     headers: {
         'Authorization': getAccessToken() ? `Bearer ${getAccessToken()}` : '',
-        "Content-Type": "application/json",
-        accept: "application/json",
+        ' Content-Type': 'application/json',
+        'accept': 'application/json',
     }
 });
 
@@ -41,8 +41,8 @@ export function GetFinaAuthToken() {
     let data: {
         Login: string, Password: string
     } = {
-        "Login": FINA_AUTH_KEY,
-        "Password": FINA_AUTH_PASSWORD
+        Login: FINA_AUTH_KEY,
+        Password: FINA_AUTH_PASSWORD
     };
 
     axios.post<IFinaAuthResponse>('http://185.139.57.86:8083/api/authentication/authenticate', data).then((response) => {
@@ -110,3 +110,47 @@ export async function GetLinkageTargets(data: any) {
     }
     return await TecDocInstance.post<IgGtLinkageTargetsResponse>(TEC_DOC_BASEURL, requestData)
 };
+
+export async function GetArticles(type: string, data: any) {
+    let requestData = {};
+    console.log(data.assemblyGroupNodeId)
+
+    if (type == 'GET_CATEGORIES') {
+        requestData = {
+            getArticles: {
+                provider: TEC_DOC_PROVIDER_ID,
+                articleCountry: 'RU',
+                lang: 'ru',
+                perPage: 0,
+                page: 1,
+                linkageTargetId: data.linkageTargetId,
+                linkageTargetType: data.linkageTargetType,
+                assemblyGroupFacetOptions: {
+                    enabled: true,
+                    assemblyGroupType: 'P',
+                    includeCompleteTree: true
+                }
+            }
+        }
+    };
+    console.log(type, data.assemblyGroupNodeId)
+    if (type == 'GET_SINGLE_ARTICLE') {
+        requestData = {
+            getArticles: {
+                provider: TEC_DOC_PROVIDER_ID,
+                articleCountry: 'RU',
+                lang: 'en',
+                perPage: 100,
+                page: 1,
+                assemblyGroupNodeIds: data.assemblyGroupNodeId,
+                linkageTargetId: data.linkageTargetId,
+                linkageTargetType: data.linkageTargetType,
+                includeAll: true,
+                includeOEMNumbers: true
+            }
+        }
+    };
+
+
+    return await TecDocInstance.post<IGetArticlesResponse>(TEC_DOC_BASEURL, requestData)
+}

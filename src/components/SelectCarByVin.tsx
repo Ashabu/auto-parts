@@ -15,6 +15,9 @@ interface ISelectCarMakerProps {
 
 
 const SelectCarByVin: FC<ISelectCarMakerProps> = ({ listData, callBack }) => {
+    console.log(listData?.map(item => {
+        console.log(item)
+    }))
 
     return (
         <View style={styles.selectWrapper}>

@@ -14,6 +14,7 @@ import SupportScreen from '../screens/SupportScreen';
 import DeliveryAddressScreen from '../screens/DeliveryAddressScreen';
 import ChoseLanguageScreen from '../screens/ChoseLanguageScreen';
 import { useTranslation } from 'react-i18next';
+import ProductDetail from '../screens/ProductDetail';
 
 
 const Stack = createNativeStackNavigator();
@@ -21,8 +22,8 @@ const Stack = createNativeStackNavigator();
 const AppNavigation = () => {
     const [isOnboarding, setIsOnboarding] = useState<boolean>(false);
     const [initialized, setIsInitialized] = useState<boolean>(false);
-    const {isOnboard} = useOnboarding();
-    const {t} = useTranslation();
+    const { isOnboard } = useOnboarding();
+    const { t } = useTranslation();
 
     const onAppInitialize = () => {
         getData('onboarding').then(response => {
@@ -59,6 +60,12 @@ const AppNavigation = () => {
                         header: () => <AppHeader hasBack />
                     }} />
                 <Stack.Screen
+                    name="ProductDetail"
+                    component={ProductDetail}
+                    options={{
+                        header: () => <AppHeader hasBack />
+                    }} />
+                <Stack.Screen
                     name="AddCar"
                     component={AddCarScreen}
                     options={{
@@ -77,7 +84,7 @@ const AppNavigation = () => {
                     options={{
                         title: t('signUp')
                     }}
-                    />
+                />
                 <Stack.Screen
                     name='Support'
                     component={SupportScreen}

@@ -37,7 +37,7 @@ const SelectCarModification: FC<ISelectCarModificationProps> = ({ listData, call
                 renderItem={({ item }) =>
                     <TouchableOpacity style={styles.listItem} onPress={() => callBack({ val: false, data: item })}>
                         <Text style={styles.listItemText}>{item.description}</Text>
-                        <Text style={styles.listItemText}>{`(${item.beginYearMonth.replace('-', '/')} - ${item.endYearMonth.replace('-', '/')})`}</Text>
+                        {item?.beginYearMonth && item?.endYearMonth && <Text style={styles.listItemText}>{`(${item?.beginYearMonth?.replace('-', '/')} - ${item?.endYearMonth?.replace('-', '/')})`}</Text>}
                     </TouchableOpacity>}
                 keyExtractor={({ linkageTargetId }) => linkageTargetId!.toString()}
                 onMomentumScrollBegin={() => Keyboard.dismiss()}

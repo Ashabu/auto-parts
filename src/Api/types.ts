@@ -255,3 +255,105 @@ export interface IgGtLinkageTargetsResponse {
     }
     status: number
 };
+
+export interface IGetArticlesData {
+    getArticles: {
+        articleCountry?: string,
+        provider?: number,
+        lang?: string,
+        perPage?: number,
+        page?: number,
+        linkageTargetType?: string,
+        linkageTargetId?: number,
+        assemblyGroupNodeIds?: number
+        assemblyGroupFacetOptions?: {
+            enabled?: boolean,
+            assemblyGroupType?: string,
+            includeCompleteTree?: boolean
+        }
+        includeAll?: boolean,
+        includeOEMNumbers?: boolean
+    } 
+}
+
+export interface IGetArticlesResponse {
+    totalMatchingArticles: number,
+    maxAllowedPage: number,
+    articles?: {
+        dataSupplierId: number,
+        articleNumber: number,
+        mfrId: number,
+        mfrName: string,
+        misc: {
+            articleStatusId: number,
+            articleStatusDescription: string,
+            articleStatusValidFromDate: number,
+            quantityPerPackage: number,
+            quantityPerPartPerPackage: number,
+            isSelfServicePacking: boolean,
+            hasMandatoryMaterialCertification: boolean,
+            isRemanufacturedPart: boolean,
+            isAccessory: boolean
+        },
+        genericArticles: 
+            {
+                genericArticleId: number,
+                genericArticleDescription: string,
+                legacyArticleId: number
+            }[],
+        articleText: any[],
+        gtins: any[],
+        tradeNumbers: any[],
+        oemNumbers:
+        {
+            articleNumber: number,
+            mfrId: number,
+            mfrName: string
+        }[],
+        replacesArticles: any[],
+        replacedByArticles: any[],
+        articleCriteria: any[],
+        linkages:
+        {
+            linkageTargetTypeId: number,
+            linkageTargetId: number,
+            legacyArticleLinkId: number,
+            genericArticleId: number,
+            genericArticleDescription: string,
+            linkageCriteria:
+            {
+                criteriaId: number,
+                criteriaDescription: string,
+                criteriaType: string,
+                rawValue: number,
+                formattedValue: string,
+                immediateDisplay: true,
+                isMandatory: boolean,
+                isInterval: boolean
+            }[],
+            linkageText: any[]
+        }[],
+        partsList: any[],
+        hasPartsListParent: boolean,
+        accessoryList: any[],
+        hasAccessoryListParent: boolean,
+        pdfs: any[],
+        images: any[],
+        comparableNumbers: any[],
+        links: any[],
+        totalLinkages: number,
+        prices: any[],
+        articleLogisticsCriteria: any[]
+    }[],
+    status: number,
+    assemblyGroupFacets: {
+        total: number,
+        counts: {
+            assemblyGroupNodeId: number,
+            assemblyGroupName: string,
+            assemblyGroupType: string,
+            parentNodeId: number,
+            count: number
+        }[],
+    }
+}

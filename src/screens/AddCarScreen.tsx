@@ -12,6 +12,7 @@ import SelectCarModification from '../components/SelectCarModification';
 import SelectCarByVin from '../components/SelectCarByVin';
 import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
+import { navigate } from '../navigation/Navigation';
 
 const AddCarScreen = () => {
     const [vin, setVin] = useState<string>('');
@@ -45,7 +46,7 @@ const AddCarScreen = () => {
         id?: number,
         name?: string,
         count?: number
-    }>({})
+    } | undefined>({})
 
     //vehicles by Car Model
     const [searchByCarModelLoader, setSearchCarModelLoader] = useState<boolean>(false);
@@ -59,14 +60,17 @@ const AddCarScreen = () => {
         id?: number,
         name?: string,
         count?: number
-    }>({});
+    } | undefined>({});
 
     const [searchByModelSeriesLoader, setSearchModelSeriesLoader] = useState<boolean>(false);
     const [vehiclesByModelSeries, setVehiclesByModelSeries] = useState<IgGtLinkageTargetsResponse["linkageTargets"]>([]);
     const [showVehiclesByModelSeries, setShowVehiclesByModelSeries] = useState<boolean>(false);
     const [selectedModelSeries, setSelectedModelSeries] = useState<{
-        description?: string
-    }>({});
+        description?: string,
+        linkageTargetId?: number,
+        linkageTargetType?: string
+
+    } | undefined>({});
 
 
     const onPress = () => {
@@ -115,17 +119,17 @@ const AddCarScreen = () => {
 
 
     const handleGetVehiclesByVin = () => {
-        if(!vin || vin == '') {
+        if (!vin || vin == '') {
             return
         }
         setSearchByVinLoader(true);
         try {
             GetVehiclesByVin(vin).then(res => {
-                
+                console.log(res.data.data)
                 setVehiclesByVinData(res.data.data.matchingVehicles?.array);
                 setShowVehiclesByVin(true);
                 setSearchByVinLoader(false);
-                
+
             }).catch(err => {
                 setSearchByVinLoader(false);
                 throw new Error(err)
@@ -160,7 +164,7 @@ const AddCarScreen = () => {
     const handleGetVehiclesByCarModel = () => {
         let data = {
             includeVehicleModelSeriesFacets: true,
-            mfrIds: selectedCarMaker.id
+            mfrIds: selectedCarMaker?.id
         }
         setSearchCarModelLoader(true)
         try {
@@ -181,8 +185,8 @@ const AddCarScreen = () => {
     const handleGetVehiclesByModelSeries = () => {
         setSearchModelSeriesLoader(true);
         let data = {
-            vehicleModelSeriesIds: selectedCarModel.id,
-            mfrIds: selectedCarMaker.id
+            vehicleModelSeriesIds: selectedCarModel?.id,
+            mfrIds: selectedCarMaker?.id
         }
         try {
             GetLinkageTargets(data).then(res => {
@@ -208,7 +212,9 @@ const AddCarScreen = () => {
 
     const handelSelectCarMaker = ({ val, data }: { val: boolean, data: { id?: number, name?: string, count?: number } }) => {
         setShowVehiclesByCarMaker(val);
-        setSelectedCarMaker(data)
+        setSelectedCarMaker(data);
+        setSelectedCarModel(undefined);
+        setSelectedModelSeries(undefined);
     };
 
     const handelSelectCarModel = ({ val, data }: { val: boolean, data: { id?: number, name?: string, count?: number } }) => {
@@ -241,7 +247,7 @@ const AddCarScreen = () => {
                     style={styles.vinInput}
                     value={vin}
                     onChangeText={(text: string) => setVin(text)}
-                    onBlur={() => {console.log('onBlur'); Keyboard.dismiss()}} />
+                    onBlur={() => { console.log('onBlur'); Keyboard.dismiss() }} />
             </View>
             <TouchableOpacity style={styles.searchButton} onPress={handleGetVehiclesByVin}>
                 {
@@ -273,7 +279,7 @@ const AddCarScreen = () => {
                                 searchByCarMakerLoader ?
                                     <ActivityIndicator size='small' color='#000' />
                                     :
-                                    selectedCarMaker.name ?
+                                    selectedCarMaker?.name ?
                                         <Text style={styles.labelText}>{selectedCarMaker.name}</Text>
                                         :
                                         <Text style={styles.labelText}>Car Maker</Text>
@@ -292,7 +298,7 @@ const AddCarScreen = () => {
                                 searchByCarModelLoader ?
                                     <ActivityIndicator size='small' color='#000' />
                                     :
-                                    selectedCarModel.name ?
+                                    selectedCarModel?.name ?
                                         <Text style={styles.labelText}>{selectedCarModel.name}</Text>
                                         :
                                         <Text style={styles.labelText}>Model</Text>
@@ -310,7 +316,7 @@ const AddCarScreen = () => {
                                 searchByModelSeriesLoader ?
                                     <ActivityIndicator size='small' color='#000' />
                                     :
-                                    selectedModelSeries.description ?
+                                    selectedModelSeries?.description ?
                                         <Text style={styles.labelText}>{selectedModelSeries.description}</Text>
                                         :
                                         <Text style={styles.labelText}>Modification</Text>
@@ -319,6 +325,17 @@ const AddCarScreen = () => {
                         </View>
                     </TouchableOpacity>
                 </View>
+            </View>
+            <View>
+                <TouchableOpacity style={[styles.searchButton, {marginTop: 40}]} onPress={()=> navigate('Products', {
+                    data: {
+                            linkageTargetId: selectedModelSeries?.linkageTargetId,
+                            linkageTargetType:  selectedModelSeries?.linkageTargetType,
+                            carId: selectedCarByVin?.[0]?.carId || undefined
+                    }
+                })}>
+                    <Text style={styles.labelText}>Search Products</Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     )
@@ -398,7 +415,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
-   
+
     labelText: {
         fontWeight: '400',
         fontSize: 20,

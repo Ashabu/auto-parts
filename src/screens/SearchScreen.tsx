@@ -51,7 +51,7 @@ const SearchScreen = () => {
             };
         }).catch((error: any) => {
             setFetchingData(false)
-            console.log(JSON.parse(JSON.stringify(error.response.data.message)));
+            console.log(JSON.stringify(error.response.data.message));
         });
     };
 
