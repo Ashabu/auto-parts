@@ -7,6 +7,7 @@ import { useAuth, useLang } from './Context/Context';
 import { getData } from './services/StorageService';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 const AppIndex = () => {
   const { handleSignIn } = useAuth();
@@ -29,6 +30,13 @@ const AppIndex = () => {
   };
 
 
+  const getCatalogueList = () => {
+    axios.get('/src/utils/PravusExel.json').then(res => {
+      console.log('***********************************************************************************************************************************',res.data)
+    }).catch(e => console.log('sssssssssssss', e))
+  }
+
+
   const handleAuthorization = () => {
     getData('access_token').then(res => {
       console.log(res)
@@ -39,6 +47,7 @@ const AppIndex = () => {
   };
 
   useEffect(() => {
+    getCatalogueList()
     handleAuthorization();
     handleSetLanguage();
   }, []);
