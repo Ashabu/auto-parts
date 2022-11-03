@@ -5,21 +5,33 @@ import { Images } from '../utils/Images';
 import ProductList from './ProductList';
 
 const CheckoutList = ({ item }: any) => {
-    const { cartItems, handleAddItem } = useCartItems();
+    const { cartItems, handleAddItem, handleIncrement, handleDecrement } = useCartItems();
     const [itemCount, setItemCount] = useState<number>(item.item_count);
 
   
     const handleItemCount = (type: string) => {
-        const tempCartItems = cartItems;
-        let index = cartItems.findIndex(el => el.id == item.id);
+        let  tempCartItems;
+        let index = cartItems.findIndex(el => el.Code == item.Code);
+   
         if (type == 'INCREMENT') {
-            tempCartItems[index].item_count += 1;
+            tempCartItems = cartItems.map(el => {
+                if(el.Code == item.Code) {
+                    el.item_count += 1;
+                }
+                return el;
+            }) 
             setItemCount(prev => prev + 1)
         } else {
-            tempCartItems[index].item_count -= 1;
-            setItemCount(prev => prev - 1)
+            tempCartItems = cartItems.map(el => {
+                if(el.Code == item.Code) {
+                    el.item_count -= 1;
+                }
+                return el;
+            }) 
+            
         }
-        handleAddItem(tempCartItems);
+        console.log('index ====>', index, 'catitem ===>', item.item_count)
+        handleAddItem(item);
     }
 
 
@@ -29,11 +41,11 @@ const CheckoutList = ({ item }: any) => {
                 <ProductList product={item} />
             </View>
             <View style={styles.counterBox}>
-                <TouchableOpacity onPress={() => handleItemCount('INCREMENT')}>
+                <TouchableOpacity onPress={() => handleIncrement(item)}  style={styles.counterArrow}>
                     <Image source={Images.COUNT_ARROW_UP} style={{ width: 15, height: 7 }} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: 26 }}>{itemCount}</Text>
-                <TouchableOpacity onPress={() => handleItemCount('DECREMENT')}>
+                <Text style={{ fontSize: 26 }}>{item.item_count}</Text>
+                <TouchableOpacity onPress={() => handleDecrement(item)}  style={styles.counterArrow}>
                     <Image source={Images.COUNT_ARROW_DOWN} style={{ width: 15, height: 7 }} />
                 </TouchableOpacity>
             </View>
@@ -51,6 +63,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         width: 90,
-        paddingHorizontal: 10,
+       
     },
+    counterArrow :{
+        height: 30, 
+        width: 30, 
+        alignItems: 'center', 
+        justifyContent: 'center'
+    }
 })

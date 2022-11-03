@@ -8,7 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { useFocusEffect } from '@react-navigation/native';
 import {products}  from '../utils/PravusExel'
 
-const SearchScreen = () => {
+const SearchScreen = ({route}: any) => {
+
     const [searchValue, setSearchValue] = useState<string>('');
     const [curPage, setCurPage] = useState<number>(1);
     const [newProducts, setNewProducts] = useState<any[]>([]);
@@ -16,7 +17,12 @@ const SearchScreen = () => {
     const { t } = useTranslation();
     const InputRef = useRef<TextInput>(null);
 
-    
+    useEffect(() => {
+        if(route?.params?.data !== undefined) {
+            setSearchValue(route?.params?.data)
+        }
+    }, [route?.params?.data])
+
 
     // useFocusEffect(
     //     useCallback(() => {
@@ -83,6 +89,7 @@ const SearchScreen = () => {
                     onChangeText={(text: string) => setSearchValue(text)}
                     onBlur={handleSearchProducts}
                     autoCapitalize="none"
+                    autoFocus={true}
                 />
                 <TouchableOpacity style={styles.filterIconButton} onPress={handleOnBlur}>
                     <Image source={Images.FILTER_ICON} style={styles.filterIcon} />

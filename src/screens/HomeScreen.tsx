@@ -17,7 +17,7 @@ const HomeScreen =  () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} />
+            {/* <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} /> */}
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
                     <Text style={styles.addCarTitle}>{t("addCar")}</Text>

@@ -120,7 +120,7 @@ export async function GetArticles(type: string, data: any) {
             getArticles: {
                 provider: TEC_DOC_PROVIDER_ID,
                 articleCountry: 'RU',
-                lang: 'ru',
+                lang: 'en',
                 perPage: 0,
                 page: 1,
                 linkageTargetId: data.linkageTargetId,
