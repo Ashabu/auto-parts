@@ -19,6 +19,7 @@ export type Products = {
     handleAddItem: (val: any) => void,
     handleIncrement: (data: any) => void,
     handleDecrement: (data: any) => void,
+    handleClearItems: () => void,
     totalCost: number | string,
     totalItems: number
 }

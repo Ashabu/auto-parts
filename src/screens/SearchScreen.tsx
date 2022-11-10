@@ -6,17 +6,23 @@ import ProductList from '../components/ProductList';
 import { Images } from '../utils/Images';
 import { useTranslation } from 'react-i18next';
 import { useFocusEffect } from '@react-navigation/native';
+import {products}  from '../utils/PravusExel'
 
+const SearchScreen = ({route}: any) => {
 
-const SearchScreen = () => {
     const [searchValue, setSearchValue] = useState<string>('');
     const [curPage, setCurPage] = useState<number>(1);
-    const [products, setProducts] = useState<any[]>([]);
+    const [newProducts, setNewProducts] = useState<any[]>([]);
     const [fetchingData, setFetchingData] = useState<boolean>(false);
     const { t } = useTranslation();
     const InputRef = useRef<TextInput>(null);
 
-    
+    useEffect(() => {
+        if(route?.params?.data !== undefined) {
+            setSearchValue(route?.params?.data)
+        }
+    }, [route?.params?.data])
+
 
     // useFocusEffect(
     //     useCallback(() => {
@@ -29,35 +35,43 @@ const SearchScreen = () => {
         return () => InputRef.current?.clear();
     }, [InputRef.current])
 
-    useEffect(() => {
-        handleSearchProducts();
-    }, [curPage]);
+    // useEffect(() => {
+    //     handleSearchProducts();
+    // }, [curPage]);
 
+    // const handleSearchProducts = () => {
+    //     if (!searchValue) return;
+    //     setFetchingData(true)
+    //     searchItems(searchValue, curPage).then(response => {
+    //         setFetchingData(false);
+    //         let response_data = response.data.map((el: any) => {
+    //             el.item_count = 0;
+    //             return el
+    //         });
+    //         if (curPage == 1) {
+    //             setProducts(response_data)
+    //         } else {
+    //             setProducts(prev => {
+    //                 return [...prev, ...response_data]
+    //             });
+    //         };
+    //     }).catch((error: any) => {
+    //         setFetchingData(false)
+    //         console.log(JSON.stringify(error.response.data.message));
+    //     });
+    // };
+    
     const handleSearchProducts = () => {
-        if (!searchValue) return;
-        setFetchingData(true)
-        searchItems(searchValue, curPage).then(response => {
-            setFetchingData(false);
-            let response_data = response.data.map((el: any) => {
-                el.item_count = 0;
-                return el
-            });
-            if (curPage == 1) {
-                setProducts(response_data)
-            } else {
-                setProducts(prev => {
-                    return [...prev, ...response_data]
-                });
-            };
-        }).catch((error: any) => {
-            setFetchingData(false)
-            console.log(JSON.stringify(error.response.data.message));
-        });
-    };
+        if(!searchValue || searchValue == '') return;
+        let tempProducts = products.filter(el => el.Name.toLowerCase().includes(searchValue) || el.OEM.includes(searchValue) || el.Brand.toLocaleLowerCase().includes(searchValue));
+        setNewProducts(tempProducts)
+    }
 
     const handleOnBlur = () => {
         Keyboard.dismiss();
-        setCurPage(prev => prev + 1)
+        if(searchValue) {
+            handleSearchProducts();
+        }
     }
 
     return (
@@ -75,30 +89,32 @@ const SearchScreen = () => {
                     onChangeText={(text: string) => setSearchValue(text)}
                     onBlur={handleSearchProducts}
                     autoCapitalize="none"
+                    autoFocus={true}
                 />
                 <TouchableOpacity style={styles.filterIconButton} onPress={handleOnBlur}>
                     <Image source={Images.FILTER_ICON} style={styles.filterIcon} />
                 </TouchableOpacity>
             </View>
             {
-                products.length === 0 && !fetchingData ?
+                newProducts.length === 0 && !fetchingData ?
                     <Text style={{ textAlign: 'center' }}>{t('noProducts')}</Text>
                     :
-                    products.length !== 0 ?
+                    newProducts.length !== 0 ?
                         <FlatList
-                            data={products}
+                            data={newProducts}
                             renderItem={({ item }) => <ProductList product={item} />}
-                            keyExtractor={(item) => item.id}
-                            ListFooterComponent={() =>
-                                <TouchableOpacity style={styles.loadMoreBtn} onPress={() => setCurPage(prev => prev + 1)}>
-                                    {
-                                        fetchingData ?
-                                            <ActivityIndicator size={'small'} color='#FFFFFF' />
-                                            :
-                                            <Text style={styles.loadMoreBtnTitle}>More</Text>
-                                    }
-                                </TouchableOpacity>
-                            }
+                            keyExtractor={(item) => item.Code}
+                            // commented out till connected back to API Call
+                            // ListFooterComponent={() =>
+                            //     <TouchableOpacity style={styles.loadMoreBtn} onPress={() => setCurPage(prev => prev + 1)}>
+                            //         {
+                            //             fetchingData ?
+                            //                 <ActivityIndicator size={'small'} color='#FFFFFF' />
+                            //                 :
+                            //                 <Text style={styles.loadMoreBtnTitle}>More</Text>
+                            //         }
+                            //     </TouchableOpacity>
+                            // }
                         />
                         :
                         <ActivityIndicator size={'large'} color='#ffdd00' style={{ alignSelf: 'center' }} />

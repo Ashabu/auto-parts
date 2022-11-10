@@ -4,7 +4,7 @@ import { navigate } from '../navigation/Navigation';
 import { Images } from '../utils/Images';
 
 const ProductList = ({ product }: any) => {
-    const { name, price } = product;
+    const { Name,  RetilePRiceOFPremix  } = product;
 
     const handleProductPress = () => {
         navigate("ProductDetails", {
@@ -17,10 +17,10 @@ const ProductList = ({ product }: any) => {
             <Image source={Images.NO_IMAGE} style={{ width: 100, height: 100, resizeMode: 'cover' }} />
             <View style={styles.productRight}>
                 <Text style={styles.title} >
-                    {name}
+                    {Name}
                 </Text>
                 <Text style={styles.price}>
-                    ${price}
+                    ${RetilePRiceOFPremix}
                 </Text>
             </View>
         </TouchableOpacity>

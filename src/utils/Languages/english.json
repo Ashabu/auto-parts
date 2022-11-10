@@ -39,7 +39,8 @@
         "invalidEmail" : "Incorrect Email Address",
         "pleaseFillOut": "Please Fill In The Field",
         "wishListEmpty": "Wishlist Is Empty",
-        "noItems": "There is no item in wishlist"
+        "noItems": "There is no item in wishlist",
+        "orderPlaced": "Your Order Has Been Placed"
 
         
     }

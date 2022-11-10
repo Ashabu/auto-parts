@@ -7,7 +7,7 @@ import {useCartItems} from '../Context/useProducts';
 import { Colors } from '../utils/AppColors';
 
 const ProductDetailScreen = ({ route }: any) => {
-    const { stock_quantity, name, price } = route.params.item;
+    const { Volume, Name, RetilePRiceOFPremix, Brand, OEM } = route.params.item;
     // const { cartItems, handleAddItem } = useCart()
     const {cartItems, handleAddItem} = useCartItems();
     const carouselRef = useRef<ScrollView>(null);
@@ -56,7 +56,7 @@ const ProductDetailScreen = ({ route }: any) => {
     }
 
     const handleGoToCheckout = () => {
-        if (stock_quantity > 0) {
+        if (Volume > 0) {
             handleAddItemToCheckout()
                 navigate('Checkout', {
                     screen: 'CheckoutS',
@@ -67,19 +67,19 @@ const ProductDetailScreen = ({ route }: any) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ height: 60 }}></View>
+            
             <View style={{ flex: 3 }}>
                 <View style={styles.infoBox}>
-                    <Text>Mark</Text>
-                    <Text> KYB</Text>
+                    <Text>Brand</Text>
+                    <Text> {Brand}</Text>
                 </View>
-                <View style={styles.infoBox}>
+                {OEM && <View style={styles.infoBox}>
                     <Text>OEM</Text>
-                    <Text> A204321106</Text>
-                </View>
+                    <Text> {OEM}</Text>
+                </View>}
                 <View style={{ flex: 1 }}>
-                    <Text style={styles.textStyle}>{name}</Text>
-                    <Text style={styles.textStyle}>${price}</Text>
+                    <Text style={styles.textStyle}>{Name}</Text>
+                    <Text style={styles.textStyle}>${RetilePRiceOFPremix}</Text>
                 </View>
             </View>
             <View style={{ flex: 5 }}>
@@ -126,12 +126,12 @@ const ProductDetailScreen = ({ route }: any) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
-                    style={[styles.actionBtn, { backgroundColor: stock_quantity > 0 ? Colors.YELLOW : Colors.RED }]}
+                    style={[styles.actionBtn, { backgroundColor: Volume > 0 ? Colors.YELLOW : Colors.RED }]}
                     activeOpacity={1}
                     onPress={handleGoToCheckout}
                 >
                     {
-                        stock_quantity > 0 ?
+                        Volume > 0 ?
                             <Text style={styles.actionBtnTitle}>BUY NOW</Text>
                             :
                             <Text style={styles.actionBtnTitle}>OUT OF STOCK</Text>

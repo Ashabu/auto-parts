@@ -11,6 +11,7 @@ const ProductsContext =createContext<Products>({
     handleAddItem: () => { },
     handleIncrement: () => { },
     handleDecrement: () => { },
+    handleClearItems: () => { },
     totalCost: 0,
     totalItems: 0
 });
@@ -25,21 +26,25 @@ export const ProductsProvider: React.FC<ContextProps> = ({ children }) => {
     const [totalItems, setTotalItems] = useState<number>(0);
 
     const handleAddItem = (data: any) => {
-        let tempCartItems = cartItems;
-        let index = tempCartItems.findIndex(el => el.id === data.id);
+       let  tempCartItems = cartItems;
+        let index = tempCartItems.findIndex(el => el.Code === data.Code);
         if (index !== -1) {
-            tempCartItems[index].item_count +=1
+            tempCartItems.map((el, i) => {
+                if(i == index ) {
+                    el.item_count = data.item_count
+                }
+                return el
+            });
         } else {
-            tempCartItems = [...cartItems, data]
+            tempCartItems = [...cartItems, {...data, item_count: 1}]
         }
-       console.log('tempCartItems ==> ', tempCartItems)
         setCartItems(tempCartItems);
     };
 
     const handleIncrement = (data: any) => {
-        // if(item.stock_quantity)
+        console.log(data.Volume)
         let tempCartItems = cartItems.map(item => {
-            if (item.id == data.id && item.item_count + 1 <= data.stock_quantity) {
+            if (item.Code == data.Code && item.item_count + 1 <= data.Volume) {
                 item.item_count += 1;
             };
             return item;
@@ -48,7 +53,7 @@ export const ProductsProvider: React.FC<ContextProps> = ({ children }) => {
     };
     const handleDecrement = (data: any) => {
         let tempCartItems = cartItems.map(item => {
-            if (item.id == data.id && item.item_count - 1 >= 0) {
+            if (item.Code == data.Code && item.item_count - 1 >= 1) {
                 item.item_count -= 1;
             };
             return item;
@@ -58,7 +63,9 @@ export const ProductsProvider: React.FC<ContextProps> = ({ children }) => {
 
     const handleTotalCost = () => {
         let tempTotalCost = cartItems.reduce((cost, item) => {
-            return cost += (item.item_count * item.price);
+            console.log(item.item_count, 'qqqqqq', item.RetilePRiceOFPremix)
+
+            return cost += (item.item_count * item.RetilePRiceOFPremix);
         }, 0);
 
         setTotalCost(tempTotalCost);
@@ -71,6 +78,8 @@ export const ProductsProvider: React.FC<ContextProps> = ({ children }) => {
         setTotalItems(tempTotalItems)
     }
 
+    const handleClearItems = () => setCartItems([]);
+
     useEffect(() => {
         handleTotalCost();
         handleTotalItems();
@@ -82,6 +91,7 @@ export const ProductsProvider: React.FC<ContextProps> = ({ children }) => {
         handleAddItem,
         handleIncrement,
         handleDecrement,
+        handleClearItems,
         totalCost,
         totalItems
     };

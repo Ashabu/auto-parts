@@ -1,10 +1,12 @@
 import React from 'react';
 import {View, Image, Text, TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
 import { Images } from '../utils/Images';
+import {useCartItems} from '../Context/useProducts';
 
 const { width } = Dimensions.get('screen');
 
 const PaymentMethod = ({stepBack, onPlaceOrder}: any) => {
+    const {totalCost} = useCartItems()
     return (
         <View style={{flex: 1, justifyContent:'space-between'}}>
             <View style={styles.deliveryAddressView}>
@@ -18,7 +20,7 @@ const PaymentMethod = ({stepBack, onPlaceOrder}: any) => {
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
                         <Text style={{ fontSize: 18 }}>Subtotal</Text>
-                        <Text style={{ fontSize: 18 }}>$ 1,114.00</Text>
+                        <Text style={{ fontSize: 18 }}>$ {totalCost}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
                         <Text style={{ fontSize: 18 }}>Shipping</Text>
@@ -26,7 +28,7 @@ const PaymentMethod = ({stepBack, onPlaceOrder}: any) => {
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: '#CFCFCF', marginVertical: 5 }}>
                         <Text style={{ fontSize: 18 }}>Total</Text>
-                        <Text style={{ fontSize: 18 }}>$ 1,114.00</Text>
+                        <Text style={{ fontSize: 18 }}>$ {totalCost}</Text>
                     </View>
                 </View>
             </View>
