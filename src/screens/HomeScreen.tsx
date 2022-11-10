@@ -6,6 +6,7 @@ import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 import { vehicleStore } from '../store/Store';
+import SavedCardList from '../components/SavedCardList';
 
 
 const HomeScreen = () => {
@@ -23,8 +24,8 @@ const HomeScreen = () => {
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {
                     SavedVehicles.length > 0 ?
-                        SavedVehicles.map(v => (
-                            <Text style={styles.addCarTitle}>{v}</Text>
+                        SavedVehicles.map((v, index) => (
+                            <Text key={index} style={styles.addCarTitle}>{v.carName}</Text>
                         ))
                         :
                         <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
@@ -34,7 +35,7 @@ const HomeScreen = () => {
 
                 }
 
-
+            <SavedCardList/>    
             </ScrollView>
         </SafeAreaView>
     );

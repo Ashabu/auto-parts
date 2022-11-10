@@ -127,8 +127,19 @@ const AddCarScreen = () => {
         setSearchByVinLoader(true);
         try {
             GetVehiclesByVin(vin).then(res => {
-                console.log(res.data.data)
-                setVehiclesByVinData(res.data.data.matchingVehicles?.array);
+                console.log('by viiiin ===>' ,res.data.data.matchingModels?.array?.[0].modelName)
+                if(res.data?.data?.matchingVehicles?.array) {
+                    setVehiclesByVinData(res.data.data.matchingVehicles?.array);
+
+                } else {
+                    setVehiclesByVinData([{
+                        vehicleTypeDescription: res.data.data.matchingManufacturers?.array?.[0]?.manuName + ','+res.data.data.matchingModels?.array?.[0].modelName,
+                        manuId:res.data.data.matchingManufacturers?.array?.[0]?.manuId,
+                        modelId: undefined
+                    }]);
+                    console.log(res.data.data.matchingManufacturers?.array)
+                }
+                // setVehiclesByVinData(res.data.data.matchingVehicles?.array);
                 setShowVehiclesByVin(true);
                 setSearchByVinLoader(false);
 
@@ -207,6 +218,7 @@ const AddCarScreen = () => {
 
     const handleSelectCarByVin = ({ val, data }: { val: boolean, data: { manuId?: number, modelId?: number, carId?: number, vehicleTypeDescription?: string, carName?: string } }) => {
         setShowVehiclesByVin(val);
+        saveVehicle({...data, isActive: true})
         setSelectedCarByVin(prev => {
             return [...prev, data]
         })
