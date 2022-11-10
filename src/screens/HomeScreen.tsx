@@ -5,9 +5,11 @@ import NotificationBox from '../components/NotificationBox';
 import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
+import { vehicleStore } from '../store/Store';
 
 
-const HomeScreen =  () => {
+const HomeScreen = () => {
+    const SavedVehicles = vehicleStore(state => state.savedVehicles)
     const { t, i18n } = useTranslation();
     const { lang } = useLang();
 
@@ -19,10 +21,19 @@ const HomeScreen =  () => {
         <SafeAreaView style={{ flex: 1 }}>
             {/* <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} /> */}
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
-                    <Text style={styles.addCarTitle}>{t("addCar")}</Text>
-                    <Text style={styles.addCarTitle}>+</Text>
-                </TouchableOpacity>
+                {
+                    SavedVehicles.length > 0 ?
+                        SavedVehicles.map(v => (
+                            <Text style={styles.addCarTitle}>{v}</Text>
+                        ))
+                        :
+                        <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
+                            <Text style={styles.addCarTitle}>{t("addCar")}</Text>
+                            <Text style={styles.addCarTitle}>+</Text>
+                        </TouchableOpacity>
+
+                }
+
 
             </ScrollView>
         </SafeAreaView>

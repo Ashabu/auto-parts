@@ -13,8 +13,10 @@ import SelectCarByVin from '../components/SelectCarByVin';
 import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 import { navigate } from '../navigation/Navigation';
+import { vehicleStore } from '../store/Store';
 
 const AddCarScreen = () => {
+    const saveVehicle = vehicleStore(state => state.saveVehicle)
     const [vin, setVin] = useState<string>('');
     //vehicles by vin
     const [searchByVinLoader, setSearchByVinLoader] = useState<boolean>(false);
@@ -327,13 +329,17 @@ const AddCarScreen = () => {
                 </View>
             </View>
             <View>
-                <TouchableOpacity style={[styles.searchButton, {marginTop: 40}]} onPress={()=> navigate('Products', {
+                <TouchableOpacity style={[styles.searchButton, {marginTop: 40}]} onPress={()=> 
+                {
+                    navigate('Products', {
                     data: {
                             linkageTargetId: selectedModelSeries?.linkageTargetId,
                             linkageTargetType:  selectedModelSeries?.linkageTargetType,
                             carId: selectedCarByVin?.[0]?.carId || undefined
                     }
-                })}>
+                });
+                    saveVehicle(selectedModelSeries?.description)
+                }}>
                     <Text style={styles.labelText}>Search Products</Text>
                 </TouchableOpacity>
             </View>
