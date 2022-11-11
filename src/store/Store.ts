@@ -42,7 +42,8 @@ export const vehicleStore = create<IVehicleStore>(set => ({
         }),
     setActiveVehicle: (id: number) =>
         set(state => {
-            let tempActiveCar =   state.savedVehicles.filter(el => el.vehicleModelSeriesId == id)[0];
+            let tempActiveCar = state.savedVehicles.filter(el => el.vehicleModelSeriesId == id)[0];
+            console.log(tempActiveCar)
             tempActiveCar.currentSelected = true;
             let tempInactiveCars = state.savedVehicles.filter(el => el.vehicleModelSeriesId !== id);
             tempInactiveCars.forEach(v => {v.currentSelected = false; return v});

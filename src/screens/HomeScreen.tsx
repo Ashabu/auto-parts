@@ -15,6 +15,8 @@ const HomeScreen = () => {
     const { lang } = useLang();
     const [isSelecting, setIsSelecting] = useState<boolean>(false);
 
+    console.log('active Car', SavedVehicles[0]);
+
     useEffect(() => {
         i18n.changeLanguage(lang)
     }, [lang])
@@ -23,12 +25,14 @@ const HomeScreen = () => {
         <SafeAreaView style={{ flex: 1 }}>
             {/* <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} /> */}
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <TouchableOpacity onPress={() => setIsSelecting(!isSelecting)}>
-                    <Text></Text>
+               {SavedVehicles.length> 0 && 
+                <TouchableOpacity style={styles.addCarButton} onPress={() => setIsSelecting(!isSelecting)}>
+                    <Text style={styles.addCarTitle}>{SavedVehicles?.[0].mfrName}, {SavedVehicles?.[0].description.split('(')[0]}</Text>
                 </TouchableOpacity>
+                }
                 {
-                    SavedVehicles.length > 0 ?
-                        SavedVehicles.map((v, index) => (
+                    SavedVehicles.length > 0 && isSelecting?
+                        SavedVehicles.splice(1, SavedVehicles.length) .map((v, index) => (
                             <SavedCardList key={index} vehicle={v} callback = {() => setIsSelecting(false)}/>  
                         ))
                         :

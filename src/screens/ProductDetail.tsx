@@ -2,16 +2,18 @@ import React, { useEffect } from 'react'
 import { Text, View, FlatList, SafeAreaView } from 'react-native';
 import { useState } from 'react';
 import { GetArticles } from '../Api';
+import { vehicleStore } from '../store/Store';
 
 const ProductDetail = ({ route }: any) => {
-    const { linkageTargetId, linkageTargetType, carId, assemblyGroupNodeId } = route?.params?.data;
+    const { linkageTargetId, linkageTargetType, carId, assemblyGroupNodeId } = route?.params?.data
+    const {savedVehicles} = vehicleStore();
     console.log(route.params.data)
     const [articles, setArticles] = useState<any[]>([]);
     const handleProductsCategory = (type: string = 'GET_SINGLE_ARTICLE', assemblyGroupNodeId?: string) => {
         let data = {
-            assemblyGroupNodeId: route.params.data.assemblyGroupNodeId,
-            linkageTargetId: linkageTargetId !== undefined ? linkageTargetId : carId,
-            linkageTargetType: linkageTargetType !== undefined ? linkageTargetType : 'P'
+            assemblyGroupNodeId: route?.params?.assemblyGroupNodeId,
+            linkageTargetId: savedVehicles[0].linkageTargetId,
+            linkageTargetType:  'P'
         }
 
         GetArticles(type, data).then(res => {

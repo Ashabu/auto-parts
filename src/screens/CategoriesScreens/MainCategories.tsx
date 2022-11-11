@@ -4,6 +4,7 @@ import { GetParentCategories } from '../../Api';
 import { navigate } from '../../navigation/Navigation';
 import { useCategoriesStore } from '../../store/Store';
 import { Colors } from '../../utils/AppColors';
+import ProductDetailScreen from '../ProductDetailScreen';
 
 const boxWidth = Dimensions.get('screen').width / 3;
 const boxHeight = Dimensions.get('screen').height / 3;
@@ -28,7 +29,7 @@ const MainCategories = () => {
     <View style={styles.container}>
       {
         categories?.length > 0 && categories.splice(0, 11).map(el => (
-          <TouchableOpacity style={styles.categoryBox} key={el.assemblyGroupNodeId}>
+          <TouchableOpacity style={styles.categoryBox} key={el.assemblyGroupNodeId} onPress = {() => navigate('ProductDetail', {data: {assemblyGroupNodeId: el.assemblyGroupNodeId}})}>
             <Text style={styles.categoryNameText}>{el.assemblyGroupName}</Text>
           </TouchableOpacity>
         ))

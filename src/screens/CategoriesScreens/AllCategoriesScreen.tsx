@@ -4,6 +4,7 @@ import { useCategoriesStore } from '../../store/Store';
 import {useState} from 'react';
 import {IGetMainCategoriesResponse} from '../../Api/types';
 import {Colors} from '../../utils/AppColors';
+import {navigate} from '../../navigation/Navigation';
 
 const AllCategoriesScreen = () => {
   const {categories} = useCategoriesStore() 
@@ -32,7 +33,7 @@ const AllCategoriesScreen = () => {
         data={searchData}
         initialNumToRender={20}
         renderItem={({ item }) =>
-          <TouchableOpacity style={styles.listItem} >
+          <TouchableOpacity style={styles.listItem} onPress = {() => navigate('ProductDetail', {data: {assemblyGroupNodeId: item.assemblyGroupNodeId}})}>
             <Text style={styles.listItemText}>{item.assemblyGroupName}</Text>
           </TouchableOpacity>}
         keyExtractor={({ assemblyGroupNodeId }) => assemblyGroupNodeId!.toString()}
