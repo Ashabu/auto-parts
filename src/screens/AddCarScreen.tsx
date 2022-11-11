@@ -343,14 +343,14 @@ const AddCarScreen = () => {
             <View>
                 <TouchableOpacity style={[styles.searchButton, {marginTop: 40}]} onPress={()=> 
                 {
-                    navigate('Products', {
-                    data: {
-                            linkageTargetId: selectedModelSeries?.linkageTargetId,
-                            linkageTargetType:  selectedModelSeries?.linkageTargetType,
-                            carId: selectedCarByVin?.[0]?.carId || undefined
-                    }
-                });
-                    saveVehicle(selectedModelSeries?.description)
+                //     navigate('Products', {
+                //     data: {
+                //             linkageTargetId: selectedModelSeries?.linkageTargetId,
+                //             linkageTargetType:  selectedModelSeries?.linkageTargetType,
+                //             carId: selectedCarByVin?.[0]?.carId || undefined
+                //     }
+                // });
+                    saveVehicle({...selectedModelSeries, currentSelected: true})
                 }}>
                     <Text style={styles.labelText}>Search Products</Text>
                 </TouchableOpacity>

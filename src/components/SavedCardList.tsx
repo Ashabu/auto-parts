@@ -1,19 +1,31 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { vehicleStore } from '../store/Store';
 import { Colors } from '../utils/AppColors';
 
-const SavedCardList = () => {
+
+interface ISavedCarList {
+  vehicle: any,
+  callback: ()=> void;
+}
+const SavedCardList:React.FC<ISavedCarList> = ({vehicle, callback}) => {
+  const {mfrName, vehicleModelSeriesName, currentSelected, description, vehicleModelSeriesId} = vehicle;
+  const {removeVehicle, setActiveVehicle} = vehicleStore()
+  console.log(currentSelected)
   return (
     <View style={styles.listItem}>
       <View style={{flexDirection: 'row', alignItems:'center'}}>
-        <TouchableOpacity style={styles.actionBtn}>
-          <View style={styles.circle} />
+        <TouchableOpacity style={styles.actionBtn} onPress={()=> {
+          setActiveVehicle(vehicleModelSeriesId);
+          callback();
+        }}>
+          <View style={[styles.circle, currentSelected && styles.active]} />
         </TouchableOpacity>
         <View>
-          <Text style={styles.carName}>Toyota Camry v2.0</Text>
+          <Text style={styles.carName}>{mfrName}, {description.split('(')[0]}</Text>
         </View>
       </View>
-      <TouchableOpacity style={[styles.actionBtn, {backgroundColor: Colors.RED}]}>
+      <TouchableOpacity style={[styles.actionBtn, {backgroundColor: Colors.RED}]} onPress={()=> removeVehicle(vehicleModelSeriesId)}>
         <Text style={styles.deleteText}>-</Text>
       </TouchableOpacity>
     </View>
@@ -46,9 +58,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.YELLOW
   },
   carName: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10
+    fontSize: 14,
+    fontWeight: '500',
+    marginLeft: 10,
+    color: Colors.BLACK
   },
   deleteBtn: {
 

@@ -10,9 +10,10 @@ import SavedCardList from '../components/SavedCardList';
 
 
 const HomeScreen = () => {
-    const SavedVehicles = vehicleStore(state => state.savedVehicles)
+    const SavedVehicles = vehicleStore(state => state.savedVehicles);
     const { t, i18n } = useTranslation();
     const { lang } = useLang();
+    const [isSelecting, setIsSelecting] = useState<boolean>(false);
 
     useEffect(() => {
         i18n.changeLanguage(lang)
@@ -22,10 +23,13 @@ const HomeScreen = () => {
         <SafeAreaView style={{ flex: 1 }}>
             {/* <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} /> */}
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <TouchableOpacity onPress={() => setIsSelecting(!isSelecting)}>
+                    <Text></Text>
+                </TouchableOpacity>
                 {
                     SavedVehicles.length > 0 ?
                         SavedVehicles.map((v, index) => (
-                            <Text key={index} style={styles.addCarTitle}>{v.carName}</Text>
+                            <SavedCardList key={index} vehicle={v} callback = {() => setIsSelecting(false)}/>  
                         ))
                         :
                         <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
@@ -35,7 +39,7 @@ const HomeScreen = () => {
 
                 }
 
-            <SavedCardList/>    
+              
             </ScrollView>
         </SafeAreaView>
     );
