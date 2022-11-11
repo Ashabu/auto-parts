@@ -14,6 +14,7 @@ import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 import { navigate } from '../navigation/Navigation';
 import { vehicleStore } from '../store/Store';
+import MainCategories from './CategoriesScreens/MainCategories';
 
 const AddCarScreen = () => {
     const saveVehicle = vehicleStore(state => state.saveVehicle)
@@ -343,13 +344,14 @@ const AddCarScreen = () => {
             <View>
                 <TouchableOpacity style={[styles.searchButton, {marginTop: 40}]} onPress={()=> 
                 {
-                //     navigate('Products', {
-                //     data: {
-                //             linkageTargetId: selectedModelSeries?.linkageTargetId,
-                //             linkageTargetType:  selectedModelSeries?.linkageTargetType,
-                //             carId: selectedCarByVin?.[0]?.carId || undefined
-                //     }
-                // });
+                    navigate('Products', {
+                         screen:'MainCategories'
+                    // data: {
+                    //         linkageTargetId: selectedModelSeries?.linkageTargetId,
+                    //         linkageTargetType:  selectedModelSeries?.linkageTargetType,
+                    //         carId: selectedCarByVin?.[0]?.carId || undefined
+                    // }
+                });
                     saveVehicle({...selectedModelSeries, currentSelected: true})
                 }}>
                     <Text style={styles.labelText}>Search Products</Text>

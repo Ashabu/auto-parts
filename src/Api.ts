@@ -1,6 +1,6 @@
 import { TecDocInstance, TEC_DOC_BASEURL, TEC_DOC_PROVIDER_ID } from './Api/axiosApi';
 import axios from 'axios';
-import { IFinaAuthResponse, IGetProductsResponse, IGetVehiclesByVinResponse, IgGtLinkageTargetsRequest, IgGtLinkageTargetsResponse, IGetArticlesResponse, IGetArticlesData } from './Api/types';
+import {IFinaAuthResponse, IGetProductsResponse, IGetVehiclesByVinResponse, IgGtLinkageTargetsRequest, IgGtLinkageTargetsResponse, IGetArticlesResponse, IGetArticlesData, IGetMainCategoriesResponse} from './Api/types';
 import { storeData, getData } from './services/StorageService';
 const CONSUMER_KEY = 'ck_c55e81512de294204794032506bbe1aa70e0518a';
 const CONSUMER_SECRET = 'cs_00ac3848fc8b9c0ea2b9b185f0b2d2802e6f368f';
@@ -153,4 +153,18 @@ export async function GetArticles(type: string, data: any) {
 
 
     return await TecDocInstance.post<IGetArticlesResponse>(TEC_DOC_BASEURL, requestData)
-}
+};
+
+
+export async function GetParentCategories(linkingTargetId: number) {
+    let requestData = {
+        getChildNodesAllLinkingTarget2: {
+            provider: TEC_DOC_PROVIDER_ID,
+            articleCountry: 'RU',
+            lang: 'en',
+            linkingTargetType: 'V',
+            linkingTargetId: linkingTargetId
+        }
+    };
+    return await TecDocInstance.post<IGetMainCategoriesResponse>(TEC_DOC_BASEURL, requestData);
+};

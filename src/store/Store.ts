@@ -1,4 +1,5 @@
 import create from 'zustand';
+import {IGetMainCategoriesResponse} from '../Api/types';
 
 interface IVehicleStore {
     savedVehicles: any[],
@@ -8,13 +9,8 @@ interface IVehicleStore {
 };
 
 interface ICategoriesStore {
-    categories: {
-        assemblyGroupNodeId: number,
-        assemblyGroupName: string,
-        assemblyGroupType: string,
-        parentNodeId: number,
-        count: number
-    }[]
+    categories:IGetMainCategoriesResponse["data"]["array"];
+    setCategories: (categories: any) => void;
 }
 
 export const vehicleStore = create<IVehicleStore>(set => ({
@@ -46,16 +42,20 @@ export const vehicleStore = create<IVehicleStore>(set => ({
         }),
     setActiveVehicle: (id: number) =>
         set(state => {
-            let tempVehicles = state.savedVehicles.map(el => {
-                if (el.vehicleModelSeriesId == id) {
-                    el.currentSelected = true;
-                } else {
-                    el.currentSelected = false;
-                };
-                return el;
-            });
+            let tempActiveCar =   state.savedVehicles.filter(el => el.vehicleModelSeriesId == id)[0];
+            tempActiveCar.currentSelected = true;
+            let tempInactiveCars = state.savedVehicles.filter(el => el.vehicleModelSeriesId !== id);
+            tempInactiveCars.forEach(v => {v.currentSelected = false; return v});
+            // let tempVehicles = state.savedVehicles.map(el => {
+            //     if (el.vehicleModelSeriesId == id) {
+            //         el.currentSelected = true;
+            //     } else {
+            //         el.currentSelected = false;
+            //     };
+            //     return el;
+            // });
             return {
-                savedVehicles: tempVehicles
+                savedVehicles: [tempActiveCar, ...tempInactiveCars]
             };
         })
 }));

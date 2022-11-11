@@ -10,18 +10,22 @@ const Stack = createNativeStackNavigator();
 
 const CheckoutStack = () => {
     return (
-        <Stack.Navigator >
-            <Stack.Screen name="CheckoutS" component={CheckoutScreen}
-                options={{
-                    header: () => <AppHeader />
-                }} />
+        <Stack.Navigator  >
+            <Stack.Screen
+                name="CheckoutS"
+                component={CheckoutScreen}
+            // options={{
+            //     header: () => <AppHeader />
+            // }} 
+            />
             <Stack.Screen name="UpdateOrder" component={UpdateOrderScreen} />
             <Stack.Screen
                 name="WishList"
                 component={WishListScreen}
-                options={{
-                    header: () => <AppHeader hasBack />
-                }} />
+            // options={{
+            //     header: () => <AppHeader hasBack />
+            // }} 
+            />
         </Stack.Navigator>
     );
 };

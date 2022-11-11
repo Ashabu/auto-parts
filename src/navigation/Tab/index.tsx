@@ -14,6 +14,7 @@ import AppHeader from '../../components/AppHeader';
 import { useTranslation } from 'react-i18next';
 import { Colors } from '../../utils/AppColors';
 import { useSafeArea, useSafeAreaInsets } from 'react-native-safe-area-context';
+import CategoriesStack from '../StackScreens/CategoriesStack';
 
 
 
@@ -56,10 +57,10 @@ const Tabs = () => {
       />
       <Tab.Screen
         name='Products'
-        component={ProductsScreen}
+        component={CategoriesStack}
         options={{
-          headerShown: true,
-          header: () => <AppHeader />,
+          headerShown: false,
+          // header: () => <AppHeader />,
           title: t("productsTab"),
           tabBarIcon: ({ focused }) => {
             return (

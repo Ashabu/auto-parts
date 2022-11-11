@@ -273,7 +273,7 @@ export interface IGetArticlesData {
         }
         includeAll?: boolean,
         includeOEMNumbers?: boolean
-    } 
+    }
 }
 
 export interface IGetArticlesResponse {
@@ -295,12 +295,12 @@ export interface IGetArticlesResponse {
             isRemanufacturedPart: boolean,
             isAccessory: boolean
         },
-        genericArticles: 
-            {
-                genericArticleId: number,
-                genericArticleDescription: string,
-                legacyArticleId: number
-            }[],
+        genericArticles:
+        {
+            genericArticleId: number,
+            genericArticleDescription: string,
+            legacyArticleId: number
+        }[],
         articleText: any[],
         gtins: any[],
         tradeNumbers: any[],
@@ -356,4 +356,17 @@ export interface IGetArticlesResponse {
             count: number
         }[],
     }
+}
+
+export interface IGetMainCategoriesResponse {
+    data: {
+        array: {
+            assemblyGroupName: string,
+            assemblyGroupNodeId: number,
+            hasChilds: boolean
+        }[],
+    },
+    status: number,
+
+  
 }
