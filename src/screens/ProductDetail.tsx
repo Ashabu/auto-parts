@@ -7,11 +7,11 @@ import { vehicleStore } from '../store/Store';
 const ProductDetail = ({ route }: any) => {
     const { linkageTargetId, linkageTargetType, carId, assemblyGroupNodeId } = route?.params?.data
     const {savedVehicles} = vehicleStore();
-    console.log(route.params.data)
+    console.log('aqaaaanee',assemblyGroupNodeId)
     const [articles, setArticles] = useState<any[]>([]);
-    const handleProductsCategory = (type: string = 'GET_SINGLE_ARTICLE', assemblyGroupNodeId?: string) => {
+    const handleProductsCategory = (type: string = 'GET_SINGLE_ARTICLE', ) => {
         let data = {
-            assemblyGroupNodeId: route?.params?.assemblyGroupNodeId,
+            assemblyGroupNodeId: assemblyGroupNodeId,
             linkageTargetId: savedVehicles[0].linkageTargetId,
             linkageTargetType:  'P'
         }

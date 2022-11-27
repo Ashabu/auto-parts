@@ -113,7 +113,7 @@ export async function GetLinkageTargets(data: any) {
 
 export async function GetArticles(type: string, data: any) {
     let requestData = {};
-    console.log(data.assemblyGroupNodeId)
+    
 
     if (type == 'GET_CATEGORIES') {
         requestData = {
@@ -133,7 +133,7 @@ export async function GetArticles(type: string, data: any) {
             }
         }
     };
-    console.log(type, data.assemblyGroupNodeId)
+    console.log(' ===>',type, data)
     if (type == 'GET_SINGLE_ARTICLE') {
         requestData = {
             getArticles: {
@@ -166,5 +166,6 @@ export async function GetParentCategories(linkingTargetId: number) {
             linkingTargetId: linkingTargetId
         }
     };
+    
     return await TecDocInstance.post<IGetMainCategoriesResponse>(TEC_DOC_BASEURL, requestData);
 };
