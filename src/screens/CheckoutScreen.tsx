@@ -20,19 +20,8 @@ const CheckoutScreen = ({ route }: any) => {
     const { isAuthorized } = useAuth();
 
     const handleAddressData = (data: any) => {
-        console.log("data", data);
         setStep(2)
     };
-
-    console.log(routeObj)
-
-    // useEffect(() => {
-    //     if(routeObj.step) {
-    //         setStep(routeObj.step)
-    //     }
-    // }, [routeObj])
-
-    // () => handleSubmit(onSubmit)
 
     const handleSlide = () => {
         carouselRef.current?.scrollTo({

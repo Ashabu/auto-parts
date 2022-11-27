@@ -41,9 +41,6 @@ const ProductDetailScreen = ({ route }: any) => {
 
     const handleMoveTab = (index: number) => {
         setActiveTab(index);
-        console.log(carouselRef.current)
-
-
         carouselRef.current?.scrollTo({
             x: index * Dimensions.get('screen').width,
             animated: true,

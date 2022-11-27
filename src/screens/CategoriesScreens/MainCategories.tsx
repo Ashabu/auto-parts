@@ -14,7 +14,6 @@ const MainCategories = () => {
   const { categories, setCategories } = useCategoriesStore();
   const getCategories = () => {
     GetParentCategories(3820).then(res => {
-      console.log(res.data.data.array)
       setCategories(res.data.data.array);
     }).catch(err => {
       console.log(JSON.stringify(err.response))

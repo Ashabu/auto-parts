@@ -42,7 +42,6 @@ export const ProductsProvider: React.FC<ContextProps> = ({ children }) => {
     };
 
     const handleIncrement = (data: any) => {
-        console.log(data.Volume)
         let tempCartItems = cartItems.map(item => {
             if (item.Code == data.Code && item.item_count + 1 <= data.Volume) {
                 item.item_count += 1;
@@ -63,7 +62,6 @@ export const ProductsProvider: React.FC<ContextProps> = ({ children }) => {
 
     const handleTotalCost = () => {
         let tempTotalCost = cartItems.reduce((cost, item) => {
-            console.log(item.item_count, 'qqqqqq', item.RetilePRiceOFPremix)
 
             return cost += (item.item_count * item.RetilePRiceOFPremix);
         }, 0);

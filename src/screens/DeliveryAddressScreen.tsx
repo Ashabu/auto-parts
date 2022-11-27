@@ -15,7 +15,6 @@ const DeliveryAddressScreen = () => {
 
 
     useEffect(() => {
-        console.log('setAddress useEffect')
         handleGetAddress();
     }, [])
 

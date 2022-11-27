@@ -30,7 +30,6 @@ const CheckoutList = ({ item }: any) => {
             }) 
             
         }
-        console.log('index ====>', index, 'catitem ===>', item.item_count)
         handleAddItem(item);
     }
 

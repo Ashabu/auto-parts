@@ -7,10 +7,9 @@ import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 import { useCategoriesStore, vehicleStore } from '../store/Store';
 import SavedCardList from '../components/SavedCardList';
-import { GetParentCategories } from '../Api';
+import {GetParentCategories, GetArticles} from '../Api';
 
 const { width, height } = Dimensions.get('screen');
-console.log(width, height)
 
 const offersData = [
     {
@@ -32,7 +31,7 @@ const HomeScreen = () => {
     // const {width, height} = useWindowDimensions();
 
     const CarouselRef = useRef<ScrollView>(null);
-    const { categories, setCategories } = useCategoriesStore();
+    const { categories, setCategories, setOemNumbers } = useCategoriesStore();
 
     const SavedVehicles = vehicleStore(state => state.savedVehicles);
     const { t, i18n } = useTranslation();
@@ -40,7 +39,6 @@ const HomeScreen = () => {
     const [carouselStep, setCarouselStep] = useState<number>(0)
     const [isSelecting, setIsSelecting] = useState<boolean>(false);
 
-    console.log('active Car', SavedVehicles[0]);
 
     const handleCarouselSwipe = (nativeEvent: NativeScrollEvent) => {
         if (nativeEvent) {
@@ -53,12 +51,37 @@ const HomeScreen = () => {
 
     const getCategories = () => {
         GetParentCategories(SavedVehicles?.[0].linkageTargetId).then(res => {
-            console.log('categories', res.data.data.array)
             setCategories(res.data.data.array);
         }).catch(err => {
             console.log(JSON.stringify(err.response))
+        });
+    };
+
+    const handleProductsCategory = (assemblyGroupNodeId: number, type: string = 'GET_SINGLE_ARTICLE') => {
+        let data = {
+            assemblyGroupNodeId: assemblyGroupNodeId,
+            linkageTargetId: SavedVehicles?.[0].linkageTargetId,
+            linkageTargetType:  'P'
+        }
+
+        GetArticles(type, data).then(res => {
+            const response = res.data.articles;
+            let oemNumbers: any[] = [];
+            response?.map(el => {
+                el.oemNumbers.map(item => {
+                    if(item.articleNumber){
+                        oemNumbers.push(item.articleNumber)
+                    };
+                });
+            });
+            let uniqueOemNumbers = [... new Set(oemNumbers)]
+            setOemNumbers(uniqueOemNumbers || []);
+        }).catch(err => {
+            console.log(JSON.stringify(err.response))
+        }).finally(() => {
+            navigate('Search')
         })
-    }
+    };
 
     useEffect(() => {
         if (SavedVehicles?.[0]?.linkageTargetId)
@@ -116,7 +139,8 @@ const HomeScreen = () => {
                                 <TouchableOpacity
                                     key={el.assemblyGroupNodeId}
                                     style={styles.categoryItem}
-                                    onPress={() => navigate('ProductDetail', { data: { assemblyGroupNodeId: el.assemblyGroupNodeId } })}
+                                    onPress={() => handleProductsCategory(el.assemblyGroupNodeId)}
+                                    // onPress={() => navigate('ProductDetail', { data: { assemblyGroupNodeId: el.assemblyGroupNodeId } })}
                                 >
                                     <Text style={styles.categoryItemLabel}>{el.assemblyGroupName}</Text>
                                 </TouchableOpacity>

@@ -17,7 +17,6 @@ const AppIndex = () => {
   const handleSetLanguage = () => {
     try {
       getData("lang").then(value => {
-        console.log('handleSetLanguage',value)
         if (value) {
           handleSetLang(value);
         };
@@ -32,14 +31,12 @@ const AppIndex = () => {
 
   const getCatalogueList = () => {
     axios.get('/src/utils/PravusExel.json').then(res => {
-      console.log('***********************************************************************************************************************************',res.data)
     }).catch(e => console.log('sssssssssssss', e))
   }
 
 
   const handleAuthorization = () => {
     getData('access_token').then(res => {
-      console.log(res)
       if (res) handleSignIn(true);
     }).catch((err: any) => {
       console.log(JSON.parse(JSON.stringify(err.response.data.message)));

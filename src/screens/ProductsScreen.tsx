@@ -11,13 +11,11 @@ const ProductsScreen = ({ route }: any) => {
 
 
   const handleProductsCategory = (type: string, assemblyGroupNodeId?: string) => {
-    // console.log(linkageTargetId, linkageTargetType, assemblyGroupNodeId)
     let data = {
       assemblyGroupNodeId: assemblyGroupNodeId,
       linkageTargetId: route?.params?.data?.linkageTargetId !== undefined ? route?.params?.data?.linkageTargetId : route?.params?.data?.carId,
       linkageTargetType: route?.params?.data?.linkageTargetType !== undefined ? route?.params?.data?.linkageTargetType : 'P'
     }
-    console.log(type, data)
     GetArticles(type, data).then(res => {
       setCategories(res.data.assemblyGroupFacets.counts)
     }).catch(err => {
@@ -49,7 +47,6 @@ const ProductsScreen = ({ route }: any) => {
       navigate('Search', {
         data: oemNumber || ''
       })
-      console.log('oemNumber',oemNumber )
       
     }).catch(err => {
       console.log(JSON.stringify(err.response))

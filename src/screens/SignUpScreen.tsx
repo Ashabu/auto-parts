@@ -40,7 +40,6 @@ const SignUpScreen = () => {
         }
         SignUp(signUpData).then(res => {
             setIsLoading(false);
-            console.log('singUp res ==>', res.data);
             navigate('Home', {
                 screen: 'HomeS'
             })

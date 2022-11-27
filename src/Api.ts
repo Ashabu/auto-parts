@@ -53,14 +53,6 @@ export function GetFinaAuthToken() {
 };
 
 export async function GetProductList() {
-    console.log('started');
-    // console.log(finaInstance.get('/api/operation/getProducts'))
-    // finaInstance.get<IGetProductsResponse>('/api/operation/getProducts').then(response => {
-    //     console.log(response.data.products)
-    // }).catch((err: any) =>{
-    //     console.log(err)
-    // })
-
     var config = {
         method: 'get',
         url: 'http://185.139.57.86:8083/api/operation/getProducts',
@@ -133,7 +125,6 @@ export async function GetArticles(type: string, data: any) {
             }
         }
     };
-    console.log(' ===>',type, data)
     if (type == 'GET_SINGLE_ARTICLE') {
         requestData = {
             getArticles: {
@@ -150,7 +141,7 @@ export async function GetArticles(type: string, data: any) {
             }
         }
     };
-
+    console.log('*************************************************************',TEC_DOC_BASEURL, requestData)
 
     return await TecDocInstance.post<IGetArticlesResponse>(TEC_DOC_BASEURL, requestData)
 };

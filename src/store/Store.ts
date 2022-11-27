@@ -10,7 +10,9 @@ interface IVehicleStore {
 
 interface ICategoriesStore {
     categories:IGetMainCategoriesResponse["data"]["array"];
+    oemNumberArray: string[],
     setCategories: (categories: any) => void;
+    setOemNumbers: (data: string[]) => void;
 }
 
 export const vehicleStore = create<IVehicleStore>(set => ({
@@ -63,5 +65,7 @@ export const vehicleStore = create<IVehicleStore>(set => ({
 
 export const useCategoriesStore = create<ICategoriesStore>(set => ({
     categories: [],
-    setCategories: (categories: ICategoriesStore["categories"]) => set(({ categories: categories }))
+    oemNumberArray: [],
+    setCategories: (categories: ICategoriesStore["categories"]) => set(({ categories: categories })),
+    setOemNumbers: (data: string[]) => set(({oemNumberArray: data}))
 }))

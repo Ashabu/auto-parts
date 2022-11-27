@@ -5,10 +5,11 @@ import { searchItems } from '../Api';
 import ProductList from '../components/ProductList';
 import { Images } from '../utils/Images';
 import { useTranslation } from 'react-i18next';
-import { useFocusEffect } from '@react-navigation/native';
-import {products}  from '../utils/PravusExel'
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { products } from '../utils/PravusExel'
+import { useCategoriesStore } from '../store/Store';
 
-const SearchScreen = ({route}: any) => {
+const SearchScreen = ({ route }: any) => {
 
     const [searchValue, setSearchValue] = useState<string>('');
     const [curPage, setCurPage] = useState<number>(1);
@@ -16,60 +17,57 @@ const SearchScreen = ({route}: any) => {
     const [fetchingData, setFetchingData] = useState<boolean>(false);
     const { t } = useTranslation();
     const InputRef = useRef<TextInput>(null);
+    const isFocused = useIsFocused();
+
+    const { oemNumberArray } = useCategoriesStore();
 
     useEffect(() => {
-        if(route?.params?.data !== undefined) {
+        if (route?.params?.data !== undefined) {
             setSearchValue(route?.params?.data)
         }
     }, [route?.params?.data])
 
+    useEffect(() => {
+        console.log(isFocused)
+        if (isFocused) {
+            searchByOemNumbers();
+        }
+    }, [isFocused])
 
-    // useFocusEffect(
-    //     useCallback(() => {
-           
-    //     }, [InputRef.current])
-    // );
-    // console.log('InputRef', InputRef.current?.clear)
+    
     useEffect(() => {
         InputRef.current?.focus();
         return () => InputRef.current?.clear();
     }, [InputRef.current])
 
-    // useEffect(() => {
-    //     handleSearchProducts();
-    // }, [curPage]);
 
-    // const handleSearchProducts = () => {
-    //     if (!searchValue) return;
-    //     setFetchingData(true)
-    //     searchItems(searchValue, curPage).then(response => {
-    //         setFetchingData(false);
-    //         let response_data = response.data.map((el: any) => {
-    //             el.item_count = 0;
-    //             return el
-    //         });
-    //         if (curPage == 1) {
-    //             setProducts(response_data)
-    //         } else {
-    //             setProducts(prev => {
-    //                 return [...prev, ...response_data]
-    //             });
-    //         };
-    //     }).catch((error: any) => {
-    //         setFetchingData(false)
-    //         console.log(JSON.stringify(error.response.data.message));
-    //     });
-    // };
-    
+    const searchByOemNumbers = () => {
+        let tempProducts: any[] = []
+        if (oemNumberArray.length > 0) {
+            console.log('search started')
+            oemNumberArray.forEach(el => {
+                let x = products.filter(item => item.OEM == el);
+                if (x.length > 0) {
+                    tempProducts = [...tempProducts, ...x]
+                };
+            });
+        };
+        setNewProducts(tempProducts);
+    };
+
+
+
+
+
     const handleSearchProducts = () => {
-        if(!searchValue || searchValue == '') return;
+        if (!searchValue || searchValue == '') return;
         let tempProducts = products.filter(el => el.Name.toLowerCase().includes(searchValue) || el.OEM.includes(searchValue) || el.Brand.toLocaleLowerCase().includes(searchValue));
         setNewProducts(tempProducts)
     }
 
     const handleOnBlur = () => {
         Keyboard.dismiss();
-        if(searchValue) {
+        if (searchValue) {
             handleSearchProducts();
         }
     }
@@ -104,17 +102,17 @@ const SearchScreen = ({route}: any) => {
                             data={newProducts}
                             renderItem={({ item }) => <ProductList product={item} />}
                             keyExtractor={(item) => item.Code}
-                            // commented out till connected back to API Call
-                            // ListFooterComponent={() =>
-                            //     <TouchableOpacity style={styles.loadMoreBtn} onPress={() => setCurPage(prev => prev + 1)}>
-                            //         {
-                            //             fetchingData ?
-                            //                 <ActivityIndicator size={'small'} color='#FFFFFF' />
-                            //                 :
-                            //                 <Text style={styles.loadMoreBtnTitle}>More</Text>
-                            //         }
-                            //     </TouchableOpacity>
-                            // }
+                        // commented out till connected back to API Call
+                        // ListFooterComponent={() =>
+                        //     <TouchableOpacity style={styles.loadMoreBtn} onPress={() => setCurPage(prev => prev + 1)}>
+                        //         {
+                        //             fetchingData ?
+                        //                 <ActivityIndicator size={'small'} color='#FFFFFF' />
+                        //                 :
+                        //                 <Text style={styles.loadMoreBtnTitle}>More</Text>
+                        //         }
+                        //     </TouchableOpacity>
+                        // }
                         />
                         :
                         <ActivityIndicator size={'large'} color='#ffdd00' style={{ alignSelf: 'center' }} />

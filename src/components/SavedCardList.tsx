@@ -11,7 +11,6 @@ interface ISavedCarList {
 const SavedCardList:React.FC<ISavedCarList> = ({vehicle, callback}) => {
   const {mfrName, vehicleModelSeriesName, currentSelected, description, vehicleModelSeriesId} = vehicle;
   const {removeVehicle, setActiveVehicle} = vehicleStore()
-  console.log(currentSelected)
   return (
     <View style={styles.listItem}>
       <View style={{flexDirection: 'row', alignItems:'center'}}>
