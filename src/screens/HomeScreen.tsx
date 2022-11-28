@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, NativeScrollEvent, View } from 'react-native';
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, NativeScrollEvent, View, Image } from 'react-native';
 import NotificationBox from '../components/NotificationBox';
 import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
@@ -14,14 +14,17 @@ const { width, height } = Dimensions.get('screen');
 const offersData = [
     {
         title: 'This Is First Offer',
+        banner: require('./../../assets/images/sales-one.jpeg'),
         id: 0
     },
     {
         title: 'This Is Second Offer',
+        banner: require('./../../assets/images/sales-two.jpeg'),
         id: 1
     },
     {
         title: 'This Is Third Offer',
+        banner: require('./../../assets/images/sales-three.jpeg'),
         id: 2
     }
 ]
@@ -39,6 +42,7 @@ const HomeScreen = () => {
     const [carouselStep, setCarouselStep] = useState<number>(0)
     const [isSelecting, setIsSelecting] = useState<boolean>(false);
 
+   
 
     const handleCarouselSwipe = (nativeEvent: NativeScrollEvent) => {
         if (nativeEvent) {
@@ -92,7 +96,8 @@ const HomeScreen = () => {
 
     useEffect(() => {
         i18n.changeLanguage(lang)
-    }, [lang])
+    }, [lang]);
+
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -104,16 +109,21 @@ const HomeScreen = () => {
                     </TouchableOpacity>
                 }
                 {
-                    SavedVehicles.length > 0 && isSelecting ?
+                    SavedVehicles.length > 0 && isSelecting?
+                
                         SavedVehicles.splice(1, SavedVehicles.length).map((v, index) => (
                             <SavedCardList key={index} vehicle={v} callback={() => setIsSelecting(false)} />
                         ))
                         :
-                        <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
-                            <Text style={styles.addCarTitle}>{t("addCar")}</Text>
-                            <Text style={styles.addCarTitle}>+</Text>
-                        </TouchableOpacity>
-
+                        null
+                        
+                        // <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
+                        //     <Text style={styles.addCarTitle}>{t("addCar")}</Text>
+                        //     <Text style={styles.addCarTitle}>+</Text>
+                        // </TouchableOpacity>
+                        // </>
+                        
+                     
                 }
                 <ScrollView
                     ref={CarouselRef}
@@ -124,7 +134,7 @@ const HomeScreen = () => {
                     {
                         offersData.map(item => (
                             <View key={item.id} style={styles.slideStyle}>
-                                <Text style={{ color: Colors.BLACK, fontSize: 20 }}>{item.title}</Text>
+                                <Image source={item.banner} resizeMode="cover"  style={{ width: width - 44, height: height / 5, borderRadius: 7}} />
                             </View>
                         ))
                     }
@@ -189,8 +199,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         marginHorizontal: 22,
         height: height / 5,
-        borderWidth: 2,
-        borderColor: 'red',
+
         borderRadius: 7,
         alignItems: 'center',
         justifyContent: 'center'

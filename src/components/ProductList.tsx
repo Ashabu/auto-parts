@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { navigate } from '../navigation/Navigation';
+import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 
 const ProductList = ({ product }: any) => {
@@ -44,9 +45,11 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        marginBottom: 10
+        marginBottom: 10,
+        color: Colors.BLACK
     },
     price: {
-        fontSize: 20
+        fontSize: 20,
+        color: Colors.BLACK
     }
 })

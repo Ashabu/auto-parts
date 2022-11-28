@@ -55,7 +55,7 @@ const Tabs = () => {
           tabBarInactiveTintColor: Colors.DARK_GREY,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name='Products'
         component={CategoriesStack}
         options={{
@@ -70,13 +70,13 @@ const Tabs = () => {
           tabBarActiveTintColor: Colors.BLACK,
           tabBarInactiveTintColor: Colors.DARK_GREY
         }}
-      />
+      /> */}
       <Tab.Screen
         name='Search'
         component={SearchScreen}
         options={{
           headerShown: true,
-          header: () => <AppHeader hasSearch={false}/>,  
+          header: () => <AppHeader hasSearch={false} hasBack/>,  
           title: t("search"),
           tabBarIcon: ({ focused }) => {
             return (

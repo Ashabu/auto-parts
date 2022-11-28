@@ -1,34 +1,35 @@
 import React from 'react';
-import {View, Image, Text, TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Images } from '../utils/Images';
-import {useCartItems} from '../Context/useProducts';
+import { useCartItems } from '../Context/useProducts';
+import { Colors } from '../utils/AppColors';
 
 const { width } = Dimensions.get('screen');
 
-const PaymentMethod = ({stepBack, onPlaceOrder}: any) => {
-    const {totalCost} = useCartItems()
+const PaymentMethod = ({ stepBack, onPlaceOrder }: any) => {
+    const { totalCost } = useCartItems()
     return (
-        <View style={{flex: 1, justifyContent:'space-between'}}>
+        <View style={{ flex: 1, justifyContent: 'space-between' }}>
             <View style={styles.deliveryAddressView}>
                 <Text style={styles.deliveryTextStyle}>
                     Select Payment Method
                 </Text>
                 <View style={{ marginBottom: 15 }}>
                     <Image source={Images.CASH_ON_DELIVERY} style={{ alignSelf: 'center', marginBottom: 15 }} />
-                    <Text style={{ fontSize: 16, textAlign: 'center' }}>Pay with cash upon delivery</Text>
+                    <Text style={{ fontSize: 16, textAlign: 'center', color: Colors.BLACK }}>Pay with cash upon delivery</Text>
                 </View>
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
-                        <Text style={{ fontSize: 18 }}>Subtotal</Text>
-                        <Text style={{ fontSize: 18 }}>$ {totalCost}</Text>
+                        <Text style={{ fontSize: 18, color: Colors.BLACK }}>Subtotal</Text>
+                        <Text style={{ fontSize: 18, color: Colors.BLACK }}>$ {totalCost}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
-                        <Text style={{ fontSize: 18 }}>Shipping</Text>
-                        <Text style={{ fontSize: 18 }}>$0.00</Text>
+                        <Text style={{ fontSize: 18, color: Colors.BLACK }}>Shipping</Text>
+                        <Text style={{ fontSize: 18, color: Colors.BLACK }}>$0.00</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: '#CFCFCF', marginVertical: 5 }}>
-                        <Text style={{ fontSize: 18 }}>Total</Text>
-                        <Text style={{ fontSize: 18 }}>$ {totalCost}</Text>
+                        <Text style={{ fontSize: 18, color: Colors.BLACK }}>Total</Text>
+                        <Text style={{ fontSize: 18, color: Colors.BLACK }}>$ {totalCost}</Text>
                     </View>
                 </View>
             </View>
@@ -68,8 +69,8 @@ const styles = StyleSheet.create({
     buttonNext: {
         backgroundColor: '#ffdd00'
     },
-   
-   
+
+
     deliveryAddressView: {
         width: width,
         padding: 15

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from
 import CheckoutList from './CheckoutList';
 import { useCartItems } from '../Context/useProducts';
 import { goBack } from '../navigation/Navigation';
+import { Colors } from '../utils/AppColors';
 
 const { width } = Dimensions.get('screen');
 
@@ -47,7 +48,8 @@ const styles = StyleSheet.create({
     totalPriceText: {
         fontSize: 20,
         textAlign: 'right',
-        margin: 10
+        margin: 10,
+        color: Colors.BLACK
     },
     footerContainer: {
         flexDirection: 'row'

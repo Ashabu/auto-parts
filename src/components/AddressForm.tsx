@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Modal, ScrollView, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import GoogleMap from './GoogleMap';
@@ -57,6 +57,8 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
         };
     };
 
+   
+
     return (
         <View style={{ flex: 1 }}>
             <ScrollView contentContainerStyle={styles.deliveryAddressView}>
@@ -73,6 +75,7 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                             <TextInput
                                 style={[styles.input, errors.deliveryAddress && styles.borderRed]}
                                 placeholder={t('deliveryAddress')}
+                                placeholderTextColor={Colors.BLACK}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
@@ -97,6 +100,7 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 style={[styles.input, errors.phoneNumber && styles.borderRed]}
+                                placeholderTextColor={Colors.BLACK}
                                 placeholder={t('phoneNumber')}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
@@ -122,6 +126,7 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 style={[styles.input, errors.receiverName && styles.borderRed]}
+                                placeholderTextColor={Colors.BLACK}
                                 placeholder={t('receiverName')}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
@@ -147,6 +152,7 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 style={[styles.input, errors.postalCode && styles.borderRed]}
+                                placeholderTextColor={Colors.BLACK}
                                 placeholder={t('postalCode')}
                                  onBlur={onBlur}
                                 onChangeText={onChange}
@@ -220,6 +226,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         paddingTop: 10,
         paddingBottom: 8,
+        color: Colors.BLACK
     },
     errorMessage: {
         fontSize: 14,

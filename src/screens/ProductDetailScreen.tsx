@@ -67,12 +67,12 @@ const ProductDetailScreen = ({ route }: any) => {
             
             <View style={{ flex: 3 }}>
                 <View style={styles.infoBox}>
-                    <Text>Brand</Text>
-                    <Text> {Brand}</Text>
+                    <Text style={{color: Colors.BLACK}}>Brand</Text>
+                    <Text style={{color: Colors.BLACK}}> {Brand}</Text>
                 </View>
                 {OEM && <View style={styles.infoBox}>
-                    <Text>OEM</Text>
-                    <Text> {OEM}</Text>
+                    <Text style={{color: Colors.BLACK}}>OEM</Text>
+                    <Text style={{color: Colors.BLACK}}> {OEM}</Text>
                 </View>}
                 <View style={{ flex: 1 }}>
                     <Text style={styles.textStyle}>{Name}</Text>
@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     textStyle: {
         fontSize: 18,
         textAlign: 'center',
-        marginVertical: 2
+        marginVertical: 2,
+        color: Colors.BLACK
     },
     tabBtn: {
         flex: 1,

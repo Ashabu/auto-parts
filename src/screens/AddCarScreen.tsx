@@ -138,7 +138,6 @@ const AddCarScreen = () => {
                         manuId:res.data.data.matchingManufacturers?.array?.[0]?.manuId,
                         modelId: undefined
                     }]);
-                    console.log(res.data.data.matchingManufacturers?.array)
                 }
                 // setVehiclesByVinData(res.data.data.matchingVehicles?.array);
                 setShowVehiclesByVin(true);
@@ -204,7 +203,6 @@ const AddCarScreen = () => {
         }
         try {
             GetLinkageTargets(data).then(res => {
-                console.log(res.data.linkageTargets);
                 setVehiclesByModelSeries(res.data.linkageTargets);
                 setShowVehiclesByModelSeries(true);
                 setSearchModelSeriesLoader(false);
@@ -262,7 +260,7 @@ const AddCarScreen = () => {
                     style={styles.vinInput}
                     value={vin}
                     onChangeText={(text: string) => setVin(text)}
-                    onBlur={() => { console.log('onBlur'); Keyboard.dismiss() }} />
+                    onBlur={() => {  Keyboard.dismiss() }} />
             </View>
             <TouchableOpacity style={styles.searchButton} onPress={handleGetVehiclesByVin}>
                 {

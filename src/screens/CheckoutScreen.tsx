@@ -29,9 +29,16 @@ const CheckoutScreen = ({ route }: any) => {
             animated: true,
         });
     };
-
+    const handleResetSlide = () => {
+        carouselRef.current?.scrollTo({
+            x: 0,
+            animated: true,
+        });
+    }
     useEffect(() => {
         handleSlide();
+
+        return () => handleResetSlide();
     }, [step]);
 
 
@@ -53,7 +60,7 @@ const CheckoutScreen = ({ route }: any) => {
                         <Text style={styles.title}>{t('orderPlaced')}</Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                        <TouchableOpacity style={styles.loadMoreBtn} onPress={() => {handleClearItems(); navigate('HomeS')}}>
+                        <TouchableOpacity style={styles.loadMoreBtn} onPress={() => {handleClearItems(); handleResetSlide(); navigate('HomeS')}}>
                             <Text style={styles.loadMoreBtnTitle}>{t('homeTab')}</Text>
                         </TouchableOpacity>
                     </View>

@@ -29,7 +29,7 @@ const SelectCarModel: FC<ISelectCarModelProps> = ({ listData,callBack }) => {
             <View >
                 <TextInput
                     placeholder='Search...'
-                    style={{ minHeight: 44, paddingVertical: 13, paddingHorizontal: 20 }}
+                    style={{ minHeight: 44, paddingVertical: 13, paddingHorizontal: 20, color: Colors.BLACK }}
                     onChangeText={(text: string) => handleSearch(text)}
                 />
             </View>

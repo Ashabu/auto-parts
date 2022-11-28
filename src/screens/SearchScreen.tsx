@@ -28,7 +28,6 @@ const SearchScreen = ({ route }: any) => {
     }, [route?.params?.data])
 
     useEffect(() => {
-        console.log(isFocused)
         if (isFocused) {
             searchByOemNumbers();
         }
@@ -44,7 +43,6 @@ const SearchScreen = ({ route }: any) => {
     const searchByOemNumbers = () => {
         let tempProducts: any[] = []
         if (oemNumberArray.length > 0) {
-            console.log('search started')
             oemNumberArray.forEach(el => {
                 let x = products.filter(item => item.OEM == el);
                 if (x.length > 0) {

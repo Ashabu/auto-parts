@@ -141,7 +141,6 @@ export async function GetArticles(type: string, data: any) {
             }
         }
     };
-    console.log('*************************************************************',TEC_DOC_BASEURL, requestData)
 
     return await TecDocInstance.post<IGetArticlesResponse>(TEC_DOC_BASEURL, requestData)
 };

@@ -19,12 +19,12 @@ export const vehicleStore = create<IVehicleStore>(set => ({
     savedVehicles: [],
     saveVehicle: (vehicle: any) =>
         set(state => {
-            let tempVehicles = state.savedVehicles.map(el => {
-                el.currentSelected = false;
-                return el;
-            });
+            // let tempVehicles = state.savedVehicles.map(el => {
+            //     el.currentSelected = false;
+            //     return el;
+            // });
             return {
-                savedVehicles: [vehicle, ...tempVehicles]
+                savedVehicles: [vehicle, ...state.savedVehicles]
             };
         }),
     removeVehicle: (id: number) =>
@@ -44,21 +44,17 @@ export const vehicleStore = create<IVehicleStore>(set => ({
         }),
     setActiveVehicle: (id: number) =>
         set(state => {
-            let tempActiveCar = state.savedVehicles.filter(el => el.vehicleModelSeriesId == id)[0];
-            console.log(tempActiveCar)
-            tempActiveCar.currentSelected = true;
-            let tempInactiveCars = state.savedVehicles.filter(el => el.vehicleModelSeriesId !== id);
-            tempInactiveCars.forEach(v => {v.currentSelected = false; return v});
-            // let tempVehicles = state.savedVehicles.map(el => {
-            //     if (el.vehicleModelSeriesId == id) {
-            //         el.currentSelected = true;
-            //     } else {
-            //         el.currentSelected = false;
-            //     };
-            //     return el;
-            // });
+            let tempVehicles = state.savedVehicles.map(el => {
+                if (el.vehicleModelSeriesId == id) {
+                    el.currentSelected = true;
+                } else {
+                    el.currentSelected = false;
+                };
+                return el;
+            });
+            let tempActiveCar = tempVehicles.filter(el => el.currentSelected == true)[0];
             return {
-                savedVehicles: [tempActiveCar, ...tempInactiveCars]
+                savedVehicles: [tempActiveCar, ...tempVehicles]
             };
         })
 }));
