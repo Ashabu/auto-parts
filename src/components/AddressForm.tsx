@@ -7,6 +7,7 @@ import { Colors } from '../utils/AppColors';
 import { useTranslation } from 'react-i18next';
 import { IAddress } from './SavedAddress';
 import { storeData } from '../services/StorageService';
+import { useIsFocused } from '@react-navigation/native';
 
 const { width } = Dimensions.get('screen');
 
@@ -19,6 +20,7 @@ interface IAddressFormProps {
 }
 
 const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack, address, onPageMove, isForEdit = false }) => {
+    const isFocused = useIsFocused();
     const [showMap, setShowMap] = useState<boolean>(false);
     const { t } = useTranslation();
 
@@ -57,6 +59,15 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
         };
     };
 
+    useEffect(() => {
+        if(!isFocused){
+            console.log('here')
+            setValue('deliveryAddress', '');
+            setValue('phoneNumber', '');
+            setValue('receiverName', '');
+            setValue('postalCode', '');
+        }
+    }, [])
    
 
     return (

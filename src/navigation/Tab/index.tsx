@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ProductsScreen from '../../screens/ProductsScreen';
 import SearchScreen from '../../screens/SearchScreen';
 import HomeStack from '../StackScreens/HomeStack';
 import CheckoutStack from '../StackScreens/CheckoutStack';
@@ -13,8 +12,7 @@ import OrderHistoryScreen from '../../screens/OrderHistoryScreen';
 import AppHeader from '../../components/AppHeader';
 import { useTranslation } from 'react-i18next';
 import { Colors } from '../../utils/AppColors';
-import { useSafeArea, useSafeAreaInsets } from 'react-native-safe-area-context';
-import CategoriesStack from '../StackScreens/CategoriesStack';
+import {  useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
@@ -55,22 +53,7 @@ const Tabs = () => {
           tabBarInactiveTintColor: Colors.DARK_GREY,
         }}
       />
-      {/* <Tab.Screen
-        name='Products'
-        component={CategoriesStack}
-        options={{
-          headerShown: false,
-          // header: () => <AppHeader />,
-          title: t("productsTab"),
-          tabBarIcon: ({ focused }) => {
-            return (
-              <Image source={focused ? Images.PRODUCT_BLACK : Images.PRODUCT_GREY}  style={{ width: 25, height: 25 }} />
-            );
-          },
-          tabBarActiveTintColor: Colors.BLACK,
-          tabBarInactiveTintColor: Colors.DARK_GREY
-        }}
-      /> */}
+      
       <Tab.Screen
         name='Search'
         component={SearchScreen}
