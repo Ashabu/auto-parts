@@ -13,6 +13,7 @@ import AppHeader from '../../components/AppHeader';
 import { useTranslation } from 'react-i18next';
 import { Colors } from '../../utils/AppColors';
 import {  useSafeAreaInsets } from 'react-native-safe-area-context';
+import WishListScreen from '../../screens/WishListScreen';
 
 
 
@@ -71,6 +72,22 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
+        name='Wishlist'
+        component={WishListScreen}
+        options={{
+          headerShown: true,
+          header: () => <AppHeader hasSearch={false} hasBack/>,  
+          title: t("search"),
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Image source={focused ? Images.HEART_YELLOW : Images.HEART_YELLOW}  style={{ width: 25, height: 25 }} />
+            );
+          },
+          tabBarActiveTintColor: Colors.BLACK,
+          tabBarInactiveTintColor: Colors.DARK_GREY
+        }}
+      />
+      <Tab.Screen
         name='Checkout'
         component={CheckoutStack}
         options={{
@@ -101,26 +118,7 @@ const Tabs = () => {
           tabBarInactiveTintColor: Colors.DARK_GREY
         }}
       />
-      {
-        isAuthorized &&
-        <Tab.Screen
-          name='OrderHistory'
-          component={OrderHistoryScreen}
-          options={{
-            headerShown: true,
-            header: () => <AppHeader/>,  
-            title: t("ordersTab"),
-            tabBarIcon: ({ focused}) => {
-              return (
-                <Image source={focused ? Images.BASKET_BLACK : Images.BASKET_BLACK}  style={{ width: 25, height: 25 }} />
-              );
-            },
-            tabBarActiveTintColor: Colors.BLACK,
-            tabBarInactiveTintColor: Colors.DARK_GREY
-          }}
-        />
-
-      }
+      
     </Tab.Navigator>
   );
 };

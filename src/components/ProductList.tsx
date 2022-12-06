@@ -1,12 +1,27 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useProductDispatch } from '../Context/ProductsContext';
+import { useProduct, useProductDispatch } from '../Context/ProductsContext';
 import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 
 const ProductList = ({ product }: any) => {
     const { Name, RetilePRiceOFPremix } = product;
+    const { shoppingCart, wishList } = useProduct();
+
+    const handleAddItem = (type: string, product: any) => {
+        let tempCart = type == 'SHOPPING_CART' ? shoppingCart : wishList;
+        let pIndex = tempCart.findIndex(p => p.ARticle == product.ARticle);
+        pIndex < 0 ? tempCart.push({ ...product, count: 1 }) : tempCart[pIndex].count += 1;
+        if (type == 'SHOPPING_CART') {
+            dispatch({ shoppingCart: tempCart });
+        } else {
+            dispatch({ wishList: tempCart });
+        };
+    };
+
+
+
 
     const handleProductPress = () => {
         navigate("ProductDetails", {
@@ -28,10 +43,10 @@ const ProductList = ({ product }: any) => {
                 </Text>
             </View>
             <View style={styles.actionButtons}>
-                <TouchableOpacity onPress={() => dispatch({ shoppingCart: [{ ...product, count: 1 }] })}>
+                <TouchableOpacity onPress={() => handleAddItem('SHOPPING_CART', product)}>
                     <Image source={Images.CART_BLACK} style={{ width: 25, height: 25 }} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => dispatch({ wishList: product })}>
+                <TouchableOpacity onPress={() => handleAddItem('WISHLIST', product)}>
                     <Image source={Images.HEART_YELLOW} style={{ width: 25, height: 25 }} />
                 </TouchableOpacity>
             </View>

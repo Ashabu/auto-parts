@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Text, Keyboard, View, Image, TextInput, SafeAreaView, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
-import { navigate } from '../navigation/Navigation';
-import { searchItems } from '../Api';
 import ProductList from '../components/ProductList';
 import { Images } from '../utils/Images';
 import { useTranslation } from 'react-i18next';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import {  useIsFocused } from '@react-navigation/native';
 import { products } from '../utils/PravusExel'
 import { useCategoriesStore } from '../store/Store';
 
@@ -59,7 +57,10 @@ const SearchScreen = ({ route }: any) => {
 
     const handleSearchProducts = () => {
         if (!searchValue || searchValue == '') return;
-        let tempProducts = products.filter(el => el.Name.toLowerCase().includes(searchValue) || el.OEM.includes(searchValue) || el.Brand.toLocaleLowerCase().includes(searchValue));
+        let tempProducts = products.filter(el => 
+            el.Name.toLowerCase().includes(searchValue) 
+            || el.OEM.includes(searchValue) 
+            || el.Brand.toLocaleLowerCase().includes(searchValue));
         setNewProducts(tempProducts)
     }
 
