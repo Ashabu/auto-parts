@@ -31,7 +31,7 @@ const CartItems = ({ nextStep }: any) => {
             <ScrollView contentContainerStyle={styles.cartItemsView}>
                 {
                     shoppingCart?.map((item: any, index: number) => (
-                        <CheckoutList item={item} key={index} />
+                        <CheckoutList item={item} key={index} isCheckout/>
                     ))
                 }
                 <View style={{ borderTopWidth: 1, borderTopColor: '#CFCFCF' }}>

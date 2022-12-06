@@ -5,7 +5,7 @@ import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 
-const ProductList = ({ product }: any) => {
+const ProductList = ({ product, hideIcons = false }: any) => {
     const { Name, RetilePRiceOFPremix } = product;
     const { shoppingCart, wishList } = useProduct();
 
@@ -20,6 +20,10 @@ const ProductList = ({ product }: any) => {
         };
     };
 
+    const handleRemoveIcon = () => {
+        let tempItems = shoppingCart.filter(p => p.ARticle !== product.ARticle);
+        dispatch({shoppingCart: tempItems})
+    }
 
 
 
@@ -42,14 +46,22 @@ const ProductList = ({ product }: any) => {
                     ${RetilePRiceOFPremix}
                 </Text>
             </View>
-            <View style={styles.actionButtons}>
-                <TouchableOpacity onPress={() => handleAddItem('SHOPPING_CART', product)}>
-                    <Image source={Images.CART_BLACK} style={{ width: 25, height: 25 }} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleAddItem('WISHLIST', product)}>
-                    <Image source={Images.HEART_YELLOW} style={{ width: 25, height: 25 }} />
-                </TouchableOpacity>
-            </View>
+            {
+                !hideIcons ?
+                    <View style={styles.actionButtons}>
+                        <TouchableOpacity onPress={() => handleAddItem('SHOPPING_CART', product)}>
+                            <Image source={Images.CART_BLACK} style={{ width: 25, height: 25 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleAddItem('WISHLIST', product)}>
+                            <Image source={Images.HEART_YELLOW} style={{ width: 25, height: 25 }} />
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <TouchableOpacity onPress={handleRemoveIcon}>
+                        <Image source={require('./../../assets/images/delete-icon.png')} style={{ width: 25, height: 25 }} />
+                    </TouchableOpacity>
+
+            }
         </TouchableOpacity>
     );
 };

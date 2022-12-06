@@ -5,7 +5,7 @@ import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 import ProductList from './ProductList';
 
-const CheckoutList = ({ item }: any) => {
+const CheckoutList = ({ item, isCheckout = false }: { item: any, isCheckout: boolean }) => {
     const { shoppingCart } = useProduct();
     const dispatch = useProductDispatch();
 
@@ -30,7 +30,9 @@ const CheckoutList = ({ item }: any) => {
     return (
         <View style={styles.container}>
             <View style={{ flex: 1 }}>
-                <ProductList product={item} />
+                <ProductList
+                    product={item}
+                    hideIcons={isCheckout} />
             </View>
             <View style={styles.counterBox}>
                 <TouchableOpacity onPress={() => handleItemCount('INCREMENT')} style={styles.counterArrow}>
@@ -49,11 +51,11 @@ export default CheckoutList;
 
 const styles = StyleSheet.create({
     container: {
-        height: 130, 
-        flexDirection: 'row', 
-        alignItems: 'center', 
+        height: 130,
+        flexDirection: 'row',
+        alignItems: 'center',
         paddingHorizontal: 10
-    }, 
+    },
     counterBox: {
         flexDirection: 'row',
         alignItems: 'center',
