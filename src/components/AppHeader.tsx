@@ -24,9 +24,6 @@ const AppHeader: React.FC<IHeaderProps> = ({ hasBack, hasSearch = true }) => {
                 <TouchableOpacity onPress={() => navigate('AddCar')}>
                     <Image source={Images.ADD_CAR} style={{ width: 46, height: 40 }} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigate('Checkout', { screen: 'WishList' })}>
-                    <Image source={Images.CART_GREY} style={{ width: 30, height: 30 }} />
-                </TouchableOpacity>
             </View>
             {
                 hasSearch &&

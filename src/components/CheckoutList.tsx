@@ -5,7 +5,7 @@ import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 import ProductList from './ProductList';
 
-const CheckoutList = ({ item, isCheckout = false }: { item: any, isCheckout: boolean }) => {
+const CheckoutList = ({ item, isCheckout = false, isWishList = false }: { item: any, isCheckout: boolean, isWishList: boolean }) => {
     const { shoppingCart } = useProduct();
     const dispatch = useProductDispatch();
 
@@ -32,17 +32,21 @@ const CheckoutList = ({ item, isCheckout = false }: { item: any, isCheckout: boo
             <View style={{ flex: 1 }}>
                 <ProductList
                     product={item}
-                    hideIcons={isCheckout} />
+                    hideIcons={isCheckout}
+                    showBasket={isWishList} />
             </View>
-            <View style={styles.counterBox}>
-                <TouchableOpacity onPress={() => handleItemCount('INCREMENT')} style={styles.counterArrow}>
-                    <Image source={Images.COUNT_ARROW_UP} style={{ width: 15, height: 7 }} />
-                </TouchableOpacity>
-                <Text style={{ fontSize: 26, color: Colors.BLACK }}>{item.count}</Text>
-                <TouchableOpacity onPress={() => handleItemCount('DECREMENT')} style={styles.counterArrow}>
-                    <Image source={Images.COUNT_ARROW_DOWN} style={{ width: 15, height: 7 }} />
-                </TouchableOpacity>
-            </View>
+            {
+                !isWishList &&
+                <View style={styles.counterBox}>
+                    <TouchableOpacity onPress={() => handleItemCount('INCREMENT')} style={styles.counterArrow}>
+                        <Image source={Images.COUNT_ARROW_UP} style={{ width: 15, height: 7 }} />
+                    </TouchableOpacity>
+                    <Text style={{ fontSize: 26, color: Colors.BLACK }}>{item.count}</Text>
+                    <TouchableOpacity onPress={() => handleItemCount('DECREMENT')} style={styles.counterArrow}>
+                        <Image source={Images.COUNT_ARROW_DOWN} style={{ width: 15, height: 7 }} />
+                    </TouchableOpacity>
+                </View>
+            }
         </View>
     );
 };

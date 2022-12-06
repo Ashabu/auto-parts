@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, NativeScrollEvent, View, Image, ActivityIndicator } from 'react-native';
-import NotificationBox from '../components/NotificationBox';
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity,  NativeScrollEvent, View, Image, ActivityIndicator } from 'react-native';
 import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
-import { useCategoriesStore, vehicleStore } from '../store/Store';
+import { useCategoriesStore  } from '../store/Store';
 import SavedCardList from '../components/SavedCardList';
 import { GetParentCategories, GetArticles } from '../Api';
 import { useCar, useCarDispatch } from '../Context/CarsContext';
@@ -36,7 +35,6 @@ const HomeScreen = () => {
 
     const CarouselRef = useRef<ScrollView>(null);
     const { categories, setCategories, setOemNumbers } = useCategoriesStore();
-
     const { savedCars } = useCar();
     const dispatch = useCarDispatch();
     const { t, i18n } = useTranslation();
@@ -68,10 +66,6 @@ const HomeScreen = () => {
         };
         dispatch({ savedCars: [...tempCars] });
     };
-
-
-
-
 
     const handleCarouselSwipe = (nativeEvent: NativeScrollEvent) => {
         if (nativeEvent) {
@@ -149,11 +143,7 @@ const HomeScreen = () => {
                     :
                     null
             }
-
-            {/* <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} /> */}
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-
-
                 <ScrollView
                     ref={CarouselRef}
                     onScroll={({ nativeEvent }) => handleCarouselSwipe(nativeEvent)}

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SearchScreen from '../../screens/SearchScreen';
 import HomeStack from '../StackScreens/HomeStack';
 import CheckoutStack from '../StackScreens/CheckoutStack';
-import { Image } from 'react-native';
+import { Image, Platform, Text } from 'react-native';
 import { Images } from '../../utils/Images';
 import { useProduct } from '../../Context/ProductsContext';
 import ProfileStack from '../StackScreens/ProfileStack';
@@ -12,7 +12,7 @@ import OrderHistoryScreen from '../../screens/OrderHistoryScreen';
 import AppHeader from '../../components/AppHeader';
 import { useTranslation } from 'react-i18next';
 import { Colors } from '../../utils/AppColors';
-import {  useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import WishListScreen from '../../screens/WishListScreen';
 
 
@@ -21,54 +21,81 @@ const Tab = createBottomTabNavigator();
 
 
 const Tabs = () => {
-  const { isAuthorized } = useAuth();
-  const {t} = useTranslation();
-  const TabIconSize = 25;
+  const { t } = useTranslation();
+  const { shoppingCart, wishList } = useProduct();
+  const [counts, setCounts] = useState<{ cartCount: number, wishlistCount: number }>({
+    cartCount: 0,
+    wishlistCount: 0
+  })
 
-  const { totalItemCount } = useProduct();
-  const {bottom} = useSafeAreaInsets()
+
+  const handleCount = () => {
+    let tempCartCount: number = 0;
+    let tempWishlistCount: number = 0;
+    if (shoppingCart.length > 0) {
+      shoppingCart.forEach(el => tempCartCount += el.count);
+    };
+    if (wishList.length > 0) {
+      wishList.forEach(el => tempWishlistCount += el.count);
+    };
+    setCounts({cartCount: tempCartCount, wishlistCount: tempWishlistCount});
+  };
+
+  useEffect(() => {
+      handleCount()
+      console.log('here')
+  }, [shoppingCart, wishList]);
+
+
 
   return (
 
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarHideOnKeyboard: true,
+        tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: Colors.YELLOW,
-          paddingBottom: 5,
-          paddingTop: 5
+          height: Platform.OS === 'ios' ? 88 : 72,
+          alignItems: 'center',
+          justifyContent: 'center',
+          shadowOffset: {
+            width: 0,
+            height: 12,
+          },
+          shadowOpacity: 0.58,
+          shadowRadius: 12.0,
+          elevation: 24,
         },
       }}>
       <Tab.Screen
         name='Home'
         component={HomeStack}
         options={{
-          title: t("homeTab"),
           tabBarIcon: ({ focused }) => {
             return (
-              <Image source={focused ? Images.HOME_TAB_BLACK : Images.HOME_TAB_GREY}   style={{ width: 25, height: 25 }} />
+              <>
+                <Image source={focused ? Images.HOME_TAB_BLACK : Images.HOME_TAB_GREY} style={{ width: 25, height: 25 }} />
+                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("homeTab")}</Text>
+              </>
             );
           },
-          tabBarActiveTintColor: Colors.BLACK,
-          tabBarInactiveTintColor: Colors.DARK_GREY,
         }}
       />
-      
       <Tab.Screen
         name='Search'
         component={SearchScreen}
         options={{
           headerShown: true,
-          header: () => <AppHeader hasSearch={false} hasBack/>,  
-          title: t("search"),
+          header: () => <AppHeader hasSearch={false} hasBack />,
           tabBarIcon: ({ focused }) => {
             return (
-              <Image source={focused ? Images.SEARCH_BLACK : Images.SEARCH_GREY}  style={{ width: 25, height: 25 }} />
+              <>
+                <Image source={focused ? Images.SEARCH_BLACK : Images.SEARCH_GREY} style={{ width: 25, height: 25 }} />
+                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("search")}</Text>
+              </>
             );
           },
-          tabBarActiveTintColor: Colors.BLACK,
-          tabBarInactiveTintColor: Colors.DARK_GREY
         }}
       />
       <Tab.Screen
@@ -76,15 +103,16 @@ const Tabs = () => {
         component={WishListScreen}
         options={{
           headerShown: true,
-          header: () => <AppHeader hasSearch={false} hasBack/>,  
-          title: t("search"),
+          header: () => <AppHeader hasSearch={false} hasBack />,
           tabBarIcon: ({ focused }) => {
             return (
-              <Image source={focused ? Images.HEART_YELLOW : Images.HEART_YELLOW}  style={{ width: 25, height: 25 }} />
+              <>
+                <Image source={focused ? Images.FAVORITES_ICON : Images.FAVORITES_ICON} style={{ width: 25, height: 25 }} />
+                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{'Wishlist'}</Text>
+              </>
             );
           },
-          tabBarActiveTintColor: Colors.BLACK,
-          tabBarInactiveTintColor: Colors.DARK_GREY
+          tabBarBadge: counts.wishlistCount > 0 ? counts.wishlistCount : undefined
         }}
       />
       <Tab.Screen
@@ -92,33 +120,32 @@ const Tabs = () => {
         component={CheckoutStack}
         options={{
           headerShown: false,
-          title: t("checkoutTab"),
           tabBarIcon: ({ focused }) => {
             return (
-              <Image source={focused ? Images.CART_BLACK : Images.CART_GREY}  style={{ width: 25, height: 25 }} />
+              <>
+                <Image source={focused ? Images.CART_BLACK : Images.CART_GREY} style={{ width: 25, height: 25 }} />
+                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("checkoutTab")}</Text>
+              </>
             );
           },
-          tabBarActiveTintColor: Colors.BLACK,
-          tabBarInactiveTintColor: Colors.DARK_GREY,
-          tabBarBadge: totalItemCount > 0 ? totalItemCount : undefined
+          tabBarBadge: counts.cartCount > 0 ? counts.cartCount : undefined
         }}
-
       />
       <Tab.Screen
         name='Profile'
         component={ProfileStack}
         options={{
-          title: t("profileTab"),
-          tabBarIcon: ({ focused}) => {
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
             return (
-              <Image source={focused ? Images.PROFILE_BLACK : Images.PROFILE_GREY}  style={{ width: 25, height: 25 }} />
+              <>
+                <Image source={focused ? Images.PROFILE_BLACK : Images.PROFILE_GREY} style={{ width: 25, height: 25 }} />
+                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("profileTab")}</Text>
+              </>
             );
-          },
-          tabBarActiveTintColor: Colors.BLACK,
-          tabBarInactiveTintColor: Colors.DARK_GREY
+          }
         }}
       />
-      
     </Tab.Navigator>
   );
 };

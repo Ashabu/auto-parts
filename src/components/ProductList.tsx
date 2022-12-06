@@ -5,7 +5,7 @@ import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 
-const ProductList = ({ product, hideIcons = false }: any) => {
+const ProductList = ({ product, hideIcons = false, showBasket }: any) => {
     const { Name, RetilePRiceOFPremix } = product;
     const { shoppingCart, wishList } = useProduct();
 
@@ -14,6 +14,10 @@ const ProductList = ({ product, hideIcons = false }: any) => {
         let pIndex = tempCart.findIndex(p => p.ARticle == product.ARticle);
         pIndex < 0 ? tempCart.push({ ...product, count: 1 }) : tempCart[pIndex].count += 1;
         if (type == 'SHOPPING_CART') {
+            if (showBasket) {
+                let tempWishlist = tempCart.filter(p => p.ARticle !== product.ARticle);
+                dispatch({ wishList: tempWishlist })
+            }
             dispatch({ shoppingCart: tempCart });
         } else {
             dispatch({ wishList: tempCart });
@@ -21,8 +25,14 @@ const ProductList = ({ product, hideIcons = false }: any) => {
     };
 
     const handleRemoveIcon = () => {
-        let tempItems = shoppingCart.filter(p => p.ARticle !== product.ARticle);
-        dispatch({shoppingCart: tempItems})
+        let tempArray = showBasket ? wishList : shoppingCart;
+        let tempItems = tempArray.filter(p => p.ARticle !== product.ARticle);
+        if (showBasket) {
+            dispatch({ wishList: tempItems })
+        } else {
+            dispatch({ shoppingCart: tempItems })
+        }
+
     }
 
 
@@ -50,16 +60,26 @@ const ProductList = ({ product, hideIcons = false }: any) => {
                 !hideIcons ?
                     <View style={styles.actionButtons}>
                         <TouchableOpacity onPress={() => handleAddItem('SHOPPING_CART', product)}>
-                            <Image source={Images.CART_BLACK} style={{ width: 25, height: 25 }} />
+                            <Image source={Images.CART_BLACK} style={{ width: 25, height: 25, marginVertical: 5 }} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => handleAddItem('WISHLIST', product)}>
-                            <Image source={Images.HEART_YELLOW} style={{ width: 25, height: 25 }} />
+                            <Image source={Images.HEART_YELLOW} style={{ width: 25, height: 25, marginVertical: 5 }} />
                         </TouchableOpacity>
                     </View>
                     :
-                    <TouchableOpacity onPress={handleRemoveIcon}>
-                        <Image source={require('./../../assets/images/delete-icon.png')} style={{ width: 25, height: 25 }} />
-                    </TouchableOpacity>
+                    <View style={styles.actionButtons}>
+                        {
+                            showBasket &&
+                            <TouchableOpacity onPress={() => handleAddItem('SHOPPING_CART', product)}>
+                                <Image source={Images.CART_BLACK} style={{ width: 25, height: 25, marginVertical: 5 }} />
+                            </TouchableOpacity>
+
+                        }
+                        <TouchableOpacity onPress={handleRemoveIcon}>
+                            <Image source={require('./../../assets/images/delete-icon.png')} style={{ width: 25, height: 25, marginVertical: 5 }} />
+                        </TouchableOpacity>
+                    </View>
+
 
             }
         </TouchableOpacity>
@@ -93,7 +113,7 @@ const styles = StyleSheet.create({
     actionButtons: {
         width: 60,
         height: 70,
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center'
     }
 })
