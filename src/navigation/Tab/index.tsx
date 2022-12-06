@@ -5,7 +5,7 @@ import HomeStack from '../StackScreens/HomeStack';
 import CheckoutStack from '../StackScreens/CheckoutStack';
 import { Image } from 'react-native';
 import { Images } from '../../utils/Images';
-import { useCartItems } from '../../Context/useProducts';
+import { useProduct } from '../../Context/ProductsContext';
 import ProfileStack from '../StackScreens/ProfileStack';
 import { useAuth } from '../../Context/Context';
 import OrderHistoryScreen from '../../screens/OrderHistoryScreen';
@@ -24,7 +24,7 @@ const Tabs = () => {
   const {t} = useTranslation();
   const TabIconSize = 25;
 
-  const { totalItems } = useCartItems();
+  const { totalItemCount } = useProduct();
   const {bottom} = useSafeAreaInsets()
 
   return (
@@ -83,7 +83,7 @@ const Tabs = () => {
           },
           tabBarActiveTintColor: Colors.BLACK,
           tabBarInactiveTintColor: Colors.DARK_GREY,
-          tabBarBadge: totalItems > 0 ? totalItems : undefined
+          tabBarBadge: totalItemCount > 0 ? totalItemCount : undefined
         }}
 
       />

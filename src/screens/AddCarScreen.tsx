@@ -14,7 +14,8 @@ import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 import { navigate } from '../navigation/Navigation';
 import { vehicleStore } from '../store/Store';
-import MainCategories from './CategoriesScreens/MainCategories';
+import { useCar, useCarDispatch } from '../Context/CarsContext';
+
 
 const AddCarScreen = () => {
     const saveVehicle = vehicleStore(state => state.saveVehicle)
@@ -74,6 +75,26 @@ const AddCarScreen = () => {
         linkageTargetType?: string
 
     } | undefined>({});
+    const dispatch = useCarDispatch();
+    const {savedCars} = useCar();
+
+    const handleSaveCar = () => {
+        if(!savedCars) {
+            return dispatch({savedCars: [
+                {...selectedModelSeries, isSelected: true}
+            ]});
+        };
+        let tempCars = savedCars.map(car => {
+            car.isSelected = false;
+
+            return car;
+        });
+        dispatch({savedCars: [
+            {...selectedModelSeries, isSelected: true},
+            ...tempCars
+        ]});
+        navigate('HomeS');
+    };
 
 
     const onPress = () => {
@@ -240,6 +261,8 @@ const AddCarScreen = () => {
         setSelectedModelSeries(data);
     };
 
+    // console.log(selectedModelSeries)
+
 
 
     return (
@@ -342,8 +365,8 @@ const AddCarScreen = () => {
             <View>
                 <TouchableOpacity style={[styles.searchButton, {marginTop: 40}]} onPress={()=> 
                 {
-                    navigate('HomeS');
-                    saveVehicle({...selectedModelSeries, currentSelected: true})
+                 
+                    handleSaveCar();
                 }}>
                     <Text style={styles.labelText}>Search Products</Text>
                 </TouchableOpacity>

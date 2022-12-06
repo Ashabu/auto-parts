@@ -7,7 +7,8 @@ import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 import { useCategoriesStore, vehicleStore } from '../store/Store';
 import SavedCardList from '../components/SavedCardList';
-import {GetParentCategories, GetArticles} from '../Api';
+import { GetParentCategories, GetArticles } from '../Api';
+import { useCar, useCarDispatch } from '../Context/CarsContext';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -36,13 +37,40 @@ const HomeScreen = () => {
     const CarouselRef = useRef<ScrollView>(null);
     const { categories, setCategories, setOemNumbers } = useCategoriesStore();
 
-    const SavedVehicles = vehicleStore(state => state.savedVehicles);
+    const { savedCars } = useCar();
+    const dispatch = useCarDispatch();
     const { t, i18n } = useTranslation();
     const { lang } = useLang();
     const [carouselStep, setCarouselStep] = useState<number>(0)
     const [isSelecting, setIsSelecting] = useState<boolean>(false);
 
-   
+
+    const onSelectCar = (id: number) => {
+        let tempCars = savedCars.map(car => {
+            if (id == car.vehicleModelSeriesId) {
+                car.isSelected = true;
+            } else {
+                car.isSelected = false;
+            };
+            return car
+        });
+        let activeCar = tempCars.filter(car => car.isSelected == true)[0];
+        let inactiveCars = tempCars.filter(car => car.isSelected == false);
+        dispatch({ savedCars: [activeCar, ...inactiveCars] });
+        setIsSelecting(false);
+    };
+
+    const onRemoveCar = (id: number) => {
+        let tempCars = savedCars.filter(car => car.vehicleModelSeriesId !== id);
+        if (tempCars.every(car => car.isSelected == false)) {
+            tempCars[0].isSelected = true;
+        };
+        dispatch({ savedCars: [...tempCars] });
+    };
+
+
+
+
 
     const handleCarouselSwipe = (nativeEvent: NativeScrollEvent) => {
         if (nativeEvent) {
@@ -54,7 +82,7 @@ const HomeScreen = () => {
     };
 
     const getCategories = () => {
-        GetParentCategories(SavedVehicles?.[0].linkageTargetId).then(res => {
+        GetParentCategories(savedCars?.[0]?.linkageTargetId!).then(res => {
             setCategories(res.data.data.array);
         }).catch(err => {
             console.log(JSON.stringify(err.response))
@@ -64,35 +92,33 @@ const HomeScreen = () => {
     const handleProductsCategory = (assemblyGroupNodeId: number, type: string = 'GET_SINGLE_ARTICLE') => {
         let data = {
             assemblyGroupNodeId: assemblyGroupNodeId,
-            linkageTargetId: SavedVehicles?.[0].linkageTargetId,
-            linkageTargetType:  'P'
-        }
-
+            linkageTargetId: savedCars?.[0].linkageTargetId,
+            linkageTargetType: 'P'
+        };
         GetArticles(type, data).then(res => {
             const response = res.data.articles;
             let oemNumbers: any[] = [];
             response?.map(el => {
                 el.oemNumbers.map(item => {
-                    if(item.articleNumber){
-                        oemNumbers.push(item.articleNumber)
+                    if (item.articleNumber) {
+                        oemNumbers.push(item.articleNumber);
                     };
                 });
             });
-            let uniqueOemNumbers = [... new Set(oemNumbers)]
+            let uniqueOemNumbers = [... new Set(oemNumbers)];
             setOemNumbers(uniqueOemNumbers || []);
         }).catch(err => {
-            console.log(JSON.stringify(err.response))
+            console.log(JSON.stringify(err.response));
         }).finally(() => {
-            navigate('Search')
+            navigate('Search');
         })
     };
 
     useEffect(() => {
-        if (SavedVehicles?.[0]?.linkageTargetId)
+        if (savedCars?.[0]?.linkageTargetId) {
             getCategories();
-    }, [SavedVehicles?.[0]?.linkageTargetId]);
-
-
+        };
+    }, [savedCars?.[0]?.linkageTargetId]);
 
     useEffect(() => {
         i18n.changeLanguage(lang)
@@ -101,30 +127,27 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            {savedCars.length> 0 &&
+                <TouchableOpacity style={styles.addCarButton} onPress={() => setIsSelecting(!isSelecting)}>
+                    <Text style={styles.addCarTitle}>{savedCars?.[0]?.mfrName}, {savedCars?.[0]?.description?.split('(')[0]}</Text>
+                </TouchableOpacity>
+            }
+            {
+                savedCars?.length > 0 && isSelecting ?
+                    savedCars.slice(1, savedCars.length).map((v, index) => (
+                        <SavedCardList
+                            key={index}
+                            vehicle={v}
+                            callback={(id) => onSelectCar(id)}
+                            removeCar={(id) => onRemoveCar(id)}
+                        />
+                    ))
+                    :
+                    null
+            }
             {/* <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} /> */}
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                {SavedVehicles.length > 0 &&
-                    <TouchableOpacity style={styles.addCarButton} onPress={() => setIsSelecting(!isSelecting)}>
-                        <Text style={styles.addCarTitle}>{SavedVehicles?.[0].mfrName}, {SavedVehicles?.[0].description.split('(')[0]}</Text>
-                    </TouchableOpacity>
-                }
-                {
-                    SavedVehicles.length > 0 && isSelecting?
-                
-                        SavedVehicles.splice(1, SavedVehicles.length).map((v, index) => (
-                            <SavedCardList key={index} vehicle={v} callback={() => setIsSelecting(false)} />
-                        ))
-                        :
-                        null
-                        
-                        // <TouchableOpacity style={styles.addCarButton} onPress={() => navigate('AddCar')}>
-                        //     <Text style={styles.addCarTitle}>{t("addCar")}</Text>
-                        //     <Text style={styles.addCarTitle}>+</Text>
-                        // </TouchableOpacity>
-                        // </>
-                        
-                     
-                }
+
                 <ScrollView
                     ref={CarouselRef}
                     onScroll={({ nativeEvent }) => handleCarouselSwipe(nativeEvent)}
@@ -134,12 +157,11 @@ const HomeScreen = () => {
                     {
                         offersData.map(item => (
                             <View key={item.id} style={styles.slideStyle}>
-                                <Image source={item.banner} resizeMode="cover"  style={{ width: width - 44, height: height / 5, borderRadius: 7}} />
+                                <Image source={item.banner} resizeMode="cover" style={{ width: width - 44, height: height / 5, borderRadius: 7 }} />
                             </View>
                         ))
                     }
                 </ScrollView>
-
                 {
                     categories.length > 0 &&
                     <View style={{ paddingHorizontal: 15 }}>
@@ -150,7 +172,7 @@ const HomeScreen = () => {
                                     key={el.assemblyGroupNodeId}
                                     style={styles.categoryItem}
                                     onPress={() => handleProductsCategory(el.assemblyGroupNodeId)}
-                                    // onPress={() => navigate('ProductDetail', { data: { assemblyGroupNodeId: el.assemblyGroupNodeId } })}
+                                // onPress={() => navigate('ProductDetail', { data: { assemblyGroupNodeId: el.assemblyGroupNodeId } })}
                                 >
                                     <Text style={styles.categoryItemLabel}>{el.assemblyGroupName}</Text>
                                 </TouchableOpacity>

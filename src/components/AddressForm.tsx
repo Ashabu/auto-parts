@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { IAddress } from './SavedAddress';
 import { storeData } from '../services/StorageService';
 import { useIsFocused } from '@react-navigation/native';
+import CheckBox from '@react-native-community/checkbox';
 
 const { width } = Dimensions.get('screen');
 
@@ -27,11 +28,15 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
     const { control, handleSubmit, formState: { errors }, setValue } = useForm({
         defaultValues: {
             deliveryAddress: '',
+            orderPersonName: '',
             phoneNumber: '',
             receiverName: '',
-            postalCode: ''
+            receiverPhoneNumber: '',
+
         }
     });
+
+    const [isForOtherPerson, setIsForOtherPerson] = useState<boolean>(false);
 
     const handleSaveAddress = (data: IAddress) => {
         let userAddress = JSON.stringify(data);
@@ -60,15 +65,15 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
     };
 
     useEffect(() => {
-        if(!isFocused){
+        if (!isFocused) {
             console.log('here')
             setValue('deliveryAddress', '');
             setValue('phoneNumber', '');
             setValue('receiverName', '');
-            setValue('postalCode', '');
+
         }
     }, [])
-   
+
 
     return (
         <View style={{ flex: 1 }}>
@@ -138,13 +143,13 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                             <TextInput
                                 style={[styles.input, errors.receiverName && styles.borderRed]}
                                 placeholderTextColor={Colors.BLACK}
-                                placeholder={t('receiverName')}
+                                placeholder={t('orderPersonName')}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
                             />
                         )}
-                        name="receiverName"
+                        name="orderPersonName"
                     />
                     {
                         errors.receiverName &&
@@ -152,32 +157,70 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                             {errors.receiverName.message}
                         </Text>
                     }
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: {
-                                value: true,
-                                message: 'Please Fill In The Field'
-                            },
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={[styles.input, errors.postalCode && styles.borderRed]}
-                                placeholderTextColor={Colors.BLACK}
-                                placeholder={t('postalCode')}
-                                 onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="postalCode"
-                    />
+                    <View style={{flexDirection: 'row', alignItems: 'center', }}>
+                    <CheckBox  value={isForOtherPerson} onValueChange={(newValue) => setIsForOtherPerson(newValue)}/>
+                    <Text style={{color: Colors.BLACK}}>For Other Person</Text>
+                    </View>
+                
                     {
-                        errors.postalCode &&
-                        <Text style={styles.errorMessage}>
-                            {errors.postalCode.message}
-                        </Text>
+                        isForOtherPerson &&
+                        <>
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'Please Fill In The Field'
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        style={[styles.input, errors.receiverPhoneNumber && styles.borderRed]}
+                                        placeholderTextColor={Colors.BLACK}
+                                        placeholder={t('postalCode')}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                    />
+                                )}
+                                name="receiverPhoneNumber"
+                            />
+                            {
+                                errors.receiverPhoneNumber &&
+                                <Text style={styles.errorMessage}>
+                                    {errors.receiverPhoneNumber.message}
+                                </Text>
+                            }
+
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'Please Fill In The Field'
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        style={[styles.input, errors.receiverName && styles.borderRed]}
+                                        placeholderTextColor={Colors.BLACK}
+                                        placeholder={t('postalCode')}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                    />
+                                )}
+                                name="receiverName"
+                            />
+                            {
+                                errors.receiverName &&
+                                <Text style={styles.errorMessage}>
+                                    {errors.receiverName.message}
+                                </Text>
+                            }
+                        </>
                     }
+
                 </View>
                 <TouchableOpacity onPress={() => setShowMap(true)} style={styles.showMapButton}>
                     <Text style={{ color: Colors.WHITE, alignSelf: 'center' }}>

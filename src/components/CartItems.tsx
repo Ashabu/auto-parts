@@ -1,19 +1,20 @@
 import React from 'react'
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import CheckoutList from './CheckoutList';
-import { useCartItems } from '../Context/useProducts';
+import { useProduct } from '../Context/ProductsContext';
 import { goBack } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 
 const { width } = Dimensions.get('screen');
 
 const CartItems = ({ nextStep }: any) => {
-    const { cartItems, totalCost } = useCartItems();
+    const { shoppingCart, totalCost } = useProduct();
+    console.log(shoppingCart)
     return (
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
             <ScrollView contentContainerStyle={styles.cartItemsView}>
                 {
-                    cartItems.map((item: any, index: number) => (
+                    shoppingCart?.map((item: any, index: number) => (
                         <CheckoutList item={item} key={index} />
                     ))
                 }

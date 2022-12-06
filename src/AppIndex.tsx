@@ -2,17 +2,18 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef } from './navigation/Navigation';
 import AppNavigation from './navigation';
-import { ProductsProvider } from './Context/useProducts';
+import { ProductsProvider } from './Context/ProductsContext';
 import { useAuth, useLang } from './Context/Context';
 import { getData } from './services/StorageService';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { CarsProvider } from './Context/CarsContext';
 
 const AppIndex = () => {
   const { handleSignIn } = useAuth();
   const { i18n } = useTranslation();
-  const {handleSetLang} = useLang()
+  const { handleSetLang } = useLang()
 
   const handleSetLanguage = () => {
     try {
@@ -51,9 +52,11 @@ const AppIndex = () => {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <ProductsProvider >
-        <AppNavigation />
-      </ProductsProvider>
+      <CarsProvider>
+        <ProductsProvider >
+          <AppNavigation />
+        </ProductsProvider>
+      </CarsProvider>
     </NavigationContainer>
   );
 };

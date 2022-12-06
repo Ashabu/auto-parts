@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Images } from '../utils/Images';
-import { useCartItems } from '../Context/useProducts';
+import { useProduct } from '../Context/ProductsContext';
 import { Colors } from '../utils/AppColors';
 
 const { width } = Dimensions.get('screen');
 
 const PaymentMethod = ({ stepBack, onPlaceOrder }: any) => {
-    const { totalCost } = useCartItems()
+    const { totalCost } = useProduct()
     return (
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
             <View style={styles.deliveryAddressView}>

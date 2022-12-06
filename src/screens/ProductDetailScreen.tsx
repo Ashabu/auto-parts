@@ -3,13 +3,13 @@ import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, Touchable
 import { navigate } from '../navigation/Navigation';
 import { storeData } from '../services/StorageService';
 import { Images } from '../utils/Images';
-import {useCartItems} from '../Context/useProducts';
+import {useProductDispatch} from '../Context/ProductsContext';
 import { Colors } from '../utils/AppColors';
 
 const ProductDetailScreen = ({ route }: any) => {
     const { Volume, Name, RetilePRiceOFPremix, Brand, OEM } = route.params.item;
     // const { cartItems, handleAddItem } = useCart()
-    const {cartItems, handleAddItem} = useCartItems();
+    const dispatch = useProductDispatch()
     const carouselRef = useRef<ScrollView>(null);
     const slideStyle = {
         width: Dimensions.get('screen').width,
@@ -48,8 +48,7 @@ const ProductDetailScreen = ({ route }: any) => {
     };
 
     const handleAddItemToCheckout = () => {
-        route.params.item.item_count++;
-        handleAddItem( route.params.item)
+        dispatch({shoppingCart: {...route.params.item, count: 1}})
     }
 
     const handleGoToCheckout = () => {
@@ -65,21 +64,15 @@ const ProductDetailScreen = ({ route }: any) => {
     return (
         <SafeAreaView style={styles.container}>
             
-            <View style={{ flex: 3 }}>
-                <View style={styles.infoBox}>
-                    <Text style={{color: Colors.BLACK}}>Brand</Text>
-                    <Text style={{color: Colors.BLACK}}> {Brand}</Text>
-                </View>
-                {OEM && <View style={styles.infoBox}>
-                    <Text style={{color: Colors.BLACK}}>OEM</Text>
-                    <Text style={{color: Colors.BLACK}}> {OEM}</Text>
-                </View>}
-                <View style={{ flex: 1 }}>
+            <View style={{ flex: 2 }}>
+              
+                <View style={{ flex: 1, justifyContent: 'center' }}>
                     <Text style={styles.textStyle}>{Name}</Text>
                     <Text style={styles.textStyle}>${RetilePRiceOFPremix}</Text>
                 </View>
             </View>
             <View style={{ flex: 5 }}>
+                
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
                         style={[styles.tabBtn, activeTab == 0 ? styles.btnActive : {}]}
@@ -96,6 +89,14 @@ const ProductDetailScreen = ({ route }: any) => {
                     </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1 }}>
+                <View style={styles.infoBox}>
+                    <Text style={{color: Colors.BLACK}}>Brand</Text>
+                    <Text style={{color: Colors.BLACK}}> {Brand}</Text>
+                </View>
+                {OEM && <View style={styles.infoBox}>
+                    <Text style={{color: Colors.BLACK}}>OEM</Text>
+                    <Text style={{color: Colors.BLACK}}> {OEM}</Text>
+                </View>}
                     <ScrollView
                         ref={carouselRef}
                         onScroll={({ nativeEvent }) => onChange(nativeEvent)}

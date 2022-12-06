@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useCartItems } from '../Context/useProducts';
+import { useCartItems } from '../Context/ProductsContext';
 import { Images } from '../utils/Images';
 import ProductList from './ProductList';
 

@@ -5,7 +5,7 @@ import AddressForm from '../components/AddressForm';
 import CartItems from '../components/CartItems';
 import PaymentMethod from '../components/PaymentMethod';
 import { useAuth } from '../Context/Context';
-import { useCartItems } from '../Context/useProducts';
+import { useProduct } from '../Context/ProductsContext';
 import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 
@@ -13,7 +13,7 @@ const { width } = Dimensions.get('screen');
 
 const CheckoutScreen = ({ route }: any) => {
     const { t } = useTranslation();
-    const {handleClearItems} = useCartItems();
+    const {shoppingCart} = useProduct();
     const routeObj = route.params
     const carouselRef = useRef<ScrollView>(null);
     const [step, setStep] = useState<number>(0);
@@ -60,7 +60,7 @@ const CheckoutScreen = ({ route }: any) => {
                         <Text style={styles.title}>{t('orderPlaced')}</Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                        <TouchableOpacity style={styles.loadMoreBtn} onPress={() => {handleClearItems(); handleResetSlide(); navigate('HomeS')}}>
+                        <TouchableOpacity style={styles.loadMoreBtn} onPress={() => {handleResetSlide(); navigate('HomeS')}}>
                             <Text style={styles.loadMoreBtnTitle}>{t('homeTab')}</Text>
                         </TouchableOpacity>
                     </View>
