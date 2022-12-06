@@ -1,50 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useCartItems } from '../Context/ProductsContext';
+import { useProduct, useProductDispatch } from '../Context/ProductsContext';
+import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 import ProductList from './ProductList';
 
 const CheckoutList = ({ item }: any) => {
-    const { cartItems, handleAddItem, handleIncrement, handleDecrement } = useCartItems();
-    const [itemCount, setItemCount] = useState<number>(item.item_count);
+    const { shoppingCart } = useProduct();
+    const dispatch = useProductDispatch();
 
-  
+
     const handleItemCount = (type: string) => {
-        let  tempCartItems;
-        let index = cartItems.findIndex(el => el.Code == item.Code);
-   
-        if (type == 'INCREMENT') {
-            tempCartItems = cartItems.map(el => {
-                if(el.Code == item.Code) {
-                    el.item_count += 1;
-                }
-                return el;
-            }) 
-            setItemCount(prev => prev + 1)
-        } else {
-            tempCartItems = cartItems.map(el => {
-                if(el.Code == item.Code) {
-                    el.item_count -= 1;
-                }
-                return el;
-            }) 
-            
-        }
-        handleAddItem(item);
-    }
-
+        let tempCartItems = shoppingCart;
+        tempCartItems.map(el => {
+            if (el.ARticle == item.ARticle) {
+                if (type == 'INCREMENT') {
+                    if (el.count + 1 > item.Volume) return;
+                    item.count++;
+                } else {
+                    if (el.count - 1 == 0) return;
+                    item.count--;
+                };
+            };
+            return el;
+        });
+        dispatch({ shoppingCart: [...tempCartItems] });
+    };
 
     return (
-        <View style={{height: 130, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10}}>
+        <View style={styles.container}>
             <View style={{ flex: 1 }}>
                 <ProductList product={item} />
             </View>
             <View style={styles.counterBox}>
-                <TouchableOpacity onPress={() => handleIncrement(item)}  style={styles.counterArrow}>
+                <TouchableOpacity onPress={() => handleItemCount('INCREMENT')} style={styles.counterArrow}>
                     <Image source={Images.COUNT_ARROW_UP} style={{ width: 15, height: 7 }} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: 26 }}>{item.item_count}</Text>
-                <TouchableOpacity onPress={() => handleDecrement(item)}  style={styles.counterArrow}>
+                <Text style={{ fontSize: 26, color: Colors.BLACK }}>{item.count}</Text>
+                <TouchableOpacity onPress={() => handleItemCount('DECREMENT')} style={styles.counterArrow}>
                     <Image source={Images.COUNT_ARROW_DOWN} style={{ width: 15, height: 7 }} />
                 </TouchableOpacity>
             </View>
@@ -55,6 +48,12 @@ const CheckoutList = ({ item }: any) => {
 export default CheckoutList;
 
 const styles = StyleSheet.create({
+    container: {
+        height: 130, 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        paddingHorizontal: 10
+    }, 
     counterBox: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -62,12 +61,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         width: 90,
-       
+
     },
-    counterArrow :{
-        height: 30, 
-        width: 30, 
-        alignItems: 'center', 
+    counterArrow: {
+        height: 30,
+        width: 30,
+        alignItems: 'center',
         justifyContent: 'center'
     }
 })

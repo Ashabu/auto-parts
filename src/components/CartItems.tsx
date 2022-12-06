@@ -1,15 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import CheckoutList from './CheckoutList';
-import { useProduct } from '../Context/ProductsContext';
+import { useProduct, useProductDispatch } from '../Context/ProductsContext';
 import { goBack } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
 
 const { width } = Dimensions.get('screen');
 
 const CartItems = ({ nextStep }: any) => {
-    const { shoppingCart, totalCost } = useProduct();
-    console.log(shoppingCart)
+    const { shoppingCart } = useProduct();
+    const dispatch = useProductDispatch();
+    const [totalCost, setTotalCost] = useState<number>(0);
+
+    const calculateTotalCost = () => {
+        let tempCost: number = 0;
+        shoppingCart.forEach(item => {
+            tempCost += (item.count * item.RetilePRiceOFPremix)
+        });
+        setTotalCost(tempCost);
+        dispatch({totalCost: tempCost})
+    };
+
+    useEffect(() => {
+        calculateTotalCost()
+    }, [shoppingCart])
+
+
     return (
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
             <ScrollView contentContainerStyle={styles.cartItemsView}>

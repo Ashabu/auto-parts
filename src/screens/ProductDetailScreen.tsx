@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, NativeScrollEvent, Dimensions, Image } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, NativeScrollEvent, Dimensions, Image } from 'react-native';
 import { navigate } from '../navigation/Navigation';
-import { storeData } from '../services/StorageService';
 import { Images } from '../utils/Images';
-import {useProductDispatch} from '../Context/ProductsContext';
+import { useProduct, useProductDispatch } from '../Context/ProductsContext';
 import { Colors } from '../utils/AppColors';
 
 const ProductDetailScreen = ({ route }: any) => {
-    const { Volume, Name, RetilePRiceOFPremix, Brand, OEM } = route.params.item;
+    const { Volume, Name, RetilePRiceOFPremix, Brand, OEM, ARticle } = route.params.item;
     // const { cartItems, handleAddItem } = useCart()
+    const { shoppingCart } = useProduct()
     const dispatch = useProductDispatch()
     const carouselRef = useRef<ScrollView>(null);
     const slideStyle = {
@@ -48,31 +48,48 @@ const ProductDetailScreen = ({ route }: any) => {
     };
 
     const handleAddItemToCheckout = () => {
-        dispatch({shoppingCart: {...route.params.item, count: 1}})
-    }
-
-    const handleGoToCheckout = () => {
-        if (Volume > 0) {
-            handleAddItemToCheckout()
-                navigate('Checkout', {
-                    screen: 'CheckoutS',
-                });
+        console.log(ARticle)
+        let tempCarts = shoppingCart;
+        //@ts-ignore
+        let index = tempCarts.findIndex(el => el.ARticle == ARticle);
+        if (index < 0) {
+            console.log('index ==>', index)
+            dispatch({ shoppingCart: [...tempCarts, { ...route.params.item, count: 1 }] });
+        } else {
+            console.log('index ==>', index)
+            if (tempCarts[index].count + 1 > Volume) {
+                return;
+            };
+            tempCarts[index].count += 1;
+            dispatch({ shoppingCart: [...tempCarts] });
         };
-        return;
+        navigate('Checkout', {
+            screen: 'CheckoutS',
+        });
     };
+
+    // const handleGoToCheckout = () => {
+    //     if (Volume > 0) {
+    //         handleAddItemToCheckout()
+    //         navigate('Checkout', {
+    //             screen: 'CheckoutS',
+    //         });
+    //     };
+    //     return;
+    // };
 
     return (
         <SafeAreaView style={styles.container}>
-            
+
             <View style={{ flex: 2 }}>
-              
+
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <Text style={styles.textStyle}>{Name}</Text>
                     <Text style={styles.textStyle}>${RetilePRiceOFPremix}</Text>
                 </View>
             </View>
             <View style={{ flex: 5 }}>
-                
+
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
                         style={[styles.tabBtn, activeTab == 0 ? styles.btnActive : {}]}
@@ -89,14 +106,14 @@ const ProductDetailScreen = ({ route }: any) => {
                     </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1 }}>
-                <View style={styles.infoBox}>
-                    <Text style={{color: Colors.BLACK}}>Brand</Text>
-                    <Text style={{color: Colors.BLACK}}> {Brand}</Text>
-                </View>
-                {OEM && <View style={styles.infoBox}>
-                    <Text style={{color: Colors.BLACK}}>OEM</Text>
-                    <Text style={{color: Colors.BLACK}}> {OEM}</Text>
-                </View>}
+                    <View style={styles.infoBox}>
+                        <Text style={{ color: Colors.BLACK }}>Brand</Text>
+                        <Text style={{ color: Colors.BLACK }}> {Brand}</Text>
+                    </View>
+                    {OEM && <View style={styles.infoBox}>
+                        <Text style={{ color: Colors.BLACK }}>OEM</Text>
+                        <Text style={{ color: Colors.BLACK }}> {OEM}</Text>
+                    </View>}
                     <ScrollView
                         ref={carouselRef}
                         onScroll={({ nativeEvent }) => onChange(nativeEvent)}
@@ -126,7 +143,7 @@ const ProductDetailScreen = ({ route }: any) => {
                 <TouchableOpacity
                     style={[styles.actionBtn, { backgroundColor: Volume > 0 ? Colors.YELLOW : Colors.RED }]}
                     activeOpacity={1}
-                    onPress={handleGoToCheckout}
+                    onPress={handleAddItemToCheckout}
                 >
                     {
                         Volume > 0 ?

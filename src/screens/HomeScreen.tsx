@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, NativeScrollEvent, View, Image } from 'react-native';
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, NativeScrollEvent, View, Image, ActivityIndicator } from 'react-native';
 import NotificationBox from '../components/NotificationBox';
 import { useLang } from '../Context/Context';
 import { navigate } from '../navigation/Navigation';
@@ -43,6 +43,7 @@ const HomeScreen = () => {
     const { lang } = useLang();
     const [carouselStep, setCarouselStep] = useState<number>(0)
     const [isSelecting, setIsSelecting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
 
     const onSelectCar = (id: number) => {
@@ -82,9 +83,12 @@ const HomeScreen = () => {
     };
 
     const getCategories = () => {
+        setIsLoading(true);
         GetParentCategories(savedCars?.[0]?.linkageTargetId!).then(res => {
             setCategories(res.data.data.array);
+            setIsLoading(false);
         }).catch(err => {
+            setIsLoading(false)
             console.log(JSON.stringify(err.response))
         });
     };
@@ -127,7 +131,7 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            {savedCars.length> 0 &&
+            {savedCars.length > 0 &&
                 <TouchableOpacity style={styles.addCarButton} onPress={() => setIsSelecting(!isSelecting)}>
                     <Text style={styles.addCarTitle}>{savedCars?.[0]?.mfrName}, {savedCars?.[0]?.description?.split('(')[0]}</Text>
                 </TouchableOpacity>
@@ -145,8 +149,10 @@ const HomeScreen = () => {
                     :
                     null
             }
+
             {/* <NotificationBox notification='this is a astification' position='Bottom' timeOutTime={3000} /> */}
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+
 
                 <ScrollView
                     ref={CarouselRef}
@@ -163,7 +169,24 @@ const HomeScreen = () => {
                     }
                 </ScrollView>
                 {
-                    categories.length > 0 &&
+                    (categories.length == 0 || isLoading) &&
+                    <View style={{  flex: 6 }}>
+                        <View style={{ alignSelf: 'center' }}>
+                            {
+                                isLoading ?
+                                    <ActivityIndicator size='large' color={Colors.YELLOW} />
+                                    :
+                                    <TouchableOpacity 
+                                    onPress={() => navigate('AddCar')}
+                                    style={{ backgroundColor: Colors.YELLOW, width: 200, height: 50, borderRadius: 7, justifyContent: 'center' }}>
+                                        <Text style={{ textAlign: 'center', color: Colors.BLACK, fontWeight: '600' }}>ADD CAR</Text>
+                                    </TouchableOpacity>
+                            }
+                        </View>
+                    </View>
+                }
+                {
+                    categories.length > 0 && !isLoading && 
                     <View style={{ paddingHorizontal: 15 }}>
                         <Text style={{ color: Colors.BLACK, fontSize: 20, marginBottom: 20 }}>Categories</Text>
                         {

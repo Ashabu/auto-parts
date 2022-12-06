@@ -3,16 +3,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../utils/AppColors';
 
 interface INotificationProps {
-  notification?: string | undefined | null,
+  notification?: string | undefined ,
   position?: 'Top' | 'Bottom',
   timeOutTime: number
 }
 
 
-const NotificationBox: React.FC<INotificationProps> = ({ notification, position = 'Bottom', timeOutTime = 3000, }) => {
-  const [message, setMessage] = useState<string | undefined>('');
+const NotificationBox: React.FC<INotificationProps> = ({ notification, position = 'top', timeOutTime = 3000, }) => {
+  const [message, setMessage] = useState<string | undefined>(notification);
   const messageTimeOut = useRef<any>(null);
-
 
 
 
@@ -20,7 +19,6 @@ const NotificationBox: React.FC<INotificationProps> = ({ notification, position 
     if (messageTimeOut.current) clearTimeout(messageTimeOut.current);
     setMessage(notification);
     messageTimeOut.current = setTimeout(() => {
-      console.log('in timeout')
       setMessage('');
     }, timeOutTime)
   };
@@ -37,7 +35,7 @@ const NotificationBox: React.FC<INotificationProps> = ({ notification, position 
     message && 
     <View style={[styles.container, {top: position == 'Top'? 80 : undefined, bottom: position == 'Bottom'? 20 : undefined}]}>
       <View style={styles.box}>
-        <Text style={styles.notifyText}>this is a notification</Text>
+        <Text style={styles.notifyText}>{message}</Text>
       </View>
     </View>
   );

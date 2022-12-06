@@ -67,32 +67,6 @@ export const ProductsProvider = (
         [productsState]
     );
 
-    const handleCount = useCallback(() => {
-        console.log('totalItemCount', productsState.totalItemCount, 'totalCost', productsState.totalCost)
-        let tempItemCount: number = 0;
-        let tempTotalCost: number = 0;
-        if (productsState.shoppingCart.length > 0) {
-            productsState.shoppingCart.forEach(p => {
-                tempItemCount += p.count;
-                tempTotalCost += (p.count * p.RetilePRiceOFPremix);
-            });
-        };
-
-        setProductsState(prev => {
-            return {
-                ...prev,
-                tempTotalCost: tempTotalCost,
-                tempItemCount: tempItemCount
-            };
-        });
-    }, [productsState.shoppingCart, productsState.wishList]);
-
-
-    useEffect(() => {
-        console.log(productsState.shoppingCart)
-        handleCount()
-       
-    }, [productsState.shoppingCart])
 
     return (
         <StateContext.Provider value={memoizedValue}>

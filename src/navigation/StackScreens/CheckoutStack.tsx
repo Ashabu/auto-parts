@@ -12,11 +12,12 @@ const CheckoutStack = () => {
     return (
         <Stack.Navigator  >
             <Stack.Screen
+           
                 name="CheckoutS"
                 component={CheckoutScreen}
-            // options={{
-            //     header: () => <AppHeader />
-            // }} 
+            options={{
+                header: () => <AppHeader hasSearch = {false}/>
+            }} 
             />
             <Stack.Screen name="UpdateOrder" component={UpdateOrderScreen} />
             <Stack.Screen
