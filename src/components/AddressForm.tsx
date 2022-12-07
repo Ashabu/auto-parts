@@ -89,8 +89,34 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                         }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
+                                style={[styles.input, errors.receiverName && styles.borderRed]}
+                                placeholderTextColor={Colors.BLACK}
+                                placeholder={t('orderingPerson')}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                        name="orderPersonName"
+                    />
+                    {
+                        errors.receiverName &&
+                        <Text style={styles.errorMessage}>
+                            {errors.receiverName.message}
+                        </Text>
+                    }
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: {
+                                value: true,
+                                message: 'Please Fill In The Field'
+                            },
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
                                 style={[styles.input, errors.deliveryAddress && styles.borderRed]}
-                                placeholder={t('deliveryAddress')}
+                                placeholder={t('address')}
                                 placeholderTextColor={Colors.BLACK}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
@@ -131,37 +157,12 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                             {errors.phoneNumber.message}
                         </Text>
                     }
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: {
-                                value: true,
-                                message: 'Please Fill In The Field'
-                            },
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextInput
-                                style={[styles.input, errors.receiverName && styles.borderRed]}
-                                placeholderTextColor={Colors.BLACK}
-                                placeholder={t('orderPersonName')}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                value={value}
-                            />
-                        )}
-                        name="orderPersonName"
-                    />
-                    {
-                        errors.receiverName &&
-                        <Text style={styles.errorMessage}>
-                            {errors.receiverName.message}
-                        </Text>
-                    }
-                    <View style={{flexDirection: 'row', alignItems: 'center', }}>
-                    <CheckBox  value={isForOtherPerson} onValueChange={(newValue) => setIsForOtherPerson(newValue)}/>
-                    <Text style={{color: Colors.BLACK}}>For Other Person</Text>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                        <CheckBox value={isForOtherPerson} onValueChange={(newValue) => setIsForOtherPerson(newValue)} />
+                        <Text style={{ color: Colors.BLACK }}>For Other Person</Text>
                     </View>
-                
+
                     {
                         isForOtherPerson &&
                         <>
@@ -177,13 +178,13 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                                     <TextInput
                                         style={[styles.input, errors.receiverPhoneNumber && styles.borderRed]}
                                         placeholderTextColor={Colors.BLACK}
-                                        placeholder={t('postalCode')}
+                                        placeholder={t('receiverName')}
                                         onBlur={onBlur}
                                         onChangeText={onChange}
                                         value={value}
                                     />
                                 )}
-                                name="receiverPhoneNumber"
+                                name="receiverName"
                             />
                             {
                                 errors.receiverPhoneNumber &&
@@ -204,13 +205,13 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                                     <TextInput
                                         style={[styles.input, errors.receiverName && styles.borderRed]}
                                         placeholderTextColor={Colors.BLACK}
-                                        placeholder={t('postalCode')}
+                                        placeholder={t('receiverPhone')}
                                         onBlur={onBlur}
                                         onChangeText={onChange}
                                         value={value}
                                     />
                                 )}
-                                name="receiverName"
+                                name="receiverPhoneNumber"
                             />
                             {
                                 errors.receiverName &&

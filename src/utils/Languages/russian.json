@@ -40,6 +40,9 @@
         "pleaseFillOut": "Пожалуйста, заполните поле",
         "wishListEmpty": "Список желаемого пуст",
         "noItems": "В списке желаний нет товара",
-        "orderPlaced": "Ваш заказ был размещен"
+        "orderPlaced": "Ваш заказ был размещен",
+        "orderingPerson": "имя заказчика",
+        "receiverPhone": "телефон получателя",
+        "address": "Адрес"
     }
 }

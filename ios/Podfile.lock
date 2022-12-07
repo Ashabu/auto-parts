@@ -1,4 +1,5 @@
 PODS:
+  - BEMCheckBox (1.4.1)
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -364,6 +365,9 @@ PODS:
     - React-perflogger (= 0.69.4)
   - RNCAsyncStorage (1.17.9):
     - React-Core
+  - RNCCheckbox (0.5.14):
+    - BEMCheckBox (~> 1.4)
+    - React-Core
   - RNScreens (3.16.0):
     - React-Core
     - React-RCTImage
@@ -437,12 +441,14 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
+    - BEMCheckBox
     - CocoaAsyncSocket
     - Flipper
     - Flipper-Boost-iOSX
@@ -532,6 +538,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCCheckbox:
+    :path: "../node_modules/@react-native-community/checkbox"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   VisionCamera:
@@ -540,6 +548,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -589,6 +598,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 61ee22a8cdf8b6bb2a7fb7b4ba2cc763e5285196
   ReactCommon: 8f67bd7e0a6afade0f20718f859dc8c2275f2e83
   RNCAsyncStorage: b2489b49e38c85e10ed45a888d13a2a4c7b32ea1
+  RNCCheckbox: 38989bbd3d7d536adf24ba26c6b3e6cefe0bea6f
   RNScreens: ee31ecdf23fe81e93c74feaa086cf173d758ab58
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   VisionCamera: cc788935bcfd2f7031d3295adedbc9786835f402
