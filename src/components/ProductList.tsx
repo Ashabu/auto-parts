@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useNotificationDispatch } from '../Context/NotificationContext';
 import { useProduct, useProductDispatch } from '../Context/ProductsContext';
 import { navigate } from '../navigation/Navigation';
 import { Colors } from '../utils/AppColors';
@@ -8,6 +9,7 @@ import { Images } from '../utils/Images';
 const ProductList = ({ product, hideIcons = false, showBasket }: any) => {
     const { Name, RetilePRiceOFPremix } = product;
     const { shoppingCart, wishList } = useProduct();
+    const notifyDispatch = useNotificationDispatch()
 
     const handleAddItem = (type: string, product: any) => {
         let tempCart = type == 'SHOPPING_CART' ? shoppingCart : wishList;
@@ -16,11 +18,15 @@ const ProductList = ({ product, hideIcons = false, showBasket }: any) => {
         if (type == 'SHOPPING_CART') {
             if (showBasket) {
                 let tempWishlist = tempCart.filter(p => p.ARticle !== product.ARticle);
-                dispatch({ wishList: tempWishlist })
+                dispatch({ wishList: tempWishlist });
+                notifyDispatch({message: 'Item Added To Wishlist'});
+
             }
             dispatch({ shoppingCart: tempCart });
+            notifyDispatch({message: 'Item Added To Card'});
         } else {
             dispatch({ wishList: tempCart });
+            notifyDispatch({message: 'Item Added To Wishlist'});
         };
     };
 

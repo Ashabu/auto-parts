@@ -86,7 +86,6 @@ const SearchScreen = ({ route }: any) => {
                     onChangeText={(text: string) => setSearchValue(text)}
                     onBlur={handleSearchProducts}
                     autoCapitalize="none"
-                    autoFocus={true}
                 />
                 <TouchableOpacity style={styles.filterIconButton} onPress={handleOnBlur}>
                     <Image source={Images.FILTER_ICON} style={styles.filterIcon} />
@@ -134,6 +133,7 @@ const styles = StyleSheet.create({
     searchInput: {
         width: '85%',
         paddingHorizontal: 10,
+        minHeight: 48
     },
     searchIcon: {
         width: 18,

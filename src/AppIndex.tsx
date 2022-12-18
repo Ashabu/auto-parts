@@ -1,4 +1,5 @@
 import React from 'react'
+import { SafeAreaView, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef } from './navigation/Navigation';
 import AppNavigation from './navigation';
@@ -9,6 +10,8 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { CarsProvider } from './Context/CarsContext';
+import { Colors } from './utils/AppColors';
+import { NotificationProvider } from './Context/NotificationContext';
 
 const AppIndex = () => {
   const { handleSignIn } = useAuth();
@@ -51,13 +54,18 @@ const AppIndex = () => {
   }, []);
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <CarsProvider>
-        <ProductsProvider >
-          <AppNavigation />
-        </ProductsProvider>
-      </CarsProvider>
-    </NavigationContainer>
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar backgroundColor={Colors.BLACK} barStyle='dark-content' translucent />
+      <NotificationProvider>
+        <NavigationContainer ref={navigationRef}>
+          <CarsProvider>
+            <ProductsProvider >
+              <AppNavigation />
+            </ProductsProvider>
+          </CarsProvider>
+        </NavigationContainer>
+      </NotificationProvider>
+    </SafeAreaView>
   );
 };
 

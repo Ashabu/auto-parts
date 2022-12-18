@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, PermissionsAndroid, Alert, ActivityIndicator, Image, Keyboard } from 'react-native';
 import { launchCamera } from 'react-native-image-picker';
-import { GetVehiclesByVin, GetLinkageTargets } from '../Api';
-import callGoogleVisionAsync from '../Api/googleVisionService';
-import SelectElement from '../components/SelectElement/SelectElement';
-import { VIMLIST } from '../utils/VimList';
-import { IGetVehiclesByVinResponse, IgGtLinkageTargetsResponse } from '../Api/types';
-import SelectCarMaker from '../components/SelectCarMaker';
-import SelectCarModel from '../components/SelectCarModel';
-import SelectCarModification from '../components/SelectCarModification';
-import SelectCarByVin from '../components/SelectCarByVin';
-import { Colors } from '../utils/AppColors';
-import { Images } from '../utils/Images';
-import { navigate } from '../navigation/Navigation';
-import { vehicleStore } from '../store/Store';
-import { useCar, useCarDispatch } from '../Context/CarsContext';
+import { GetVehiclesByVin, GetLinkageTargets } from '../../Api';
+import callGoogleVisionAsync from '../../Api/googleVisionService';
+import SelectElement from '../../components/SelectElement/SelectElement';
+import { VIMLIST } from '../../utils/VimList';
+import { IGetVehiclesByVinResponse, IgGtLinkageTargetsResponse } from '../../Api/types';
+import SelectCarMaker from '../../components/SelectCarMaker';
+import SelectCarModel from '../../components/SelectCarModel';
+import SelectCarModification from '../../components/SelectCarModification';
+import SelectCarByVin from '../../components/SelectCarByVin';
+import { Colors } from '../../utils/AppColors';
+import { Images } from '../../utils/Images';
+import { navigate } from '../../navigation/Navigation';
+import { vehicleStore } from '../../store/Store';
+import { useCar, useCarDispatch } from '../../Context/CarsContext';
 
 
 const AddCarScreen = () => {
@@ -266,7 +266,7 @@ const AddCarScreen = () => {
 
 
     return (
-        <SafeAreaView style={{ flex: 1, padding: 20 }}>
+        <SafeAreaView style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 20}}>
             {showVehiclesByVin && <SelectCarByVin listData={vehiclesByVin} callBack={handleSelectCarByVin} />}
             {showVehiclesByCarMaker && <SelectCarMaker listData={vehiclesByCarMaker} callBack={handelSelectCarMaker} />}
             {showVehiclesByCarModel && <SelectCarModel listData={vehiclesByCarModel} callBack={handelSelectCarModel} />}
