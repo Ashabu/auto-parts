@@ -132,7 +132,7 @@ const SignInScreen = ({ route }: any) => {
                         style={{ marginTop: 15 }}
                         onPress={() => navigate('SignUp')}
                         disabled={isLoading}>
-                        <Text style={[styles.btnTitle, { color: '#ffdd00' }]}>
+                        <Text style={[styles.btnTitle, { color: Colors.YELLOW }]}>
                         {t('signUp')}
                         </Text>
                     </TouchableOpacity> */}

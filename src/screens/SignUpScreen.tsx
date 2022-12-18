@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
 
     },
     singUpBtn: {
-        backgroundColor: '#ffdd00',
+        backgroundColor: Colors.YELLOW,
         padding: 15,
         borderRadius: 10,
         marginHorizontal: 20,

@@ -83,6 +83,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#CFCFCF',
     },
     buttonNext: {
-        backgroundColor: '#ffdd00'
+        backgroundColor: Colors.YELLOW
     },
 })

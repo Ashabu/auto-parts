@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import {  useIsFocused } from '@react-navigation/native';
 import { products } from '../utils/PravusExel'
 import { useCategoriesStore } from '../store/Store';
+import { Colors } from '../utils/AppColors';
 
 const SearchScreen = ({ route }: any) => {
 
@@ -113,7 +114,7 @@ const SearchScreen = ({ route }: any) => {
                         // }
                         />
                         :
-                        <ActivityIndicator size={'large'} color='#ffdd00' style={{ alignSelf: 'center' }} />
+                        <ActivityIndicator size={'large'} color={Colors.YELLOW} style={{ alignSelf: 'center' }} />
             }
         </SafeAreaView>
     );
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
         width: 200,
         padding: 15,
         borderRadius: 5,
-        backgroundColor: '#ffdd00',
+        backgroundColor: Colors.YELLOW,
         marginVertical: 10,
         alignSelf: 'center'
     },

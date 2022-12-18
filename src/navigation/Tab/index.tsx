@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { Colors } from '../../utils/AppColors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import WishListScreen from '../../screens/WishListScreen';
+import { useNotificationState } from '../../Context/NotificationContext';
 
 
 
@@ -22,6 +23,7 @@ const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   const { t } = useTranslation();
+  const {message} = useNotificationState();
   const { shoppingCart, wishList } = useProduct();
   const [counts, setCounts] = useState<{ cartCount: number, wishlistCount: number }>({
     cartCount: 0,
@@ -44,7 +46,7 @@ const Tabs = () => {
   useEffect(() => {
       handleCount()
       console.log('here')
-  }, [shoppingCart, wishList]);
+  }, [shoppingCart, wishList, message]);
 
 
 
