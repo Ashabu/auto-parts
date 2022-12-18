@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, Keyboard, View, Image, TextInput, SafeAreaView, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
+import { Text, Keyboard, View, Image, TextInput, SafeAreaView, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, ScrollView, KeyboardAvoidingView } from 'react-native';
 import ProductList from '../components/ProductList';
 import { Images } from '../utils/Images';
 import { useTranslation } from 'react-i18next';
@@ -75,6 +75,7 @@ const SearchScreen = ({ route }: any) => {
     return (
 
         <SafeAreaView style={{ flex: 1 }}>
+            <KeyboardAvoidingView behavior='position'>
             <View style={styles.searchView}>
                 <Image source={Images.SEARCH_BLACK} style={styles.searchIcon} />
                 <TextInput
@@ -98,6 +99,7 @@ const SearchScreen = ({ route }: any) => {
                     :
                     newProducts.length !== 0 ?
                         <FlatList
+                            onScroll={()=>Keyboard.dismiss()}
                             data={newProducts}
                             renderItem={({ item }) => <ProductList product={item} />}
                             keyExtractor={(item) => item.Code}
@@ -116,6 +118,7 @@ const SearchScreen = ({ route }: any) => {
                         :
                         <ActivityIndicator size={'large'} color={Colors.YELLOW} style={{ alignSelf: 'center' }} />
             }
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 };

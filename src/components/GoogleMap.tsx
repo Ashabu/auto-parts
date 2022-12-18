@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, PermissionsAndroid, Button, Text, View } from 'react-native';
+import { StyleSheet, PermissionsAndroid, Button, Text, View, TouchableOpacity, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import axios from 'axios';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface IMapProps {
-    getAddress: (value: string) => void
+    getAddress: (value: string) => void;
+    onTapBack: ()=>void;
 };
 
 interface IMarkerData {
@@ -22,7 +24,7 @@ interface IPosition {
     longitudeDelta: number,
 };
 
-const GoogleMap: React.FC<IMapProps> = ({ getAddress }) => {
+const GoogleMap: React.FC<IMapProps> = ({ getAddress, onTapBack}) => {
     const [position, setPosition] = useState<IPosition>({
         latitude: 0,
         longitude: 0,
@@ -100,7 +102,7 @@ const GoogleMap: React.FC<IMapProps> = ({ getAddress }) => {
     };
 
     return (
-        <>
+        <SafeAreaView style={{flex: 1}}>
             <MapView
                 onLongPress={({ nativeEvent }) => handleSetMarkerCords(nativeEvent)}
                 style={styles.map}
@@ -130,12 +132,16 @@ const GoogleMap: React.FC<IMapProps> = ({ getAddress }) => {
             language: 'en',
           }}
         /> */}
-            <View style={{ width: 200, alignSelf: 'center' }}>
+              <TouchableOpacity style={{position: 'absolute', top: 60, left: 20}} onPress={onTapBack}>
+                <Image source={require('./../../assets/images/back-arrow-black.png')} style={{width: 20, height: 20}}/>
+            </TouchableOpacity>
+            <View style={{ width: 200, alignSelf: 'center', position: 'absolute', bottom: 100 }}>
                 <Button title='Send Location' onPress={sendAddress}></Button>
             </View>
-        </>
+        </SafeAreaView>
     );
 };
+
 
 const styles = StyleSheet.create({
     map: {

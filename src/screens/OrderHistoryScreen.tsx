@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { navigate } from '../navigation/Navigation';
+import { Colors } from '../utils/AppColors';
 import { Images } from '../utils/Images';
 
 const OrderHistoryScreen = () => {

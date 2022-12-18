@@ -11,7 +11,7 @@ const ProfileScreen = () => {
   const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ backgroundColor: '#1A1A1A', paddingTop: 15 }}>
+      <View style={{ backgroundColor: Colors.BLACK, paddingTop: 15 }}>
         {isAuthorized ?
           <View style={{ paddingHorizontal: 20, paddingBottom: 15 }}>
             <Text style={styles.title}>{t('yourID')}: {user?.id}</Text>
@@ -86,15 +86,15 @@ const styles = StyleSheet.create({
   },
   btnTitle: {
     fontSize: 18,
-    color: Colors.BLACK,
+    color: Colors.WHITE,
     textAlign: 'center',
     fontFamily: 'OpenSans-Regular',
-    fontWeight: '700',
+    fontWeight: '500',
   },
   navBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: Colors.BLACK,
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderBottomColor: Colors.DARK_GREY,

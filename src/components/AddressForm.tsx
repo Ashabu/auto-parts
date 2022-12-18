@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Modal, ScrollView, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { StyleSheet, Text, View, Modal, ScrollView, TextInput, TouchableOpacity, Dimensions, Alert, Platform } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import GoogleMap from './GoogleMap';
 import { useState } from 'react';
@@ -159,7 +159,14 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                     }
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                        <CheckBox value={isForOtherPerson} onValueChange={(newValue) => setIsForOtherPerson(newValue)} />
+                        <CheckBox 
+                        value={isForOtherPerson} 
+                        onValueChange={(newValue) => setIsForOtherPerson(newValue)} 
+                        style={{width: 30, height: 30}}
+                        boxType='square'
+                        onTintColor={Colors.YELLOW}
+                        tintColors={{true: Colors.YELLOW, false: Colors.BLACK}}
+                        />
                         <Text style={{ color: Colors.BLACK }}>For Other Person</Text>
                     </View>
 
@@ -228,8 +235,8 @@ const AddressForm: React.FC<IAddressFormProps> = ({ submitAddressData, stepBack,
                         {t('useGoogleMaps')}
                     </Text>
                 </TouchableOpacity>
-                <Modal visible={showMap}>
-                    <GoogleMap getAddress={getMapData} />
+                <Modal visible={showMap} onRequestClose={()=>setShowMap(false)}>
+                    <GoogleMap getAddress={getMapData} onTapBack={()=>setShowMap(false)} />
                 </Modal>
             </ScrollView>
             {
@@ -281,7 +288,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         paddingTop: 10,
         paddingBottom: 8,
-        color: Colors.BLACK
+        color: Colors.BLACK,
+        minHeight: 48
     },
     errorMessage: {
         fontSize: 14,
