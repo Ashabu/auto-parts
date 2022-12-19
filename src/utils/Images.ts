@@ -12,6 +12,7 @@ export const Images = {
     COUNT_ARROW_DOWN: require('./../../assets/images/count-arrow-down.png'),
     COUNT_ARROW_UP: require('./../../assets/images/count-arrow-up.png'),
     FAVORITES_ICON: require('./../../assets/images/favorites-icon.png'),
+    FAVORITES_ICON_ACTIVE: require('./../../assets/images/favorites-icon-active.png'),
     FILTER_ICON: require('./../../assets/images/filter-icon.png'),
     FLAG_US: require('./../../assets/images/flag-us.png'),
     FLAG_GEO: require('./../../assets/images/flag-geo.png'),

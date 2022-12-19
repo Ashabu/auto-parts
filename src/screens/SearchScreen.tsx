@@ -7,6 +7,7 @@ import {  useIsFocused } from '@react-navigation/native';
 import { products } from '../utils/PravusExel'
 import { useCategoriesStore } from '../store/Store';
 import { Colors } from '../utils/AppColors';
+import {useCar} from '../Context/CarsContext';
 
 const SearchScreen = ({ route }: any) => {
 
@@ -17,6 +18,7 @@ const SearchScreen = ({ route }: any) => {
     const { t } = useTranslation();
     const InputRef = useRef<TextInput>(null);
     const isFocused = useIsFocused();
+    const { savedCars } = useCar();
 
     const { oemNumberArray } = useCategoriesStore();
 
@@ -75,6 +77,9 @@ const SearchScreen = ({ route }: any) => {
     return (
 
         <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.addCarButton} >
+                    <Text style={styles.addCarTitle}>{savedCars?.[0]?.mfrName}, {savedCars?.[0]?.description?.split('(')[0]}</Text>
+                </View>
             <KeyboardAvoidingView behavior='position'>
             <View style={styles.searchView}>
                 <Image source={Images.SEARCH_BLACK} style={styles.searchIcon} />
@@ -126,6 +131,7 @@ const SearchScreen = ({ route }: any) => {
 export default SearchScreen;
 
 const styles = StyleSheet.create({
+
     searchView: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -163,5 +169,16 @@ const styles = StyleSheet.create({
     loadMoreBtnTitle: {
         fontSize: 14,
         textAlign: 'center'
-    }
+    },
+    addCarButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: Colors.YELLOW,
+        paddingVertical: 10,
+        paddingHorizontal: 20
+
+    },
+    addCarTitle: {
+        fontSize: 16
+    },
 })

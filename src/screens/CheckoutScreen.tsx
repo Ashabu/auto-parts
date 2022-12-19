@@ -4,6 +4,7 @@ import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacit
 import AddressForm from '../components/AddressForm';
 import CartItems from '../components/CartItems';
 import PaymentMethod from '../components/PaymentMethod';
+import { useCar } from '../Context/CarsContext';
 import { useAuth } from '../Context/Context';
 import { useProduct } from '../Context/ProductsContext';
 import { navigate } from '../navigation/Navigation';
@@ -18,6 +19,7 @@ const CheckoutScreen = ({ route }: any) => {
     const routeObj = route.params
     const carouselRef = useRef<ScrollView>(null);
     const [step, setStep] = useState<number>(0);
+    const { savedCars } = useCar();
     const { isAuthorized } = useAuth();
 
     const handleAddressData = (data: any) => {
@@ -45,11 +47,14 @@ const CheckoutScreen = ({ route }: any) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
+              <View style={styles.addCarButton} >
+                    <Text style={styles.addCarTitle}>{savedCars?.[0]?.mfrName}, {savedCars?.[0]?.description?.split('(')[0]}</Text>
+                </View>
             {
                 shoppingCart.length == 0 ?
                     <>
                         <View style={styles.container}>
-                            <Image source={Images.FAVORITES_ICON} style={{ width: 82, height: 74, alignSelf: 'center' }} />
+                            <Image source={Images.CART_GREY} style={{ width: 82, height: 82, alignSelf: 'center' }} />
                             <Text style={styles.etitle}>
                                 {'Cart Is Empty'}
                             </Text>
@@ -93,6 +98,17 @@ const CheckoutScreen = ({ route }: any) => {
 export default CheckoutScreen;
 
 const styles = StyleSheet.create({
+    addCarButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: Colors.YELLOW,
+        paddingVertical: 10,
+        paddingHorizontal: 20
+
+    },
+    addCarTitle: {
+        fontSize: 16
+    },
     container: {
         flex: 9,
         justifyContent: 'center'

@@ -57,7 +57,7 @@ const Tabs = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: Colors.YELLOW,
+          backgroundColor: Colors.WHITE,
           height: Platform.OS === 'ios' ? 88 : 72,
           alignItems: 'center',
           justifyContent: 'center',
@@ -78,7 +78,7 @@ const Tabs = () => {
             return (
               <>
                 <Image source={focused ? Images.HOME_TAB_BLACK : Images.HOME_TAB_GREY} style={{ width: 25, height: 25 }} />
-                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("homeTab")}</Text>
+                <Text style={{ color: focused ? Colors.YELLOW : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("homeTab")}</Text>
               </>
             );
           },
@@ -94,7 +94,7 @@ const Tabs = () => {
             return (
               <>
                 <Image source={focused ? Images.SEARCH_BLACK : Images.SEARCH_GREY} style={{ width: 25, height: 25 }} />
-                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("search")}</Text>
+                <Text style={{ color: focused ? Colors.YELLOW : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("search")}</Text>
               </>
             );
           },
@@ -109,8 +109,8 @@ const Tabs = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <>
-                <Image source={focused ? Images.FAVORITES_ICON : Images.FAVORITES_ICON} style={{ width: 25, height: 25 }} />
-                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{'Wishlist'}</Text>
+                <Image source={focused ? Images.FAVORITES_ICON_ACTIVE : Images.FAVORITES_ICON} style={{ width: 25, height: 25 }} />
+                <Text style={{ color: focused ? Colors.YELLOW : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{'Wishlist'}</Text>
               </>
             );
           },
@@ -126,7 +126,7 @@ const Tabs = () => {
             return (
               <>
                 <Image source={focused ? Images.CART_BLACK : Images.CART_GREY} style={{ width: 25, height: 25 }} />
-                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("checkoutTab")}</Text>
+                <Text style={{ color: focused ? Colors.YELLOW : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("checkoutTab")}</Text>
               </>
             );
           },
@@ -142,7 +142,7 @@ const Tabs = () => {
             return (
               <>
                 <Image source={focused ? Images.PROFILE_BLACK : Images.PROFILE_GREY} style={{ width: 25, height: 25 }} />
-                <Text style={{ color: focused ? Colors.BLACK : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("profileTab")}</Text>
+                <Text style={{ color: focused ? Colors.YELLOW : Colors.GREY, fontSize: 14, fontWeight: focused ? '700' : '400', marginTop: 5 }}>{t("profileTab")}</Text>
               </>
             );
           }

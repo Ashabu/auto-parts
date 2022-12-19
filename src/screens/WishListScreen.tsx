@@ -28,7 +28,7 @@ const WishListScreen = () => {
                 wishList.length == 0 ?
                     <>
                         <View style={styles.container}>
-                            <Image source={Images.FAVORITES_ICON} style={{ width: 82, height: 74, alignSelf: 'center' }} />
+                            <Image source={Images.FAVORITES_ICON} style={{ width: 82, height: 82, alignSelf: 'center' }} />
                             <Text style={styles.title}>
                                 {t('wishListEmpty')}
                             </Text>
